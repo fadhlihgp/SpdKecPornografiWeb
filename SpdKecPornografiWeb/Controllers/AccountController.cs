@@ -23,7 +23,7 @@ public class AccountController : ControllerBase
         var result = await _accountService.Register(registerRequestDto);
         return Created("account/register", new
         {
-            message = "Berhasil membuat akun",
+            message = "Berhasil membuat akun, silahkan login",
             data = result
         });
     }

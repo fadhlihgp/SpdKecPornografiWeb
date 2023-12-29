@@ -1,13 +1,11 @@
 import Cookies from "js-cookie";
 import {Navigate} from "react-router-dom";
 
-const Index = ({ children }) => {
-    const isLoggedIn = Cookies.get("token") === undefined;
-    
-    if (isLoggedIn) {
-        return <>{children}</>
-    } else {
-        return <Navigate to={"/login"} />
+const PublicRoute = ({ children }) => {
+    if (Cookies.get("token") === undefined) {
+        return children;
+    } else if (Cookies.get("token") !== undefined) {
+        return <Navigate to={"/"} />;
     }
 };
-export default Index;
+export default PublicRoute;

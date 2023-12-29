@@ -21,7 +21,21 @@ public class UploadPhotoController : ControllerBase
         return Created("uploadPhoto", new
         {
             message = "Berhasil mengunggah foto",
-            data = uploadPhoto.Url.ToString()
+            data = new
+            {
+                url = uploadPhoto.Url.ToString(),
+                publicId = uploadPhoto.PublicId.ToString()
+            }
+        });
+    }
+
+    [HttpDelete("{imageUrl}")]
+    public async Task<IActionResult> DeletePhoto([FromRoute] string imageUrl)
+    {
+        await _photoService.DeletePhotoAsync(imageUrl);
+        return Ok(new
+        {
+            message = "Berhasil menghapus foto"
         });
     }
 }

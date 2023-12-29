@@ -42,7 +42,10 @@ namespace SpdKecPornografiWeb.Services
 
         public async Task<DeletionResult> DeletePhotoAsync(string publicId)
         {
-            var deleteParams = new DeletionParams(publicId);
+            var deleteParams = new DeletionParams(publicId)
+            {
+                ResourceType = ResourceType.Image
+            };
             var result = await _cloudinary.DestroyAsync(deleteParams);  
             return result;  
         }

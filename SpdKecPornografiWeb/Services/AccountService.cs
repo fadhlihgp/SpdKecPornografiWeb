@@ -93,6 +93,7 @@ public class AccountService : IAccountService
             result.PhoneNumber = findAccount.PhoneNumber;
             result.CreatedAt = findAccount.CreatedAt;
             result.Role = findAccount.Role?.Name;
+            result.RoleId = findAccount.RoleId;
         }
 
         return result;

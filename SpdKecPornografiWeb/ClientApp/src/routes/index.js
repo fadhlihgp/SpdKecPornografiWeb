@@ -7,6 +7,8 @@ import {Counter} from "../components/Counter";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import {FetchData} from "../components/FetchData";
+import AuthRoute from "./AuthRoute";
+import Dashboard from "../pages/Dashboard";
 
 const RouterApp = () => {
     return (
@@ -15,11 +17,8 @@ const RouterApp = () => {
                 <Routes>
                     <Route
                         path="/"
-                        element={<PublicRoute>
-                            <Layout>
-                                <LandingPage />
-                            </Layout>
-                        </PublicRoute>}
+                        element={
+                        <LandingPage />}
                     />
                     <Route
                         path={"/counter"}
@@ -43,6 +42,12 @@ const RouterApp = () => {
                     <Route 
                         path={"/fetch-data"}
                         element={<FetchData />}
+                    />
+                    <Route
+                        path={"/dashboard"}
+                        element={<AuthRoute>
+                            <Dashboard />
+                        </AuthRoute>}
                     />
                 </Routes>
             </React.Fragment>
