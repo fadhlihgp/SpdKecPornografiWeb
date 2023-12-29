@@ -63,7 +63,7 @@ const Register = () => {
         })
             .then((response) => {
                 // console.log(response);
-                axios.post("account/register", { ...input, imageUrl: response.data.data.url} )
+                axios.post("api/account/register", { ...input, imageUrl: response.data.data.url} )
                     .then(({data}) => {
                         toast.success(data.message, {
                             position: toast.POSITION.TOP_CENTER,

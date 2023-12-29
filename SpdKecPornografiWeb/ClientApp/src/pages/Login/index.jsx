@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import loginpic from "../../resources/login.png";
 import {Alert, Button, Form, FormGroup, Input, Label, Nav} from "reactstrap";
@@ -7,8 +7,11 @@ import google from "../../resources/google.png";
 import axios from "axios";
 import Cookies from "js-cookie";
 import SpinnerLoading from "../../components/SpinnerLoading";
+import {GlobalContext} from "../../context/GlobalContext";
 
 function Login() {
+    const { stateContext } = useContext(GlobalContext);
+    const {setFetchStatus} = stateContext;
     const [error, setError] = useState(null);
     const [input, setInput] = useState({
         email: "",
@@ -20,12 +23,14 @@ function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
         setIsLoading(true);
-        axios.post("account/login", input)
+        axios.post("api/account/login", input)
             .then((response) => {
                 Cookies.set("token", response.data.data.token, { expires: 2});
-                navigate("/dashboard")
+                setFetchStatus(true);
+                navigate("/dashboard");
             })
             .catch((error) => {
+                console.log(error)
                 setError(error.response.data.message)
             })
             .finally(() => {

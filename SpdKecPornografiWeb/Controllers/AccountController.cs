@@ -7,10 +7,10 @@ using SpdKecPornografiWeb.ViewModels;
 namespace SpdKecPornografiWeb.Controllers;
 
 [ApiController]
-[Route("account")]
+[Route("api/account")]
 public class AccountController : ControllerBase
 {
-    private IAccountService _accountService;
+    private readonly IAccountService _accountService;
 
     public AccountController(IAccountService accountService)
     {

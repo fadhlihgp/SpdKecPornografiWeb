@@ -1,6 +1,12 @@
+import LayoutDashboard from "../../widget/LayoutDashboard";
+
 const Dashboard = () => {
     return (
-        <h1>Ini Dashboard</h1>
+        <LayoutDashboard>
+            <div className={"px-3"}>
+                <h1>Ini Main</h1>
+            </div>
+        </LayoutDashboard>
     )
 }
 export default Dashboard;

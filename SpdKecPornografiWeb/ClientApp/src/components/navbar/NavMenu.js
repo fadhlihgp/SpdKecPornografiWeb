@@ -2,23 +2,29 @@ import React, { useState } from 'react';
 import { Button, Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import ConfirmSignOut from "../ConfirmSignOut";
 
 export const NavMenu = () => {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
-
+  const [basicModal, setBasicModal] = useState(false);
   const toggleNavbar = () => {
     setCollapsed(!collapsed);
   };
 
-  const handleLogout = () => {
-    Cookies.remove('token');
-    localStorage.clear();
-    navigate('/login');
-  };
+  const handleModal = () => {
+    setBasicModal(!basicModal);
+  }
+  
+  // const handleLogout = () => {
+  //   Cookies.remove('token');
+  //   localStorage.clear();
+  //   navigate('/login');
+  // };
 
   return (
       <header>
+        <ConfirmSignOut basicModal={basicModal} handleClose={handleModal} setBasicModal={setBasicModal} />
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
           <NavbarBrand tag={Link} to="/">Sistem Pakar</NavbarBrand>
           <NavbarToggler onClick={toggleNavbar} className="mr-2" />
@@ -44,7 +50,7 @@ export const NavMenu = () => {
                       <NavLink tag={Link} className="text-dark" to="/dashboard">Dashboard</NavLink>
                     </NavItem>
                     <NavItem>
-                      <Button color="danger" size="sm" onClick={handleLogout}>
+                      <Button color="danger" size="sm" onClick={handleModal}>
                         Logout
                       </Button>
                     </NavItem>

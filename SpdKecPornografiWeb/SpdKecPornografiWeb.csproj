@@ -43,7 +43,6 @@
     <ItemGroup>
       <Folder Include="ClientApp\src\context\Auth\" />
       <Folder Include="ClientApp\src\resources\" />
-      <Folder Include="ClientApp\src\widget\" />
       <Folder Include="Helpers\" />
       <Folder Include="ViewModels\Request\" />
     </ItemGroup>

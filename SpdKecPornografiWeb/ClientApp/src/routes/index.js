@@ -9,6 +9,7 @@ import Register from "../pages/Register";
 import {FetchData} from "../components/FetchData";
 import AuthRoute from "./AuthRoute";
 import Dashboard from "../pages/Dashboard";
+import GlobalProvider from "../context/GlobalContext";
 
 const RouterApp = () => {
     return (
@@ -22,17 +23,11 @@ const RouterApp = () => {
                     />
                     <Route
                         path={"/counter"}
-                        element={<PublicRoute>
+                        element={
                             <Layout>
                                 <Counter />
-                            </Layout>
-                        </PublicRoute>}
+                            </Layout>}
                     />
-                    <Route
-                        path={"/login"}
-                        element={<PublicRoute>
-                            <Login />
-                        </PublicRoute>}/>
                     <Route
                         path={"/register"}
                         element={<PublicRoute>
@@ -43,13 +38,22 @@ const RouterApp = () => {
                         path={"/fetch-data"}
                         element={<FetchData />}
                     />
-                    <Route
-                        path={"/dashboard"}
-                        element={<AuthRoute>
-                            <Dashboard />
-                        </AuthRoute>}
-                    />
                 </Routes>
+                <GlobalProvider>
+                    <Routes>
+                        <Route
+                            path={"/login"}
+                            element={<PublicRoute>
+                                <Login />
+                            </PublicRoute>}/>
+                        <Route
+                            path={"/dashboard"}
+                            element={<AuthRoute>
+                                <Dashboard />
+                            </AuthRoute>}
+                        />
+                    </Routes>
+                </GlobalProvider>
             </React.Fragment>
         </BrowserRouter>
     )
