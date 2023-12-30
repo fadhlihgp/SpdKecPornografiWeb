@@ -1,4 +1,4 @@
-namespace SpdKecPornografiWeb.ViewModels.Response;
+namespace SpdKecPornografiWeb.ViewModels;
 
 public class ErrorResponse
 {

@@ -63,7 +63,7 @@ function Login() {
                     </div>
                     <div className="p-5 w-100 flex-row">
                         <div>
-                            <Link to={"/"} style={{ textDecoration: "none", color: "blue" }}>
+                            <Link to={"/"} style={{ textDecoration: "none", color: "#1C4532" }}>
                                 <h2><b>SPD</b></h2>
                             </Link>
                         </div>

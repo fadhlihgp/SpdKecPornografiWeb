@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using SpdKecPornografiWeb.Exceptions;
-using SpdKecPornografiWeb.ViewModels.Response;
+using SpdKecPornografiWeb.ViewModels;
 
 namespace SpdKecPornografiWeb.Middlewares;
 

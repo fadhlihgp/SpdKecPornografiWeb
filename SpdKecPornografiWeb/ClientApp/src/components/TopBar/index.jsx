@@ -19,7 +19,7 @@ const TopBar = ({ fullname = "User Logged in", imageUrl = profile }) => {
             <MDBNavbar sticky expand='lg' light bgColor='light' className={"px-3"} style={{boxShadow: "-1px 15px 8px -15px rgba(0,0,0,0.49)"}}>
                 <MDBContainer fluid>
                     <MDBNavbarBrand>
-                        <Link to={"/"} style={{ textDecoration: "none", color: "blue" }}>
+                        <Link to={"/"} style={{ textDecoration: "none", color: "#1C4532" }}>
                             <span style={{fontSize: "25px"}}><b>SPD</b></span>
                         </Link>
                     </MDBNavbarBrand>

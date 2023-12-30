@@ -7,6 +7,7 @@ namespace SpdKecPornografiWeb.Models;
 public class ResultHistory
 {
     [Key] public string Id { get; set; } = new Guid().ToString();
+    public string TestCode { get; set; }
     public string DiagnosisId { get; set; }
     public virtual Diagnosis? Diagnosis { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;

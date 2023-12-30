@@ -84,7 +84,7 @@ namespace SpdKecPornografiWeb.Migrations
                         new
                         {
                             Id = "d941614b-4e34-42cc-bf68-f2f599c3cf85",
-                            CreatedAt = new DateTime(2023, 12, 28, 9, 40, 4, 879, DateTimeKind.Local).AddTicks(1819),
+                            CreatedAt = new DateTime(2023, 12, 30, 9, 15, 16, 443, DateTimeKind.Local).AddTicks(8104),
                             Email = "superadmin@email.com",
                             Fullname = "Super Admin",
                             IsActive = true,
@@ -97,7 +97,7 @@ namespace SpdKecPornografiWeb.Migrations
                         new
                         {
                             Id = "1134636b-08cd-4306-85d9-3f9176befa77",
-                            CreatedAt = new DateTime(2023, 12, 28, 9, 40, 4, 879, DateTimeKind.Local).AddTicks(1824),
+                            CreatedAt = new DateTime(2023, 12, 30, 9, 15, 16, 443, DateTimeKind.Local).AddTicks(8107),
                             Email = "admin@email.com",
                             Fullname = "Admin",
                             IsActive = true,
@@ -112,6 +112,10 @@ namespace SpdKecPornografiWeb.Migrations
             modelBuilder.Entity("SpdKecPornografiWeb.Models.Answer", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AnswerCode")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -134,6 +138,9 @@ namespace SpdKecPornografiWeb.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnswerCode")
+                        .IsUnique();
 
                     b.HasIndex("CreatedById");
 
@@ -230,6 +237,10 @@ namespace SpdKecPornografiWeb.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("QuestionCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -239,6 +250,9 @@ namespace SpdKecPornografiWeb.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
+
+                    b.HasIndex("QuestionCode")
+                        .IsUnique();
 
                     b.HasIndex("UpdatedById");
 
@@ -261,11 +275,18 @@ namespace SpdKecPornografiWeb.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TestCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
                     b.HasIndex("DiagnosisId");
+
+                    b.HasIndex("TestCode")
+                        .IsUnique();
 
                     b.ToTable("ResultHistory");
                 });

@@ -84,6 +84,7 @@ namespace SpdKecPornografiWeb.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    QuestionCode = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     CreatedById = table.Column<string>(type: "text", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
@@ -109,6 +110,7 @@ namespace SpdKecPornografiWeb.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    TestCode = table.Column<string>(type: "text", nullable: false),
                     DiagnosisId = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     AccountId = table.Column<string>(type: "text", nullable: false)
@@ -136,6 +138,7 @@ namespace SpdKecPornografiWeb.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    AnswerCode = table.Column<string>(type: "text", nullable: false),
                     QuestionId = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     CreatedById = table.Column<string>(type: "text", nullable: true),
@@ -207,8 +210,8 @@ namespace SpdKecPornografiWeb.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "Fullname", "ImageUrl", "IsActive", "IsBlocked", "LastLogin", "Password", "PhoneNumber", "RoleId", "Username" },
                 values: new object[,]
                 {
-                    { "1134636b-08cd-4306-85d9-3f9176befa77", new DateTime(2023, 12, 28, 9, 40, 4, 879, DateTimeKind.Local).AddTicks(1824), "admin@email.com", "Admin", null, true, false, null, "$2a$12$zDIeyHL0Im6Mhet4TkAYb.CIFZfNCLFa2c4pg707FoJkGBLCGEuCi", "08123456227", "2", "admin" },
-                    { "d941614b-4e34-42cc-bf68-f2f599c3cf85", new DateTime(2023, 12, 28, 9, 40, 4, 879, DateTimeKind.Local).AddTicks(1819), "superadmin@email.com", "Super Admin", null, true, false, null, "$2a$12$zDIeyHL0Im6Mhet4TkAYb.CIFZfNCLFa2c4pg707FoJkGBLCGEuCi", "081234567", "1", "superadmin" }
+                    { "1134636b-08cd-4306-85d9-3f9176befa77", new DateTime(2023, 12, 30, 9, 15, 16, 443, DateTimeKind.Local).AddTicks(8107), "admin@email.com", "Admin", null, true, false, null, "$2a$12$zDIeyHL0Im6Mhet4TkAYb.CIFZfNCLFa2c4pg707FoJkGBLCGEuCi", "08123456227", "2", "admin" },
+                    { "d941614b-4e34-42cc-bf68-f2f599c3cf85", new DateTime(2023, 12, 30, 9, 15, 16, 443, DateTimeKind.Local).AddTicks(8104), "superadmin@email.com", "Super Admin", null, true, false, null, "$2a$12$zDIeyHL0Im6Mhet4TkAYb.CIFZfNCLFa2c4pg707FoJkGBLCGEuCi", "081234567", "1", "superadmin" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -232,6 +235,12 @@ namespace SpdKecPornografiWeb.Migrations
                 name: "IX_Account_Username",
                 table: "Account",
                 column: "Username",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answer_AnswerCode",
+                table: "Answer",
+                column: "AnswerCode",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -280,6 +289,12 @@ namespace SpdKecPornografiWeb.Migrations
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Question_QuestionCode",
+                table: "Question",
+                column: "QuestionCode",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Question_UpdatedById",
                 table: "Question",
                 column: "UpdatedById");
@@ -293,6 +308,12 @@ namespace SpdKecPornografiWeb.Migrations
                 name: "IX_ResultHistory_DiagnosisId",
                 table: "ResultHistory",
                 column: "DiagnosisId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ResultHistory_TestCode",
+                table: "ResultHistory",
+                column: "TestCode",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

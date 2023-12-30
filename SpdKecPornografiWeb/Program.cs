@@ -26,6 +26,8 @@ builder.Services.AddTransient<IPersistence, Persistence>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IJwtUtil, JwtUtil>();
 builder.Services.AddTransient<IPhotoService, PhotoService>();
+builder.Services.AddTransient<IQuestionService, QuestionService>();
+builder.Services.AddTransient<IAnswerService, AnswerService>();
 #endregion
 
 #region Middleware

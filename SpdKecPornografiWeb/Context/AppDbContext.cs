@@ -32,6 +32,21 @@ public class AppDbContext : DbContext
             builder.HasIndex(a => a.Username).IsUnique();
         });
 
+        modelBuilder.Entity<Question>(modelBuilder =>
+        {
+            modelBuilder.HasIndex(q => q.QuestionCode).IsUnique();
+        });
+
+        modelBuilder.Entity<Answer>(modelBuilder =>
+        {
+            modelBuilder.HasIndex(a => a.AnswerCode).IsUnique();
+        });
+
+        modelBuilder.Entity<ResultHistory>(modelBuilder =>
+        {
+            modelBuilder.HasIndex(rh => rh.TestCode).IsUnique();
+        });
+            
         modelBuilder.Entity<Role>(modelBuilder =>
         {
             modelBuilder.HasData(

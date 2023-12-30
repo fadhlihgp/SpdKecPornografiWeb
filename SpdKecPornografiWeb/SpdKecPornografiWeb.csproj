@@ -16,6 +16,8 @@
     <ItemGroup>
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
         <PackageReference Include="CloudinaryDotNet" Version="1.24.0" />
+        <PackageReference Include="DinkToPdf" Version="1.0.8" />
+        <PackageReference Include="EPPlus" Version="7.0.5" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.25" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.12"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
@@ -44,7 +46,6 @@
       <Folder Include="ClientApp\src\context\Auth\" />
       <Folder Include="ClientApp\src\resources\" />
       <Folder Include="Helpers\" />
-      <Folder Include="ViewModels\Request\" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

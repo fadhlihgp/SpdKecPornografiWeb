@@ -8,6 +8,7 @@ public class Answer
 {
     [Key] public string Id { get; set; } = new Guid().ToString();
     public string Name { get; set; }
+    public string AnswerCode { get; set; }
     public string? QuestionId { get; set; }
     [ForeignKey("QuestionId")] public virtual Question? Question { get; set; }
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
