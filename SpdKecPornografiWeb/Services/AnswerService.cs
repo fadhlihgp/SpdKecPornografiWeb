@@ -39,6 +39,7 @@ public class AnswerService : IAnswerService
         return new AnswerResponseDto
         {
             Id = findAnswer.AnswerCode,
+            QuestionId = findAnswer.QuestionId,
             QuestionCode = findAnswer.Question?.QuestionCode,
             QuestionName = findAnswer.Question?.Name,
             AnswerCode = findAnswer.AnswerCode,
@@ -46,14 +47,18 @@ public class AnswerService : IAnswerService
             CreatedAt = findAnswer.CreatedAt,
             CreatedBy = findAnswer.CreatedBy?.Fullname,
             UpdatedAt = findAnswer.UpdatedAt,
-            UpdatedName = findAnswer.UpdatedBy?.Fullname
+            UpdatedBy = findAnswer.UpdatedBy?.Fullname
         };
     }
 
     public async Task<IEnumerable<AnswerResponseDto>> FindAnswers(string? name = "")
     {
-        var answers =
-            await _answerRepository.FindAll(a => a.Name.ToLower().Contains(name), new[] { "Question" });
+        var answers = name != null
+            ? await _answerRepository.FindAll(
+                a => a.Name.ToLower().Contains(name) || a.AnswerCode.ToLower().Contains(name),
+                new[] { "Question", "CreatedBy", "UpdatedBy" })
+            : await _answerRepository.FindAll(new[] { "CreatedBy", "UpdatedBy", "Question" });
+            
         var responses = answers.Select(a => new AnswerResponseDto
         {
             Id = a.Id,
@@ -74,24 +79,29 @@ public class AnswerService : IAnswerService
         answer.Name = answerResponseDto.AnswerName;
         answer.UpdatedAt = DateTime.Now;
         answer.UpdatedById = accountId;
-        await _persistence.ExecuteTransaction<>(() =>
-        {
-            _answerRepository.Update(answer);
-        });
+        answer.QuestionId = answerResponseDto.QuestionId;
+        _answerRepository.Update(answer);
+        await _persistence.SaveChangesAsync();
     }
 
     public async Task DeleteAnswer(string answerId)
     {
         var answer = await FindAnswerAsync(answerId);
-        await _persistence.ExecuteTransaction<>(() =>
-        {
-            _answerRepository.Delete(answer);
-        });
+        _answerRepository.Delete(answer);
+        await _persistence.SaveChangesAsync();
     }
 
+    public string GenerateAnswerCode()
+    {
+        var count = _answerRepository.Count() + 1;
+        var dateNow = DateTime.Now.Month;
+        var random = new Random().Next(20);
+        return $"A{count}{dateNow}{random}";
+    }
+    
     private async Task<Answer> FindAnswerAsync(string answerId)
     {
-        var findAnswerId = await _answerRepository.Find(a => a.Id.Equals(answerId), new[] { "Account", "Question" });
+        var findAnswerId = await _answerRepository.Find(a => a.Id.Equals(answerId), new[] { "CreatedBy", "UpdatedBy","Question" });
         if (findAnswerId == null) throw new NotFoundException("Data pertanyaan tidak ditemukan");
         return findAnswerId;
     }

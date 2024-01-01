@@ -24,12 +24,12 @@ public class AnswerController : ControllerBase
         await _answerService.AddAnswerAsync(accountId, answerRequestDto);
         return Created("api/answer", new
         {
-            message = "Berhasil membuat data pertanyaan"
+            message = "Berhasil membuat data jawaban"
         });
     }
 
     [HttpGet]
-    public async Task<IActionResult> FindAnswers([FromQuery] string answerName)
+    public async Task<IActionResult> FindAnswers([FromQuery] string? answerName)
     {
         var answerResponseDtos = await _answerService.FindAnswers(answerName);
         return Ok(new
@@ -62,6 +62,16 @@ public class AnswerController : ControllerBase
         });
     }
 
+    [HttpGet("generateCode")]
+    public Task<IActionResult> GenerateCode()
+    {
+        return Task.FromResult<IActionResult>(Ok(new
+        {
+            message = "Berhasil mendapatakan kode jawaban",
+            data = _answerService.GenerateAnswerCode()
+        }));
+    }
+    
     [HttpDelete("{answerId}")]
     public async Task<IActionResult> DeleteAnswer([FromRoute] string answerId)
     {

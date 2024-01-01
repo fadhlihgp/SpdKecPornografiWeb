@@ -9,4 +9,5 @@ public interface IQuestionService
     public Task<IEnumerable<QuestionResponseDto>> FindQuestions(string? name);
     public Task UpdateQuestionAsync(string accountId, string questionId, QuestionRequestDto questionRequestDto);
     public Task DeleteQuestion(string questionId);
+    public string GenerateQuestionCode();
 }

@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Expression = CloudinaryDotNet.Expression;
 
 namespace SpdKecPornografiWeb.Repositories.Interfaces;
 
@@ -14,8 +15,10 @@ public interface IRepository<T>
     Task<IEnumerable<T>> FindAll();
     Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> criteria);
     Task<IEnumerable<T>> FindAll(string[] includes);
+    Task<IEnumerable<T>> FindAll(string[] includes, Expression<Func<T, object>> orderBy);
     Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> criteria, string[] includes);
-
+    Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> criteria, Expression<Func<T, object>>? orderBy, string[] includes);
+    
     T Update(T entity);
     void Delete(T entity);
     int Count();

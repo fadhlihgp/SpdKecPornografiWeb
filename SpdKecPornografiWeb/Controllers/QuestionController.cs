@@ -29,7 +29,7 @@ public class QuestionController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> FindQuestion([FromQuery] string name)
+    public async Task<IActionResult> FindQuestion([FromQuery] string? name)
     {
         var questionResponseDtos = await _questionService.FindQuestions(name);
         return Ok(new
@@ -39,6 +39,16 @@ public class QuestionController : ControllerBase
         });
     }
 
+    [HttpGet("generateCode")]
+    public Task<IActionResult> GenerateCode()
+    {
+        return Task.FromResult<IActionResult>(Ok(new
+        {
+            message = "Kode berhasil dibuat",
+            data = _questionService.GenerateQuestionCode()
+        }));
+    }
+    
     [HttpGet("{questionId}")]
     public async Task<IActionResult> FindQuestionById([FromRoute] string questionId)
     {

@@ -23,6 +23,7 @@ public class QuestionService : IQuestionService
         {
             var question = new Question
             {
+                Id = Guid.NewGuid().ToString(),
                 Name = questionRequestDto.QuestionName,
                 QuestionCode = questionRequestDto.QuestionCode,
                 CreatedById = accountId,
@@ -57,20 +58,31 @@ public class QuestionService : IQuestionService
         };
     }
 
-    public async Task<IEnumerable<QuestionResponseDto>> FindQuestions(string? name = "")
+    public async Task<IEnumerable<QuestionResponseDto>> FindQuestions(string? name)
     {
-        var questions = await _questionRepository.FindAll(q => q.Name.ToLower().Contains(name), new []{ "Account", "Answers" });
-        var responses = questions.Select(question => new QuestionResponseDto
+        try
         {
-            Id = question.Id,
-            QuestionName = question.Name,
-            QuestionCode = question.QuestionCode,
-            CreatedAt = question.CreatedAt,
-            CreatedBy = question.CreatedBy?.Fullname,
-            UpdatedAt = question.UpdatedAt,
-            UpdatedBy = question.UpdatedBy?.Fullname
-        }).ToList();
-        return responses;
+            var questions = name != null
+                ? await _questionRepository.FindAll(q => q.Name.ToLower().Contains(name) || q.QuestionCode.ToLower().Contains(name),
+                    new[] { "CreatedBy", "UpdatedBy", "Answers" })
+                : await _questionRepository.FindAll(new[] { "CreatedBy", "UpdatedBy", "Answers" }, question => question.CreatedAt);
+            var responses = questions.Select(question => new QuestionResponseDto
+            {
+                Id = question.Id,
+                QuestionName = question.Name,
+                QuestionCode = question.QuestionCode,
+                CreatedAt = question.CreatedAt,
+                CreatedBy = question.CreatedBy?.Fullname,
+                UpdatedAt = question.UpdatedAt,
+                UpdatedBy = question.UpdatedBy?.Fullname
+            }).ToList();
+            return responses;
+        }
+        catch (Exception e)
+        {
+            throw;
+        }
+        
     }
 
     public async Task UpdateQuestionAsync(string accountId, string questionId, QuestionRequestDto questionRequestDto)
@@ -80,21 +92,28 @@ public class QuestionService : IQuestionService
         findQuestion.QuestionCode = questionRequestDto.QuestionCode;
         findQuestion.UpdatedAt = DateTime.Now;
         findQuestion.UpdatedById = accountId;
-        await _persistence.ExecuteTransaction(() => Task.FromResult(_questionRepository.Update(findQuestion)));
+        _questionRepository.Update(findQuestion);
+        await _persistence.SaveChangesAsync();
     }
 
     public async Task DeleteQuestion(string questionId)
     {
         var findQuestion = await FindQuestionByIdValidation(questionId);
-        await _persistence.ExecuteTransaction<>(() =>
-        {
-            _questionRepository.Delete(findQuestion);
-        });
+        _questionRepository.Delete(findQuestion);
+        await _persistence.SaveChangesAsync();
+    }
+
+    public string GenerateQuestionCode()
+    {
+        var count = _questionRepository.Count() + 1;
+        var dateNow = DateTime.Now.Month;
+        var random = new Random().Next(20);
+        return $"Q{count}{dateNow}{random}";
     }
 
     private async Task<Question> FindQuestionByIdValidation(string questionId)
     {
-        var findQuestion = await _questionRepository.Find(q => q.Id.Equals(questionId) , new []{ "Account", "Answers" });
+        var findQuestion = await _questionRepository.Find(q => q.Id.Equals(questionId) , new []{ "CreatedBy", "UpdatedBy", "Answers" });
         if (findQuestion == null) throw new NotFoundException("Data pertanyaan tidak ditemukan");
         return findQuestion;
     }

@@ -10,6 +10,11 @@ import {FetchData} from "../components/FetchData";
 import AuthRoute from "./AuthRoute";
 import Dashboard from "../pages/Dashboard";
 import GlobalProvider from "../context/GlobalContext";
+import Question from "../pages/Question";
+import QuestionDetailComponent from "../components/QuestionDetailComponent";
+import QuestionDetail from "../pages/QuestionDetail";
+import Answer from "../pages/Answer";
+import AnswerDetail from "../pages/AnswerDetail";
 
 const RouterApp = () => {
     return (
@@ -52,6 +57,27 @@ const RouterApp = () => {
                                 <Dashboard />
                             </AuthRoute>}
                         />
+                        <Route
+                            path={"/question"}    
+                            element={<AuthRoute>
+                                <Question />
+                            </AuthRoute>}
+                        />
+                        <Route 
+                            path={"/question/:questionID"}
+                            element={<AuthRoute>
+                                <QuestionDetail />
+                            </AuthRoute>}/>
+                        <Route
+                            path={"/answer"}
+                            element={<AuthRoute>
+                                <Answer />
+                            </AuthRoute>}/>
+                        <Route
+                            path={"/answer/:answerID"}
+                            element={<AuthRoute>
+                                <AnswerDetail />
+                            </AuthRoute>}/>
                     </Routes>
                 </GlobalProvider>
             </React.Fragment>

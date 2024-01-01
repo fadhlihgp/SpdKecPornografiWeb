@@ -14,6 +14,9 @@ import menu from "../../resources/hamburger.png"
 const TopBar = ({ fullname = "User Logged in", imageUrl = profile }) => {
     
     const [openNavText, setOpenNavText] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const toggle = () => setDropdownOpen((prevState) => !prevState);
     return (
         <>
             <MDBNavbar sticky expand='lg' light bgColor='light' className={"px-3"} style={{boxShadow: "-1px 15px 8px -15px rgba(0,0,0,0.49)"}}>

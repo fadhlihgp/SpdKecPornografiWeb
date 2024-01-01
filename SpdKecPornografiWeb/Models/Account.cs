@@ -6,7 +6,7 @@ namespace SpdKecPornografiWeb.Models;
 [Table("Account")]
 public class Account
 {
-    [Key] public string Id { get; set; } = new Guid().ToString();
+    [Key] public string Id { get; set; } = Guid.NewGuid().ToString();
     public string Fullname { get; set; }
     public string Username { get; set; }
     [Column(TypeName = "text")]

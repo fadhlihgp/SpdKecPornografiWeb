@@ -27,14 +27,10 @@ const ConfirmSignOut = ({ handleClose, basicModal, setBasicModal }) => {
     
     return (
         <>
-            <MDBModal open={basicModal} setopen={setBasicModal} tabIndex='-1'>
+            <MDBModal open={basicModal} setopen={setBasicModal} tabIndex='-1' staticBackdrop>
                 <MDBModalDialog>
                     <MDBModalContent>
-                        <MDBModalHeader>
-                            <MDBBtn className='btn-close' color='none' onClick={toggleOpen}></MDBBtn>
-                        </MDBModalHeader>
                         <MDBModalBody>Anda yakin ingin Keluar ?</MDBModalBody>
-
                         <MDBModalFooter>
                             <Button color={'secondary'} onClick={toggleOpen}>
                                 Close

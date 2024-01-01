@@ -10,6 +10,7 @@ public class AnswerRequestDto
 public class AnswerResponseDto
 {
     public string Id { get; set; }
+    public string? QuestionId { get; set; }
     public string? QuestionCode { get; set; }
     public string? QuestionName { get; set; }
     public string AnswerCode { get; set; }
@@ -17,5 +18,5 @@ public class AnswerResponseDto
     public DateTime? CreatedAt { get; set; }
     public string? CreatedBy { get; set; }
     public DateTime? UpdatedAt { get; set; }
-    public string? UpdatedName { get; set; }
+    public string? UpdatedBy { get; set; }
 }

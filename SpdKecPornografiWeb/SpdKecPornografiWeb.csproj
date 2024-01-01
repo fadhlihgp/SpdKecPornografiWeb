@@ -43,6 +43,7 @@
 
 
     <ItemGroup>
+      <Folder Include="ClientApp\src\components\AnswerComponents\AnswerDetail\" />
       <Folder Include="ClientApp\src\context\Auth\" />
       <Folder Include="ClientApp\src\resources\" />
       <Folder Include="Helpers\" />

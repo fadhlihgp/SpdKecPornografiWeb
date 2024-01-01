@@ -71,6 +71,19 @@ public class Repository<T> : IRepository<T> where T : class
         return await result.ToListAsync();
     }
 
+    public async Task<IEnumerable<T>> FindAll(string[] includes, Expression<Func<T, object>> orderBy)
+    {
+        var result = _context.Set<T>().AsQueryable();
+        foreach (var include in includes)
+        {
+            result = result.Include(include);
+        }
+
+        result = result.OrderBy(orderBy);
+        
+        return await result.ToListAsync();
+    }
+
     public async Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> criteria, string[] includes)
     {
         var result = _context.Set<T>().AsQueryable();
@@ -79,6 +92,22 @@ public class Repository<T> : IRepository<T> where T : class
             result = result.Include(include);
         }
 
+        return await result.Where(criteria).ToListAsync();
+    }
+
+    public async Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> criteria, Expression<Func<T, object>>? sortBy, string[] includes)
+    {
+        var result = _context.Set<T>().AsQueryable();
+        foreach (var include in includes)
+        {
+            result = result.Include(include);
+        }
+
+        if (sortBy != null)
+        {
+            result = result.OrderBy(sortBy);
+        }
+        
         return await result.Where(criteria).ToListAsync();
     }
 

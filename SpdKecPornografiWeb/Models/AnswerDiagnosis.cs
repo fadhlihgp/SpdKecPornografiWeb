@@ -6,7 +6,7 @@ namespace SpdKecPornografiWeb.Models;
 [Table("Answer_Diagnosis")]
 public class AnswerDiagnosis
 {
-    [Key] public string Id { get; set; } = new Guid().ToString();
+    [Key] public string Id { get; set; } = Guid.NewGuid().ToString();
     public string? AnswerId { get; set; }
     public virtual Answer Answer { get; set; }
     public string? DiagnosisId { get; set; }

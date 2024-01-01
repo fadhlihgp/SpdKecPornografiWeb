@@ -6,7 +6,7 @@ namespace SpdKecPornografiWeb.Models;
 [Table("Diagnosis")]
 public class Diagnosis
 {
-    [Key] public string Id { get; set; } = new Guid().ToString();
+    [Key] public string Id { get; set; } = Guid.NewGuid().ToString();
     public string Name { get; set; }
     [Column(TypeName = "Text")] public string? Description { get; set; }
     [Column(TypeName = "Text")] public string? Suggestion { get; set; }

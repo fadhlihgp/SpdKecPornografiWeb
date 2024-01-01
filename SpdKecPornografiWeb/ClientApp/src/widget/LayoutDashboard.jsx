@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import dashboardIcon from "../resources/dashboard.png";
 import {useContext, useEffect} from "react";
 import {GlobalContext} from "../context/GlobalContext";
+import SkeletonComponent from "../components/Skeleton";
 
 const menus = [
     {
@@ -51,10 +52,17 @@ const LayoutDashboard = ({children}) => {
         <div className={"d-flex flex-column"}>
             <TopBar imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} />
             <div className={"d-flex"} style={{backgroundColor: "#F5F5F5", minHeight: "600px"}}>
-                <Sidebar imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} role={currentUser?.role} menus={sidebarMenu ? sidebarMenu : menus } />
-                <div className={"p-3"}>
-                    {children}
-                </div>
+                {!sidebarMenu && (
+                    <SkeletonComponent/>
+                )}
+                {sidebarMenu && (
+                    <>
+                        <Sidebar imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} role={currentUser?.role} menus={sidebarMenu ? sidebarMenu : menus } />
+                        <div className={"p-3 "} style={{width: "80%"}}>
+                            {children}
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     )

@@ -31,17 +31,17 @@ export const superAdminMenu = [
         title: "Master Data",
         value: [
             {
-                name: "Kelola Pertanyaan",
+                name: "Pertanyaan",
                 icon: questionIcon,
                 link: "/question"
             },
             {
-                name: "Kelola Jawaban",
+                name: "Jawaban",
                 icon: answerIcon,
                 link: "/answer"
             },
             {
-                name: "Kelola Diagnosa",
+                name: "Diagnosa",
                 icon: diagnosisIcon,
                 link: "/diagnosis"
             }
@@ -51,7 +51,7 @@ export const superAdminMenu = [
         title: "Pengujian",
         value: [
             {
-                name: "Lakukan Pengujian",
+                name: "Pengujian",
                 icon: testingIcon,
                 link: "/question"
             },
@@ -89,17 +89,17 @@ export const adminMenu = [
         title: "Master Data",
         value: [
             {
-                name: "Kelola Pertanyaan",
+                name: "Pertanyaan",
                 icon: questionIcon,
                 link: "/question"
             },
             {
-                name: "Kelola Jawaban",
+                name: "Jawaban",
                 icon: answerIcon,
                 link: "/answer"
             },
             {
-                name: "Kelola Diagnosa",
+                name: "Diagnosa",
                 icon: diagnosisIcon,
                 link: "/diagnosis"
             }
@@ -109,7 +109,7 @@ export const adminMenu = [
         title: "Pengujian",
         value: [
             {
-                name: "Lakukan Pengujian",
+                name: "Pengujian",
                 icon: testingIcon,
                 link: "/question"
             },
@@ -147,7 +147,7 @@ export const userMenu = [
         title: "Pengujian",
         value: [
             {
-                name: "Lakukan Pengujian",
+                name: "Pengujian",
                 icon: testingIcon,
                 link: "/question"
             },
