@@ -28,6 +28,7 @@ builder.Services.AddTransient<IJwtUtil, JwtUtil>();
 builder.Services.AddTransient<IPhotoService, PhotoService>();
 builder.Services.AddTransient<IQuestionService, QuestionService>();
 builder.Services.AddTransient<IAnswerService, AnswerService>();
+builder.Services.AddTransient<IDiagnosisService, DiagnosisService>();
 #endregion
 
 #region Middleware

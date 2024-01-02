@@ -30,6 +30,15 @@ const GlobalProvider = ({children}) => {
     const [answerDetail, setAnswerDetail] = useState(null);
     const [fetchStatusAnswer, setFetchStatusAnswer] = useState(true);
     const [showAnswerForm, setShowAnswerForm] = useState();
+    
+    //Diagnosis
+    const [diagnosisInput, setDiagnosisInput] = useState({diagnosisCode: "", diagnosisName: "", diagnosisDescription: "", diagnosisSuggestion: ""});
+    const [diagnosisId, setDiagnosisId] = useState("-1");
+    const [diagnosisList, setDiagnosisList] = useState(null);
+    const [diagnosisDetail, setDiagnosisDetail] = useState(null);
+    const [fetxhStatusDiagnosis, setFetchStatusDiagnosis] = useState(true);
+    const [showDiagnosisForm, setShowDiagnosisForm] = useState(false);
+    
     const menuBaseRole = (roleId) => {
         switch (roleId) {
             case "1": 
@@ -296,9 +305,34 @@ const GlobalProvider = ({children}) => {
         fetchDataDetailAnswer(answerId);
         navigate(`/answer/${answerId}`)
     }
-    
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-     const stateContext = {
+     
+    // ################################# DIAGNOSIS #################################
+    
+    const fetchGenerateDiagnosisCode = () => {
+        axios.get(`api/diagnosis/generateCode`, {
+            headers: { Authorization: `Bearer ${Cookies.get("token")}`}
+        }).then(({data}) => {
+            setDiagnosisInput({...diagnosisInput, diagnosisCode: data.data})
+        }).catch((error) => {
+            alert(!error.response.data.message ? error : error.response.data.message);
+        })
+    }
+    
+    const fetchDataDiagnosis = (stringParam) => {
+        axios.get(`api/diagnosis?${stringParam}`, {
+            headers: { Authorization: `Bearer ${Cookies.get("token")}`}
+        }).then(({data}) => {
+            setDiagnosisList([...data.data]);
+            setFetchStatusDiagnosis(false);
+        }).catch((error) => {
+            console.log(error);
+            alert(!error.response.data.message ? error : error.response.data.message);
+        })
+    }
+    
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    const stateContext = {
         currentUser, setCurrentUser, 
          fetchStatus, setFetchStatus, 
          sidebarMenu, setSidebarMenu, 

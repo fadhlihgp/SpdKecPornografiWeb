@@ -94,7 +94,7 @@ public class AnswerService : IAnswerService
     public string GenerateAnswerCode()
     {
         var count = _answerRepository.Count() + 1;
-        var dateNow = DateTime.Now.Month;
+        var dateNow = DateTime.Now.Day;
         var random = new Random().Next(20);
         return $"A{count}{dateNow}{random}";
     }

@@ -136,7 +136,11 @@ const AnswerForm = ({show, setShow, handleClose}) => {
                         <Button color={'secondary'} onClick={handleCancel}>
                             Tutup
                         </Button>
-                        <Button color='success' type={"submit"}>Simpan</Button>
+                        <Button 
+                            color='success' 
+                            type={"submit"} 
+                            disabled={!answerInput.answerName || !answerDetail.questionName || 
+                                !answerInput.questionId || !answerInput.answerCode}>Simpan</Button>
                     </MDBModalFooter>
                 </MDBModalContent>
                         </Form>
