@@ -36,7 +36,7 @@ const GlobalProvider = ({children}) => {
     const [diagnosisId, setDiagnosisId] = useState("-1");
     const [diagnosisList, setDiagnosisList] = useState(null);
     const [diagnosisDetail, setDiagnosisDetail] = useState(null);
-    const [fetxhStatusDiagnosis, setFetchStatusDiagnosis] = useState(true);
+    const [fetchStatusDiagnosis, setFetchStatusDiagnosis] = useState(true);
     const [showDiagnosisForm, setShowDiagnosisForm] = useState(false);
     
     const menuBaseRole = (roleId) => {
@@ -118,6 +118,7 @@ const GlobalProvider = ({children}) => {
                 // })
                 alert(data.message);
                 setFetchStatusQuestion(true);
+                setQuestionId("-1")
             }).catch((error) => {
                 // toast.error(error.response.data.message, {
                 //     position: toast.POSITION.TOP_CENTER,
@@ -238,8 +239,8 @@ const GlobalProvider = ({children}) => {
         }
     }
     
-    const fetchDataAnswer = () => {
-        axios.get(`api/answer`, {
+    const fetchDataAnswer = (stringParam) => {
+        axios.get(`api/answer${stringParam}`, {
             headers: { Authorization: `Bearer ${Cookies.get("token")}`}
         }).then(({data}) => {
             setAnswerList([...data.data]);
@@ -257,7 +258,6 @@ const GlobalProvider = ({children}) => {
         }).then(({data}) => {
             setAnswerId(answerId);
             setAnswerDetail({...answerDetail,
-                
                 answerCode: data.data.answerCode,
                 questionCode: data.data.questionCode,
                 questionName: data.data.questionName,
@@ -331,31 +331,110 @@ const GlobalProvider = ({children}) => {
         })
     }
     
+    const handleSubmitDiagnosis = () => {
+        if (diagnosisId === "-1") {
+            axios.post(`api/diagnosis`, diagnosisInput, {
+                headers: { Authorization: `Bearer  ${Cookies.get("token")}`}
+            }).then(({data}) => {
+                alert(data.message);
+                setFetchStatusDiagnosis(true);
+            }).catch((error) => {
+                console.log(error);
+                alert(!error.response.data.message ? error : error.response.data.message);
+            })
+        } else {
+            axios.put(`api/diagnosis/${diagnosisId}`, diagnosisInput, {
+                headers: { Authorization: `Bearer  ${Cookies.get("token")}`}
+            }).then(({data}) => {
+                alert(data.message);
+                setFetchStatusDiagnosis(true);
+            }).catch((error) => {
+                console.log(error);
+                alert(!error.response.data.message ? error : error.response.data.message);
+            })
+        }
+    }
+    
+    const fetchDataDetailDiagnosis = (diagnosisId) => {
+        axios.get(`api/diagnosis/${diagnosisId}`, {
+            headers : { Authorization: `Bearer ${Cookies.get("token")}`}
+        }).then(({data}) => {
+            setDiagnosisId(diagnosisId);
+            setDiagnosisDetail({...diagnosisDetail,
+                id: data.data.id,
+                diagnosisCode: data.data?.diagnosisCode,
+                diagnosisName: data.data?.diagnosisName,
+                diagnosisDescription: data.data?.diagnosisDescription,
+                diagnosisSuggestion: data.data?.diagnosisSuggestion,
+                createdAt: data.data?.createdAt,
+                createdBy: data.data?.createdBy,
+                updatedAt: data.data?.updatedAt,
+                updatedBy: data.data?.updatedBy
+            });
+            setDiagnosisInput({...diagnosisInput, 
+                diagnosisCode: data.data?.diagnosisCode,
+                diagnosisName: data.data?.diagnosisName,
+                diagnosisDescription: data.data?.diagnosisDescription,
+                diagnosisSuggestion: data.data?.diagnosisSuggestion
+            });
+            console.log(diagnosisDetail)
+            setFetchStatusDiagnosis(true);
+        }).catch((error) => {
+            alert(error.response.data.message)
+        })
+    }
+    
+    const handleDeleteDiagnosis = (diagnosisId) => {
+        axios.put(`api/diagnosis/delete/${diagnosisId}`, null, {
+            headers: { Authorization: `Bearer ${Cookies.get("token")}`}
+        }).then(({data}) => {
+            alert(data.message);
+            setFetchStatusDiagnosis(true);
+            setDiagnosisId(true)
+        }).catch((error) => {
+            console.log(error);
+            alert(error.response.data.message)
+        })
+    }
+    
+    const handleDiagnosisDetail = (diagnosisID) => {
+        fetchDataDetailDiagnosis(diagnosisID);
+        navigate(`/diagnosis/${diagnosisID}`);
+    }
+    
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     const stateContext = {
         currentUser, setCurrentUser, 
-         fetchStatus, setFetchStatus, 
-         sidebarMenu, setSidebarMenu, 
-         questionId, setQuestionId,
-         questionInput, setQuestionInput,
-         questionCode, setQuestionCode,
-         questionList, setQuestionList,
-         questionDetail, setQuestionDetail,
-         fetchStatusQuestion, setFetchStatusQuestion,
-         showQuestionForm, setShowQuestionForm,
-         fetchStatusAnswer, setFetchStatusAnswer,
-         answerDetail, setAnswerDetail,
-         answerList, setAnswerList,
-         answerId, setAnswerId,
-         answerInput, setAnswerInput,
-         showAnswerForm, setShowAnswerForm,
+        fetchStatus, setFetchStatus, 
+        sidebarMenu, setSidebarMenu, 
+        questionId, setQuestionId,
+        questionInput, setQuestionInput,
+        questionCode, setQuestionCode,
+        questionList, setQuestionList,
+        questionDetail, setQuestionDetail,
+        fetchStatusQuestion, setFetchStatusQuestion,
+        showQuestionForm, setShowQuestionForm,
+        fetchStatusAnswer, setFetchStatusAnswer,
+        answerDetail, setAnswerDetail,
+        answerList, setAnswerList,
+        answerId, setAnswerId,
+        answerInput, setAnswerInput,
+        showAnswerForm, setShowAnswerForm,
+        diagnosisInput, setDiagnosisInput,
+        diagnosisList, setDiagnosisList,
+        diagnosisId, setDiagnosisId,
+        diagnosisDetail, setDiagnosisDetail,
+        fetchStatusDiagnosis, setFetchStatusDiagnosis,
+        showDiagnosisForm, setShowDiagnosisForm
     }
     
     const handleFunctionContext = {
         fetchDataCurrentUser, handleSubmitQuestion, fetchDataQuestion,
-        fetchDataDetailQuestion, handleDeleteQuestion, fetchGenerateQuestionCode,handleQuestionEdit,
-        handleQuestionDetail, fetchGenerateAnswerCode, handleSubmitAnswer, fetchDataAnswer, handleDeleteAnswer,
-        handleAnswerEdit, fetchDataDetailAnswer, handleAnswerDetail
+        fetchDataDetailQuestion, handleDeleteQuestion, fetchGenerateQuestionCode,handleQuestionEdit, handleQuestionDetail, 
+        fetchGenerateAnswerCode, handleSubmitAnswer, fetchDataAnswer, handleDeleteAnswer,
+        handleAnswerEdit, fetchDataDetailAnswer, handleAnswerDetail,
+        fetchGenerateDiagnosisCode, fetchDataDiagnosis, fetchDataDetailDiagnosis, handleSubmitDiagnosis,
+        handleDeleteDiagnosis, handleDiagnosisDetail
     }
     
     return (

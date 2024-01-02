@@ -9,12 +9,14 @@ namespace SpdKecPornografiWeb.Services;
 public class QuestionService : IQuestionService
 {
     private readonly IRepository<Question> _questionRepository;
+    private readonly IAnswerService _answerService;
     private readonly IPersistence _persistence;
 
-    public QuestionService(IRepository<Question> questionRepository, IPersistence persistence)
+    public QuestionService(IRepository<Question> questionRepository, IPersistence persistence, IAnswerService answerService)
     {
         _questionRepository = questionRepository;
         _persistence = persistence;
+        _answerService = answerService;
     }
 
     public async Task AddQuestionAsync(string accountId, QuestionRequestDto questionRequestDto)
@@ -99,8 +101,13 @@ public class QuestionService : IQuestionService
     public async Task DeleteQuestion(string questionId)
     {
         var findQuestion = await FindQuestionByIdValidation(questionId);
-        _questionRepository.Delete(findQuestion);
-        await _persistence.SaveChangesAsync();
+        await _persistence.ExecuteTransaction(async () =>
+        {
+            _questionRepository.Delete(findQuestion);
+            await _answerService.DeleteAnswerByQuestionId(questionId);
+            return findQuestion;
+        });
+        // await _persistence.SaveChangesAsync();
     }
 
     public string GenerateQuestionCode()

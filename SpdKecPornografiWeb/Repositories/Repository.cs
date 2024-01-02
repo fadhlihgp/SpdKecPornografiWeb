@@ -121,6 +121,11 @@ public class Repository<T> : IRepository<T> where T : class
         _context.Set<T>().Remove(entity);
     }
 
+    public void DeleteAll(IEnumerable<T> entities)
+    {
+        _context.Set<T>().RemoveRange(entities);
+    }
+
     public int Count()
     {
         return _context.Set<T>().Count();

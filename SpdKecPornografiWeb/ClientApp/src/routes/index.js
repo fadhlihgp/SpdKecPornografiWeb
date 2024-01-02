@@ -11,10 +11,11 @@ import AuthRoute from "./AuthRoute";
 import Dashboard from "../pages/Dashboard";
 import GlobalProvider from "../context/GlobalContext";
 import Question from "../pages/Question";
-import QuestionDetailComponent from "../components/QuestionDetailComponent";
 import QuestionDetail from "../pages/QuestionDetail";
 import Answer from "../pages/Answer";
 import AnswerDetail from "../pages/AnswerDetail";
+import Diagnosis from "../pages/Diagnosis";
+import DiagnosisDetail from "../pages/DiagnosisDetail";
 
 const RouterApp = () => {
     return (
@@ -78,6 +79,18 @@ const RouterApp = () => {
                             element={<AuthRoute>
                                 <AnswerDetail />
                             </AuthRoute>}/>
+                        <Route
+                            path={"/diagnosis"}
+                            element={<AuthRoute>
+                                <Diagnosis />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/diagnosis/:diagnosisID"}
+                            element={<AuthRoute>
+                                <DiagnosisDetail />
+                            </AuthRoute>}
+                        />
                     </Routes>
                 </GlobalProvider>
             </React.Fragment>

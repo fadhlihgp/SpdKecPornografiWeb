@@ -44,11 +44,7 @@
 
     <ItemGroup>
       <Folder Include="ClientApp\src\components\AnswerComponents\AnswerDetail\" />
-      <Folder Include="ClientApp\src\components\DiagnosisComponents\DiagnosisDetail\" />
-      <Folder Include="ClientApp\src\components\DiagnosisComponents\DiagnosisForm\" />
       <Folder Include="ClientApp\src\context\Auth\" />
-      <Folder Include="ClientApp\src\pages\DiagnosisDetail\" />
-      <Folder Include="ClientApp\src\pages\Diagnosis\" />
       <Folder Include="ClientApp\src\resources\" />
       <Folder Include="Helpers\" />
     </ItemGroup>

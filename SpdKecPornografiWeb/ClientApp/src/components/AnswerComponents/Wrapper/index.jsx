@@ -27,14 +27,15 @@ const paths = [
 ]
 const AnswerWrapper = () => {
     const { stateContext, handleFunctionContext } = useContext(GlobalContext);
-    const { answerList, fetchStatusAnswer, answerId, setAnswerId, answerInput, setAnswerInput, setFetchStatusQuestion, fetchStatusQuestion, setAnswerDetail , answerDetail} = stateContext;
+    const { answerList, fetchStatusAnswer, answerId, setAnswerId, answerInput,setFetchStatusAnswer, setAnswerInput, setFetchStatusQuestion, fetchStatusQuestion, setAnswerDetail , answerDetail} = stateContext;
     const { fetchDataAnswer, handleAnswerDetail, fetchGenerateAnswerCode, handleDeleteAnswer, handleAnswerEdit, fetchDataQuestion } = handleFunctionContext;
 
     const [showDelete, setShowDelete] = useState(false);
     const [ showAnswerForm, setShowAnswerForm ] = useState(false);
-    
+    const [searchValue, setSearchValue] = useState("");
+    const [searchValue2, setSearchValue2] = useState("");
     useEffect(() => {
-        fetchDataAnswer();
+        fetchDataAnswer(searchValue);
         fetchDataQuestion();
     }, [fetchStatusAnswer, fetchStatusQuestion]);
 
@@ -70,10 +71,22 @@ const AnswerWrapper = () => {
     }
 
     const closeDeleteConfirmation = () => {
+        setAnswerId("-1");
         setShowDelete(false);
     }
-
-
+    
+    const handleSearch = () => {
+        setSearchValue(`?answerName=${searchValue}`)
+        setFetchStatusAnswer(true)
+        // console.log(answerList)
+    }
+    
+    const handleReset = () => {
+        setSearchValue("")
+        fetchDataAnswer("");
+        console.log(searchValue);
+    }
+    
     return (
         <>
             <AnswerForm show={showAnswerForm} setShow={setShowAnswerForm} handleClose={handleClose} />
@@ -90,7 +103,11 @@ const AnswerWrapper = () => {
                         <PrintButton />
                     </Col>
                     <Col className={"col-6"}>
-                        <SearchAddBtn handleAdd={handleAdd} />
+                        <SearchAddBtn  
+                            handleSearch={handleSearch} 
+                            handleOnChange={(e) => setSearchValue(e.target.value) } 
+                            handleAdd={handleAdd}
+                            handleReset={handleReset} />
                     </Col>
                 </Row>
                 <Row>
@@ -115,7 +132,7 @@ const AnswerWrapper = () => {
                                             <th scope="row">{index+1}</th>
                                             <td>{item.questionCode}</td>
                                             <td>{item.answerCode}</td>
-                                            <td>{item.answerName}</td>
+                                            <td>{(item.answerName.length <= 20) ? item.answerName : item.answerName.substring(0, 20) + "..."}</td>
                                             <td>
                                                 <div className={"d-flex gap-2"}>
                                                     <Button

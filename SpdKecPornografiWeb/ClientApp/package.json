@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^1.6.3",
     "bootstrap": "^5.2.0",
+    "draftjs-to-html": "^0.9.1",
     "http-proxy-middleware": "^2.0.6",
     "jquery": "^3.6.0",
     "js-cookie": "^3.0.5",

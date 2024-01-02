@@ -21,6 +21,7 @@ public interface IRepository<T>
     
     T Update(T entity);
     void Delete(T entity);
+    void DeleteAll(IEnumerable<T> entities);
     int Count();
     int Count(Expression<Func<T, bool>> criteria);
 }

@@ -2,7 +2,7 @@
 import {useContext} from "react";
 import {GlobalContext} from "../../context/GlobalContext";
 
-const SearchAddBtn = ({handleAdd, handleSearch, handleOnChange}) => {
+const SearchAddBtn = ({handleAdd, handleSearch, handleOnChange, handleReset, searchForm}) => {
     return(
         <div className={"d-flex flex-column gap-2 align-items-end"}>
             <Button 
@@ -18,10 +18,11 @@ const SearchAddBtn = ({handleAdd, handleSearch, handleOnChange}) => {
                     name="search"
                     placeholder="search"
                     type="text"
+                    value={searchForm}
                     onChange={handleOnChange}
-                    onClick={handleSearch}
                 />
-                <Button color={"primary"} size={"sm"}>Cari</Button>
+                <Button color={"primary"} size={"sm"} onClick={handleSearch}>Cari</Button>
+                <Button color={"primary"} outline size={"sm"} onClick={handleReset}>Reset</Button>
             </div>
         </div>
     )

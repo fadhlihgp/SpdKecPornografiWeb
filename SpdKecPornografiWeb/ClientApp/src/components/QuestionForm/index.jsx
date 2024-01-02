@@ -36,10 +36,10 @@ const QuestionForm = ({ handleClose, show, setShow }) => {
     return (
         <>
             <MDBModal open={show} setopen={setShow} tabIndex='-1' staticBackdrop className={"modal-dialog-scrollable"}>
-                <MDBModalDialog>
+                <MDBModalDialog size={"lg"}>
                     <MDBModalContent>
                         <MDBModalHeader>
-                            <MDBModalTitle>{questionId === "-1" ? "Tambah Pertanyaan Baru" : "Edit Pertanyaan"}</MDBModalTitle>
+                            <MDBModalTitle>{questionId === "-1" ? "Tambah Diagnosa Baru" : "Edit Diagnosa"}</MDBModalTitle>
                             <MDBBtn className='btn-close' color='none' onClick={handleClose}></MDBBtn>
                         </MDBModalHeader>
                         <MDBModalBody>
@@ -73,6 +73,7 @@ const QuestionForm = ({ handleClose, show, setShow }) => {
                                             id="questionName"
                                             name="questionName"
                                             type="textarea"
+                                            rows={"4"}
                                             value={questionInput.questionName}
                                             onChange={handleOnChange}
                                         />
@@ -85,7 +86,10 @@ const QuestionForm = ({ handleClose, show, setShow }) => {
                             <Button color={'secondary'} onClick={handleCancel}>
                                 Close
                             </Button>
-                            <Button color='success' onClick={handleSubmit}>Simpan</Button>
+                            <Button 
+                                color='success' 
+                                onClick={handleSubmit}
+                                disabled={!questionInput.questionCode || !questionInput.questionName}>Simpan</Button>
                         </MDBModalFooter>
                     </MDBModalContent>
                 </MDBModalDialog>

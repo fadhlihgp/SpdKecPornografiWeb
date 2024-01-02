@@ -52,7 +52,7 @@ const AnswerForm = ({show, setShow, handleClose}) => {
     
     return(
         <MDBModal open={show} setopen={setShow} tabIndex='-1' staticBackdrop className={"modal-dialog-scrollable"}>
-            <MDBModalDialog>
+            <MDBModalDialog size={"lg"}>
                         <Form onSubmit={handleSubmit}>
                 <MDBModalContent>
                     <MDBModalHeader>
@@ -108,6 +108,7 @@ const AnswerForm = ({show, setShow, handleClose}) => {
                                         id="questionName"
                                         name="questionName"
                                         type="textarea"
+                                        rows={"4"}
                                         disabled
                                         value={answerDetail?.questionName}
                                     />
@@ -125,6 +126,7 @@ const AnswerForm = ({show, setShow, handleClose}) => {
                                         id="answerName"
                                         name="answerName"
                                         type="textarea"
+                                        rows={"4"}
                                         onChange={handleOnChange}
                                         value={answerInput.answerName}
                                     />

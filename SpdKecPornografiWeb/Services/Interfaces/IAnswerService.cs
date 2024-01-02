@@ -9,5 +9,6 @@ public interface IAnswerService
     public Task<IEnumerable<AnswerResponseDto>> FindAnswers(string? name);
     public Task UpdateAnswerAsync(string accountId, string answerId, AnswerRequestDto answerResponseDto);
     public Task DeleteAnswer(string answerId);
+    public Task DeleteAnswerByQuestionId(string questionId);
     public string GenerateAnswerCode();
 }

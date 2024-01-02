@@ -73,7 +73,7 @@ public class DiagnosisService : IDiagnosisService
 
     public async Task UpdateDiagnosisAsync(string accountId, string diagnosisId, DiagnosisRequestDto diagnosisRequestDto)
     {
-        var findDiagnosis = await FindDiagnosisByIdValidate(accountId);
+        var findDiagnosis = await FindDiagnosisByIdValidate(diagnosisId);
         findDiagnosis.Code = diagnosisRequestDto.DiagnosisCode;
         findDiagnosis.Name = diagnosisRequestDto.DiagnosisName;
         findDiagnosis.Suggestion = diagnosisRequestDto.DiagnosisSuggestion;
@@ -90,6 +90,8 @@ public class DiagnosisService : IDiagnosisService
         findDiagnosis.IsDeleted = true;
         findDiagnosis.UpdatedAt = DateTime.Now;
         findDiagnosis.UpdatedById = accountId;
+        _diagnosisRepository.Update(findDiagnosis);
+        await _persistence.SaveChangesAsync();
     }
 
     public string GenerateDiagnosisCode()

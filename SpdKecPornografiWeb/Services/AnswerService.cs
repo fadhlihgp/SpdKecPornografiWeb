@@ -91,6 +91,13 @@ public class AnswerService : IAnswerService
         await _persistence.SaveChangesAsync();
     }
 
+    public async Task DeleteAnswerByQuestionId(string questionId)
+    {
+        var answers = await _answerRepository.FindAll(a => a.QuestionId.Equals(questionId));
+        _answerRepository.DeleteAll(answers);
+        // await _persistence.SaveChangesAsync();
+    }
+
     public string GenerateAnswerCode()
     {
         var count = _answerRepository.Count() + 1;

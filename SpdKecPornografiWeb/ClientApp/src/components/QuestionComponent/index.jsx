@@ -75,7 +75,7 @@ const QuestionWrapper = () => {
                 show={showDelete} 
                 setShow={setShowDelete} 
                 handleCancel={closeDeleteConfirmation} 
-                textConfirmation={"Anda yakin ingin menghapus data pertanyaan ?"}
+                textConfirmation={"Menghapus data pertanyaan juga menghapus seluruh data jawaban terkait. Anda yakin ?"}
                 handleDelete={handleSubmitDelete} />
             <Container className={"w-100"}>
                 <TitleBreadcrumb title={"Kelola Pertanyaan"} paths={paths} />
