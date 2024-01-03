@@ -29,10 +29,10 @@ const ConfirmDelete = ({handleDelete, handleCancel, show, setShow, textConfirmat
                         </MDBModalBody>
 
                         <MDBModalFooter>
-                            <Button color={'secondary'} onClick={handleCancel}>
+                            <Button size={"sm"} color={'secondary'} onClick={handleCancel}>
                                 Close
                             </Button>
-                            <Button color='danger' onClick={handleDelete}>Hapus</Button>
+                            <Button size={"sm"} color='danger' onClick={handleDelete}>Hapus</Button>
                         </MDBModalFooter>
                     </MDBModalContent>
                 </MDBModalDialog>

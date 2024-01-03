@@ -44,7 +44,7 @@ const GlobalProvider = ({children}) => {
     const [answerDiagnosisList, setAnswerDiagnosisList] = useState(null);
     const [answerDiagnosisDetail, setAnswerDiagnosisDetail] = useState(null);
     const [fetchStatusAnswerDiagnosis, setFetchStatusAnswerDiagnosis] = useState(true);
-    
+    const [answerListFilter, setAnswerListFilter] = useState(null);
     const menuBaseRole = (roleId) => {
         switch (roleId) {
             case "1": 
@@ -75,10 +75,11 @@ const GlobalProvider = ({children}) => {
                 // console.log(currentUser);
                 setFetchStatus(false);
             }).catch((error) => {
-                toast.error(error.response.data.message, {
-                    position: toast.POSITION.TOP_CENTER,
-                    theme: "colored",
-                });
+                // toast.error(error.response.data.message, {
+                //     position: toast.POSITION.TOP_CENTER,
+                //     theme: "colored",
+                // });
+                alert(!error.response.data.message ? error : error.response.data.message);
             })
         }
      }
@@ -109,10 +110,11 @@ const GlobalProvider = ({children}) => {
                 setQuestionId("-1");
                 setQuestionInput(({...questionInput, questionName: ""}));
             }).catch((error) => {
-                toast.error(error.response.data.message, {
-                    position: toast.POSITION.TOP_CENTER,
-                    theme: "colored"
-                })
+                // toast.error(error.response.data.message, {
+                //     position: toast.POSITION.TOP_CENTER,
+                //     theme: "colored"
+                // })
+                alert(!error.response.data.message ? error : error.response.data.message);
             })
         } else {
             axios.put(`api/question/${questionId}`, questionInput, {
@@ -130,7 +132,7 @@ const GlobalProvider = ({children}) => {
                 //     position: toast.POSITION.TOP_CENTER,
                 //     theme: "colored"
                 // })
-                alert(error.response.data.message);
+                alert(!error.response.data.message ? error : error.response.data.message);
             })
         }
      }
@@ -165,14 +167,14 @@ const GlobalProvider = ({children}) => {
                 updatedBy: dataQuestion?.updatedBy
             });
             setQuestionInput({questionCode: dataQuestion?.questionCode, questionName: dataQuestion?.questionName});
-            console.log(dataQuestion)
+            // console.log(dataQuestion)
         }).catch((error) => {
             console.log(error);
             // toast.error(error.response.data.message, {
             //     position: "top-center",
             //     theme: "colored"
             // })
-            alert(error.response.data.message)
+            alert(!error.response.data.message ? error : error.response.data.message);
         })
      }
      
@@ -194,7 +196,7 @@ const GlobalProvider = ({children}) => {
             //     position: "top-center",
             //     theme: "colored"
             // })
-            alert(error.response.data.message);
+            alert(!error.response.data.message ? error : error.response.data.message);
         })
      }
     
@@ -218,7 +220,7 @@ const GlobalProvider = ({children}) => {
             setAnswerDetail({...answerDetail, questionName: ""})
             // console.log(data)
         }).then((error) => {
-            alert(error.response.data.message)
+            alert(!error.response.data.message ? error : error.response.data.message);
         })
     }
     
@@ -232,7 +234,7 @@ const GlobalProvider = ({children}) => {
                 // console.log(answerInput)
             }).catch((error) => {
                 // console.log(error)
-                alert(error.response.data.message)
+                alert(!error.response.data.message ? error : error.response.data.message);
             })
         } else {
             axios.put(`api/answer/${answerId}`, answerInput, {
@@ -462,8 +464,22 @@ const GlobalProvider = ({children}) => {
             headers: { Authorization: `Bearer ${Cookies.get("token")}`}
         }).then(({data}) => {
             setAnswerDiagnosisId(answerDiagnosisId);
+            console.log(data)
             setAnswerDiagnosisInput({...answerDiagnosisInput, answerId: data.data.answerId, diagnosisId: data.data.diagnosisId, questionId: data.data.questionId});
-            setAnswerDiagnosisDetail({...answerDiagnosisDetail, answerName: data.data.answerName, diagnosisName: data.data.diagnosisName, questionName: data.data.questionName});
+            setAnswerDiagnosisDetail({...answerDiagnosisDetail, 
+                answerCode: data.data.answerCode,
+                answerName: data.data.answerName,
+                questionCode: data.data.questionCode,
+                questionName: data.data.questionName,
+                diagnosisCode: data.data.diagnosisCode,
+                diagnosisName: data.data.diagnosisName, 
+                diagnosisDescription: data.data.diagnosisDescription,
+                diagnosisSuggestion: data.data.diagnosisSuggestion,
+                createdBy: data.data.createdBy,
+                updatedBy: data.data.updatedBy,
+                createdAt: data.data.createdAt,
+                updatedAt: data.data.updatedAt
+            });
         }).catch((error) => {
             console.log(error);
             alert(!error.response.data.message ? error : error.response.data.message);
@@ -488,7 +504,7 @@ const GlobalProvider = ({children}) => {
         diagnosisDetail, setDiagnosisDetail, fetchStatusDiagnosis, setFetchStatusDiagnosis, showDiagnosisForm, setShowDiagnosisForm,
         answerDiagnosisInput, setAnswerDiagnosisInput, answerDiagnosisList, setAnswerDiagnosisList,
         fetchStatusAnswerDiagnosis, setFetchStatusAnswerDiagnosis, answerDiagnosisId, setAnswerDiagnosisId,
-        answerDiagnosisDetail, setAnswerDiagnosisDetail
+        answerDiagnosisDetail, setAnswerDiagnosisDetail, answerListFilter, setAnswerListFilter
     }
     
     const handleFunctionContext = {

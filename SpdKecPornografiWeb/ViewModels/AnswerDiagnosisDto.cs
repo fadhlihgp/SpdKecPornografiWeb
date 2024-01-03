@@ -12,6 +12,8 @@ public class AnswerDiagnosisResponseDto
     public string? DiagnosisId { get; set; }
     public string DiagnosisCode { get; set; }
     public string DiagnosisName { get; set; }
+    public string? DiagnosisDescription { get; set; }
+    public string? DiagnosisSuggestion { get; set; }
     public string QuestionId { get; set;}
     public string QuestionCode { get; set; }
     public string QuestionName { get; set; }

@@ -49,22 +49,24 @@ const LayoutDashboard = ({children}) => {
     }, [fetchStatus]);
     
     return (
-        <div className={"d-flex flex-column"}>
-            <TopBar imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} />
-            <div className={"d-flex"} style={{backgroundColor: "#F5F5F5", minHeight: "600px"}}>
-                {!sidebarMenu && (
-                    <SkeletonComponent/>
-                )}
-                {sidebarMenu && (
-                    <>
-                        <Sidebar imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} role={currentUser?.role} menus={sidebarMenu ? sidebarMenu : menus } />
-                        <div className={"p-3 "} style={{width: "80%"}}>
-                            {children}
-                        </div>
-                    </>
-                )}
+        <>
+            {!sidebarMenu && (
+                <SkeletonComponent/>
+            )}
+            <div className={"d-flex flex-column"}>
+                <TopBar imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} />
+                <div className={"d-flex"} style={{backgroundColor: "#F5F5F5", minHeight: "600px"}}>
+                    {sidebarMenu && (
+                        <>
+                            <Sidebar imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} role={currentUser?.role} menus={sidebarMenu ? sidebarMenu : menus } />
+                            <div className={"p-3 "} style={{width: "80%"}}>
+                                {children}
+                            </div>
+                        </>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 export default LayoutDashboard;

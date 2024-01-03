@@ -17,6 +17,7 @@ import AnswerDetail from "../pages/AnswerDetail";
 import Diagnosis from "../pages/Diagnosis";
 import DiagnosisDetail from "../pages/DiagnosisDetail";
 import AnswerDiagnosis from "../pages/AnswerDiagnosis";
+import AnswerDiagnosisDetail from "../pages/AnswerDiagnosisDetail";
 
 const RouterApp = () => {
     return (
@@ -98,7 +99,12 @@ const RouterApp = () => {
                                 <AnswerDiagnosis />
                             </AuthRoute>}
                         />
-                        
+                        <Route
+                            path={"/relation/:answerDiagnosisID"}
+                            element={<AuthRoute>
+                                <AnswerDiagnosisDetail />
+                            </AuthRoute>}
+                        />
                     </Routes>
                 </GlobalProvider>
             </React.Fragment>

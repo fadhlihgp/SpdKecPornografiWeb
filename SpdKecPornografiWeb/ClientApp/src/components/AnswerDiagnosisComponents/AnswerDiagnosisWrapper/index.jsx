@@ -1,5 +1,4 @@
-﻿import AnswerForm from "../../AnswerComponents/AnswerForm";
-import ConfirmDelete from "../../ConfirmDelete";
+﻿import ConfirmDelete from "../../ConfirmDelete";
 import {Button, Col, Container, Row, Table} from "reactstrap";
 import TitleBreadcrumb from "../../TitleBreadcrumb";
 import PrintButton from "../../PrintButton";
@@ -24,7 +23,8 @@ const AnswerDiagnosisWrapper = () => {
     const { stateContext, handleFunctionContext } = useContext(GlobalContext);
     const { answerDiagnosisList, fetchStatusAnswerDiagnosis, answerDiagnosisId, setAnswerDiagnosisId, answerDiagnosisInput,
         setFetchStatusAnswerDiagnosis, setAnswerDiagnosisInput, setFetchStatusQuestion, fetchStatusQuestion, 
-        setAnswerDiagnosisDetail , answerDiagnosisDetail, setFetchStatusDiagnosis, setFetchStatusAnswer} = stateContext;
+        setAnswerDiagnosisDetail , answerDiagnosisDetail, setFetchStatusDiagnosis, setFetchStatusAnswer, answerListFilter, 
+        setAnswerListFilter, answerList, questionInput} = stateContext;
     const { fetchDataAnswerDiagnosis, handleAnswerDiagnosisDetail, fetchGenerateAnswerDiagnosisCode, 
         handleDeleteAnswerDiagnosis, fetchDataQuestion, fetchDataDetailAnswerDiagnosis } = handleFunctionContext;
 
@@ -67,7 +67,6 @@ const AnswerDiagnosisWrapper = () => {
 
     const handleShowEdit = (id) => {
         fetchDataDetailAnswerDiagnosis(id);
-        // console.log(answerDiagnosisDetail);
         setShowAnswerDiagnosisForm(true);
     }
 

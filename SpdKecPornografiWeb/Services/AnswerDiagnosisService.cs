@@ -86,6 +86,8 @@ public class AnswerDiagnosisService : IAnswerDiagnosisService
             DiagnosisId = findAnswerDiagnosis.DiagnosisId,
             DiagnosisCode = findAnswerDiagnosis.Diagnosis.Code,
             DiagnosisName = findAnswerDiagnosis.Diagnosis.Name,
+            DiagnosisDescription = findAnswerDiagnosis.Diagnosis.Description,
+            DiagnosisSuggestion = findAnswerDiagnosis.Diagnosis.Suggestion,
             QuestionId = findAnswerDiagnosis.Answer.Question.Id,
             QuestionCode = findAnswerDiagnosis.Answer.Question.QuestionCode,
             QuestionName = findAnswerDiagnosis.Answer.Question.Name,

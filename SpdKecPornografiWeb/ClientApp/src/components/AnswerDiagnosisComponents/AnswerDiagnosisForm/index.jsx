@@ -17,10 +17,9 @@ const AnswerDiagnosisForm = ({show, setShow, handleClose}) => {
     const { stateContext, handleFunctionContext } = useContext(GlobalContext);
     const { answerDiagnosisId, setAnswerDiagnosisId, answerDiagnosisInput, setAnswerDiagnosisInput, questionList,
         fetchStatusQuestion, answerDiagnosisDetail, setAnswerDiagnosisDetail, fetchStatusAnswer, fetchStatusDiagnosis, 
-        answerList, setAnswerList, diagnosisList } = stateContext;
+        answerList, setAnswerList, diagnosisList, answerListFilter, setAnswerListFilter } = stateContext;
     const {fetchDataQuestion, handleSubmitAnswerDiagnosis, fetchDataAnswer, fetchDataDiagnosis } = handleFunctionContext;
     
-    const [answerListFilter, setAnswerListFilter] = useState(null);
     const [loading, setLoading] = useState(false);
     const handleSubmit = (e) => {
         setLoading(true);
@@ -42,8 +41,10 @@ const AnswerDiagnosisForm = ({show, setShow, handleClose}) => {
         fetchDataQuestion("");
         fetchDataAnswer("");
         fetchDataDiagnosis("");
+        let findAnswers = answerList?.filter(a => a.questionId === answerDiagnosisInput.questionId);
+        setAnswerListFilter(findAnswers);
         // console.log(questionList);
-    }, [fetchStatusQuestion, fetchStatusAnswer, fetchStatusDiagnosis]);
+    }, [fetchStatusQuestion, fetchStatusAnswer, fetchStatusDiagnosis, answerDiagnosisInput]);
 
     const handleSelectChangeQuestion = (e) => {
         let id = e.target.value;
@@ -142,12 +143,12 @@ const AnswerDiagnosisForm = ({show, setShow, handleClose}) => {
                                             required
                                         >
                                             <option value="">Pilih Jawaban</option>
-                                            {answerDiagnosisId === "-1" && answerListFilter?.map(({ id, answerCode}, index) => {
+                                            {answerListFilter?.map(({ id, answerCode}, index) => {
                                                 return <option value={id} key={index}>{answerCode}</option>
                                             })}
-                                            {answerDiagnosisId !== "-1" && answerList?.map(({ id, answerCode}, index) => {
-                                                return <option value={id} key={index}>{answerCode}</option>
-                                            })}
+                                            {/*{answerDiagnosisId !== "-1" && answerList?.map(({ id, answerCode}, index) => {*/}
+                                            {/*    return <option value={id} key={index}>{answerCode}</option>*/}
+                                            {/*})}*/}
                                         </FormSelect>
                                     </Col>
                                 </FormGroup>
