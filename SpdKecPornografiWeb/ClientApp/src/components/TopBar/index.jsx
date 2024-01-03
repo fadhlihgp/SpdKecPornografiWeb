@@ -1,66 +1,72 @@
-import {
-    MDBCollapse,
-    MDBContainer,
-    MDBIcon,
-    MDBNavbar,
-    MDBNavbarBrand,
-    MDBNavbarNav,
-    MDBNavbarToggler
-} from "mdb-react-ui-kit";
 import {Link} from "react-router-dom";
 import React, {useState} from "react";
 import profile from "../../resources/user.png";
-import menu from "../../resources/hamburger.png"
+import menu from "../../resources/hamburger.png";
+import logoutIcon from "../../resources/logoutBlack.png";
+import {
+    Collapse,
+    Container, DropdownItem, DropdownMenu, DropdownToggle,
+    Nav,
+    Navbar,
+    NavbarText,
+    NavItem, UncontrolledDropdown
+} from "reactstrap";
+import ConfirmSignOut from "../ConfirmSignOut";
 const TopBar = ({ fullname = "User Logged in", imageUrl = profile }) => {
-    
-    const [openNavText, setOpenNavText] = useState(false);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [basicModal, setBasicModal] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
+    const toggleNavbar = () => {
+        setCollapsed(!collapsed);
+    };
 
-    const toggle = () => setDropdownOpen((prevState) => !prevState);
+    const handleModal = () => {
+        setBasicModal(!basicModal);
+    }
+    
     return (
         <>
-            <MDBNavbar sticky expand='lg' light bgColor='light' className={"px-3"} style={{boxShadow: "-1px 15px 8px -15px rgba(0,0,0,0.49)"}}>
-                <MDBContainer fluid>
-                    <MDBNavbarBrand>
-                        <Link to={"/"} style={{ textDecoration: "none", color: "#1C4532" }}>
-                            <span style={{fontSize: "25px"}}><b>SPD</b></span>
-                        </Link>
-                    </MDBNavbarBrand>
-                    <MDBNavbarBrand>
-                        <button style={{border: "none", background: "transparent"}}>
-                            <img src={menu} alt={"menu"} width={"30px"}/>
-                        </button>
-                    </MDBNavbarBrand>
-                    <MDBNavbarToggler
-                        type='button'
-                        data-target='#navbarText'
-                        aria-controls='navbarText'
-                        aria-expanded='false'
-                        aria-label='Toggle navigation'
-                        onClick={() => setOpenNavText(!openNavText)}
-                    >
-                        <MDBIcon icon='bars' fas />
-                    </MDBNavbarToggler>
-                    <MDBCollapse navbar open={openNavText}>
-                        <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
-                        </MDBNavbarNav>
-                        <div className='navbar-text w-25'>
-                            <Link to={"/"} style={{textDecoration: "none"}}>
-                                <div className={"d-flex p-2 align-items-center w-100 gap-4"} style={{borderRadius: "25px", backgroundColor: "white"}}>
-                                    <div>
-                                        <img src={imageUrl ? imageUrl : profile} alt={"profile"} width={"35px"} height={"35px"} style={{borderRadius: "20px"}} />
-                                    </div>
-                                    <div>
-                                        <b>
-                                            {fullname}
-                                        </b>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
-                    </MDBCollapse>
-                </MDBContainer>
-            </MDBNavbar>
+            <ConfirmSignOut basicModal={basicModal} handleClose={handleModal} setBasicModal={setBasicModal} />
+            <Navbar sticky="top" expand='lg' className={"px-3 bg-light"} style={{boxShadow: "-1px 15px 8px -15px rgba(0,0,0,0.49)"}}>
+                <Container fluid>
+                    <Collapse isOpen={true} navbar>
+                        <Nav className="me-auto gap-2" navbar>
+                            <NavItem>
+                                <Link to={"/"} style={{ textDecoration: "none", color: "#1C4532" }}>
+                                    <span style={{fontSize: "25px"}}><b>SPD</b></span>
+                                </Link>
+                            </NavItem>
+                            <NavItem>
+                                <button style={{border: "none", background: "transparent"}}>
+                                    <img src={menu} alt={"menu"} width={"30px"}/>
+                                </button>
+                            </NavItem>
+                        </Nav>
+                        <NavbarText>
+                            <UncontrolledDropdown
+                                className="me-2"
+                                direction="down"
+                            >
+                                <DropdownToggle
+                                    caret
+                                    color="success"
+                                    outline
+                                >
+                                    {fullname}
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    <DropdownItem onClick={handleModal}>
+                                       <img src={logoutIcon} alt={"logout"}/> <b>Logout</b>
+                                    </DropdownItem>
+                                    {/*<DropdownItem divider />*/}
+                                    {/*<DropdownItem>*/}
+                                    {/*    Another Action*/}
+                                    {/*</DropdownItem>*/}
+                                </DropdownMenu>
+                            </UncontrolledDropdown>
+                        </NavbarText>
+                    </Collapse>
+                </Container>
+            </Navbar>
         </>
     )
 }

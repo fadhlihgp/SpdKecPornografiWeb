@@ -1,8 +1,8 @@
-import {Col, Container, Row} from "reactstrap";
-import TitleBreadcrumb from "../TitleBreadcrumb";
-import {useContext, useEffect} from "react";
-import {GlobalContext} from "../../context/GlobalContext";
-import SpinnerLoading from "../SpinnerLoading";
+import {Container} from "reactstrap";
+import TitleBreadcrumb from "../../TitleBreadcrumb";
+import {useContext} from "react";
+import {GlobalContext} from "../../../context/GlobalContext";
+import SpinnerLoading from "../../SpinnerLoading";
 import moment from "moment";
 
 const paths = [
@@ -21,13 +21,8 @@ const paths = [
 ]
 
 const AnswerDetailComponent = () => {
-    const { stateContext, handleFunctionContext } = useContext(GlobalContext);
-    const { fetchDataDetailAnswer } = handleFunctionContext;
-    const { answerDetail, setAnswerDetail } = stateContext;
-
-    useEffect(() => {
-
-    }, []);
+    const { stateContext } = useContext(GlobalContext);
+    const { answerDetail } = stateContext;
 
     return(
         <>

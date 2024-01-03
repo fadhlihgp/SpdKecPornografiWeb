@@ -1,8 +1,8 @@
 import {Col, Container, Row} from "reactstrap";
-import TitleBreadcrumb from "../TitleBreadcrumb";
+import TitleBreadcrumb from "../../TitleBreadcrumb";
 import {useContext, useEffect} from "react";
-import {GlobalContext} from "../../context/GlobalContext";
-import SpinnerLoading from "../SpinnerLoading";
+import {GlobalContext} from "../../../context/GlobalContext";
+import SpinnerLoading from "../../SpinnerLoading";
 import moment from "moment";
 
 const paths = [

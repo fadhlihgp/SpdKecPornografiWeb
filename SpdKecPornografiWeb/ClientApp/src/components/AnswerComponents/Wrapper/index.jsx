@@ -11,7 +11,6 @@ import SearchAddBtn from "../../SearchAddbtn/SearchAddBtn";
 import ConfirmDelete from "../../ConfirmDelete/index";
 import TitleBreadcrumb from "../../TitleBreadcrumb/index";
 import iconResources from "../../../helpers/listIcon";
-import QuestionForm from "../../QuestionForm";
 import AnswerForm from "../AnswerForm";
 import SpinnerLoading from "../../SpinnerLoading";
 
@@ -33,9 +32,13 @@ const AnswerWrapper = () => {
     const [showDelete, setShowDelete] = useState(false);
     const [ showAnswerForm, setShowAnswerForm ] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-    const [searchValue2, setSearchValue2] = useState("");
+    
     useEffect(() => {
-        fetchDataAnswer(searchValue);
+        if (searchValue) {
+            fetchDataAnswer(`?answerName=`+searchValue);
+        } else {
+            fetchDataAnswer(searchValue);
+        }
         fetchDataQuestion();
     }, [fetchStatusAnswer, fetchStatusQuestion]);
 
@@ -76,7 +79,8 @@ const AnswerWrapper = () => {
     }
     
     const handleSearch = () => {
-        setSearchValue(`?answerName=${searchValue}`)
+        setSearchValue(`${searchValue}`)
+        // fetchDataAnswer(`?answerName=${searchValue}`);
         setFetchStatusAnswer(true)
         // console.log(answerList)
     }
@@ -84,7 +88,7 @@ const AnswerWrapper = () => {
     const handleReset = () => {
         setSearchValue("")
         fetchDataAnswer("");
-        console.log(searchValue);
+        // console.log(searchValue);
     }
     
     return (
@@ -105,6 +109,7 @@ const AnswerWrapper = () => {
                     <Col className={"col-6"}>
                         <SearchAddBtn  
                             handleSearch={handleSearch} 
+                            searchFormValue={searchValue}
                             handleOnChange={(e) => setSearchValue(e.target.value) } 
                             handleAdd={handleAdd}
                             handleReset={handleReset} />

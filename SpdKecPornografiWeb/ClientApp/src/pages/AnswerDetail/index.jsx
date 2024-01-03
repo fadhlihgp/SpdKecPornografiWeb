@@ -1,6 +1,5 @@
 import LayoutDashboard from "../../widget/LayoutDashboard";
-import AnswerDetailComponent from "../../components/AnswerDetailComponents";
-
+import AnswerDetailComponent from "../../components/AnswerComponents/AnswerDetail";
 const AnswerDetail = () => {
     return(
         <LayoutDashboard>

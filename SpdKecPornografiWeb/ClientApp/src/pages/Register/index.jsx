@@ -65,19 +65,16 @@ const Register = () => {
                 // console.log(response);
                 axios.post("api/account/register", { ...input, imageUrl: response.data.data.url} )
                     .then(({data}) => {
-                        toast.success(data.message, {
-                            position: toast.POSITION.TOP_CENTER,
-                            theme: "colored",
-                        });
+                        alert(data.message);
                         navigate("/login");
                     })
                     .catch((error) => {
                         // console.log(error.response)
-                        // alert(error.response.data.message);
-                        toast.error(error.response.data.message, {
-                            position: toast.POSITION.TOP_CENTER,
-                            theme: "colored",
-                        });
+                        alert(error.response.data.message);
+                        // toast.error(error.response.data.message, {
+                        //     position: toast.POSITION.TOP_CENTER,
+                        //     theme: "colored",
+                        // });
                         axios.delete(`uploadPhoto/${response.data.data.publicId}`)
                             .then(r => console.log(r))
                             .catch((error) => console.log(error))
@@ -85,11 +82,11 @@ const Register = () => {
             })
             .catch((error) => {
                 // console.log(error);
-                // alert(error.response.data.message)
-                toast.error(error.response.data.message, {
-                    position: toast.POSITION.TOP_CENTER,
-                    theme: "colored",
-                });
+                alert(error.response.data.message)
+                // toast.error(error.response.data.message, {
+                //     position: toast.POSITION.TOP_CENTER,
+                //     theme: "colored",
+                // });
             })
             .finally(() => {
                 setLoading(false);

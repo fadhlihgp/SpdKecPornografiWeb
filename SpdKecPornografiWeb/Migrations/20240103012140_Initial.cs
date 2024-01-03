@@ -173,7 +173,9 @@ namespace SpdKecPornografiWeb.Migrations
                     AnswerId = table.Column<string>(type: "text", nullable: true),
                     DiagnosisId = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    CreatedById = table.Column<string>(type: "text", nullable: true)
+                    CreatedById = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    UpdatedById = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -181,6 +183,11 @@ namespace SpdKecPornografiWeb.Migrations
                     table.ForeignKey(
                         name: "FK_Answer_Diagnosis_Account_CreatedById",
                         column: x => x.CreatedById,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Answer_Diagnosis_Account_UpdatedById",
+                        column: x => x.UpdatedById,
                         principalTable: "Account",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -210,8 +217,8 @@ namespace SpdKecPornografiWeb.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "Fullname", "ImageUrl", "IsActive", "IsBlocked", "LastLogin", "Password", "PhoneNumber", "RoleId", "Username" },
                 values: new object[,]
                 {
-                    { "1134636b-08cd-4306-85d9-3f9176befa77", new DateTime(2023, 12, 30, 9, 15, 16, 443, DateTimeKind.Local).AddTicks(8107), "admin@email.com", "Admin", null, true, false, null, "$2a$12$zDIeyHL0Im6Mhet4TkAYb.CIFZfNCLFa2c4pg707FoJkGBLCGEuCi", "08123456227", "2", "admin" },
-                    { "d941614b-4e34-42cc-bf68-f2f599c3cf85", new DateTime(2023, 12, 30, 9, 15, 16, 443, DateTimeKind.Local).AddTicks(8104), "superadmin@email.com", "Super Admin", null, true, false, null, "$2a$12$zDIeyHL0Im6Mhet4TkAYb.CIFZfNCLFa2c4pg707FoJkGBLCGEuCi", "081234567", "1", "superadmin" }
+                    { "1134636b-08cd-4306-85d9-3f9176befa77", new DateTime(2024, 1, 3, 8, 21, 40, 470, DateTimeKind.Local).AddTicks(2119), "admin@email.com", "Admin", null, true, false, null, "$2a$12$zDIeyHL0Im6Mhet4TkAYb.CIFZfNCLFa2c4pg707FoJkGBLCGEuCi", "08123456227", "2", "admin" },
+                    { "d941614b-4e34-42cc-bf68-f2f599c3cf85", new DateTime(2024, 1, 3, 8, 21, 40, 470, DateTimeKind.Local).AddTicks(2115), "superadmin@email.com", "Super Admin", null, true, false, null, "$2a$12$zDIeyHL0Im6Mhet4TkAYb.CIFZfNCLFa2c4pg707FoJkGBLCGEuCi", "081234567", "1", "superadmin" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -272,6 +279,11 @@ namespace SpdKecPornografiWeb.Migrations
                 name: "IX_Answer_Diagnosis_DiagnosisId",
                 table: "Answer_Diagnosis",
                 column: "DiagnosisId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answer_Diagnosis_UpdatedById",
+                table: "Answer_Diagnosis",
+                column: "UpdatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Diagnosis_CreatedById",

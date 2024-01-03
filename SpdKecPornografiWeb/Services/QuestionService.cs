@@ -65,7 +65,7 @@ public class QuestionService : IQuestionService
         try
         {
             var questions = name != null
-                ? await _questionRepository.FindAll(q => q.Name.ToLower().Contains(name) || q.QuestionCode.ToLower().Contains(name),
+                ? await _questionRepository.FindAll(q => q.Name.ToLower().Contains(name.ToLower()) || q.QuestionCode.ToLower().Contains(name.ToLower()),
                     new[] { "CreatedBy", "UpdatedBy", "Answers" })
                 : await _questionRepository.FindAll(new[] { "CreatedBy", "UpdatedBy", "Answers" }, question => question.CreatedAt);
             var responses = questions.Select(question => new QuestionResponseDto

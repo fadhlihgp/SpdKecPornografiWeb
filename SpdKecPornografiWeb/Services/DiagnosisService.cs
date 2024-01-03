@@ -55,7 +55,7 @@ public class DiagnosisService : IDiagnosisService
                 d => !d.IsDeleted, diagnosis => diagnosis.CreatedAt,
                 new[] { "CreatedBy", "UpdatedBy" })
             : await _diagnosisRepository.FindAll(
-                d => (d.Name.ToLower().Contains(name) || d.Code.ToLower().Contains(name)) && !d.IsDeleted, diagnosis => diagnosis.CreatedAt,
+                d => (d.Name.ToLower().Contains(name.ToLower()) || d.Code.ToLower().Contains(name.ToLower())) && !d.IsDeleted, diagnosis => diagnosis.CreatedAt,
                 new[] { "CreatedBy", "UpdatedBy" });
         return diagnosisList.Select(diagnosis => new DiagnosisResponseDto
         {

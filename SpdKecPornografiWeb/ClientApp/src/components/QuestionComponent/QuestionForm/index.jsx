@@ -7,11 +7,9 @@
     MDBModalHeader,
     MDBModalTitle
 } from "mdb-react-ui-kit";
-import {useContext, useState} from "react";
-import Cookies from "js-cookie";
-import {useNavigate} from "react-router-dom";
+import {useContext} from "react";
 import {Button, Col, Form, FormGroup, Input, Label} from "reactstrap";
-import {GlobalContext} from "../../context/GlobalContext";
+import {GlobalContext} from "../../../context/GlobalContext";
 
 const QuestionForm = ({ handleClose, show, setShow }) => {
     const { stateContext, handleFunctionContext } = useContext(GlobalContext);

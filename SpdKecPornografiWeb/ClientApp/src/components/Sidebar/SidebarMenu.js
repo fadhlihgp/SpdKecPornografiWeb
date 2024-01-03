@@ -3,8 +3,11 @@ import users from "../../resources/everyuser.png";
 import questionIcon from "../../resources/question.png";
 import answerIcon from "../../resources/answer.png";
 import diagnosisIcon from "../../resources/diagnosis.png";
-import testingIcon from "../../resources/history.png";
+import testingIcon from "../../resources/testing.png";
 import testingHistoryIcon from "../../resources/history.png";
+import infoIcon from "../../resources/info.png";
+import logoutIcon from "../../resources/logout.png";
+import relationIcon from "../../resources/relation.png";
 
 export const superAdminMenu = [
     {
@@ -48,6 +51,16 @@ export const superAdminMenu = [
         ]
     },
     {
+        title: "Relasi Data",
+        value: [
+            {
+                name: "Relasi",
+                icon: relationIcon,
+                link: "/relation"
+            },
+        ]
+    },
+    {
         title: "Pengujian",
         value: [
             {
@@ -67,9 +80,9 @@ export const superAdminMenu = [
         value: [
             {
                 name: "Tentang Aplikasi",
-                icon: testingIcon,
-                link: "/question"
-            }
+                icon: infoIcon,
+                link: "/about"
+            },
         ]
     },
 ]
@@ -106,6 +119,16 @@ export const adminMenu = [
         ]
     },
     {
+        title: "Relasi Data",
+        value: [
+            {
+                name: "Relasi",
+                icon: relationIcon,
+                link: "/relation"
+            },
+        ]
+    },
+    {
         title: "Pengujian",
         value: [
             {
@@ -125,8 +148,8 @@ export const adminMenu = [
         value: [
             {
                 name: "Tentang Aplikasi",
-                icon: testingIcon,
-                link: "/question"
+                icon: infoIcon,
+                link: "/about"
             }
         ]
     },
@@ -163,8 +186,8 @@ export const userMenu = [
         value: [
             {
                 name: "Tentang Aplikasi",
-                icon: testingIcon,
-                link: "/question"
+                icon: infoIcon,
+                link: "/about"
             }
         ]
     },

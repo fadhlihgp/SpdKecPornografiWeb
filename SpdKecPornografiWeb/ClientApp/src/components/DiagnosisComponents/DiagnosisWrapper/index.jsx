@@ -22,14 +22,19 @@ const paths = [
 
 const DiagnosisWrapper = () => {
     const { stateContext, handleFunctionContext } = useContext(GlobalContext);
-    const { fetchStatusDiagnosis, diagnosisList, diagnosisId, setDiagnosisId, diagnosisInput, setDiagnosisInput } = stateContext;
+    const { fetchStatusDiagnosis, diagnosisList, diagnosisId, setDiagnosisId, diagnosisInput, setDiagnosisInput, setFetchStatusDiagnosis } = stateContext;
     const { fetchDataDiagnosis, fetchGenerateDiagnosisCode, fetchDataDetailDiagnosis, handleDeleteDiagnosis, handleDiagnosisDetail } = handleFunctionContext;
     
     const [showDiagnosisForm, setShowDiagnosisForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
     
     useEffect(() => {
-        fetchDataDiagnosis();
+        if (searchValue) {
+            fetchDataDiagnosis(`?name=${searchValue}`);
+        } else {
+            fetchDataDiagnosis("");
+        }
     }, [fetchStatusDiagnosis])
 
     const handleClose = () => {
@@ -65,6 +70,16 @@ const DiagnosisWrapper = () => {
         setShowDeleteForm(false);
     }
     
+    const handleReset = () => {
+        setSearchValue("");
+        fetchDataDiagnosis("");
+    }
+    
+    const handleSearch = (e) => {
+        setSearchValue(searchValue);
+        setFetchStatusDiagnosis(true);
+    }
+    
     return(
         <>
             <DiagnosisForm show={showDiagnosisForm} setShow={setShowDiagnosisForm} handleClose={handleClose} />
@@ -82,7 +97,13 @@ const DiagnosisWrapper = () => {
                         <PrintButton />
                     </Col>
                     <Col className={"col-6"}>
-                        <SearchAddBtn handleAdd={handleAdd} />
+                        <SearchAddBtn 
+                            handleAdd={handleAdd}
+                            handleOnChange={(e) => setSearchValue(e.target.value)}
+                            searchFormValue={searchValue}
+                            handleReset={handleReset}
+                            handleSearch={handleSearch}
+                        />
                     </Col>
                 </Row>
                 <Row>

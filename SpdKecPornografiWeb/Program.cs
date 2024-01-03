@@ -29,6 +29,7 @@ builder.Services.AddTransient<IPhotoService, PhotoService>();
 builder.Services.AddTransient<IQuestionService, QuestionService>();
 builder.Services.AddTransient<IAnswerService, AnswerService>();
 builder.Services.AddTransient<IDiagnosisService, DiagnosisService>();
+builder.Services.AddTransient<IAnswerDiagnosisService, AnswerDiagnosisService>();
 #endregion
 
 #region Middleware

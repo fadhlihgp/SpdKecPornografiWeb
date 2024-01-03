@@ -1,8 +1,6 @@
 ﻿import {Button, Input} from "reactstrap";
-import {useContext} from "react";
-import {GlobalContext} from "../../context/GlobalContext";
 
-const SearchAddBtn = ({handleAdd, handleSearch, handleOnChange, handleReset, searchForm}) => {
+const SearchAddBtn = ({handleAdd, handleSearch, handleOnChange, handleReset, searchFormValue}) => {
     return(
         <div className={"d-flex flex-column gap-2 align-items-end"}>
             <Button 
@@ -18,7 +16,7 @@ const SearchAddBtn = ({handleAdd, handleSearch, handleOnChange, handleReset, sea
                     name="search"
                     placeholder="search"
                     type="text"
-                    value={searchForm}
+                    value={searchFormValue}
                     onChange={handleOnChange}
                 />
                 <Button color={"primary"} size={"sm"} onClick={handleSearch}>Cari</Button>

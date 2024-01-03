@@ -4,7 +4,6 @@ import Cookies from "js-cookie";
 import {toast, ToastContainer} from "react-toastify";
 import {adminMenu, superAdminMenu, userMenu} from "../components/Sidebar/SidebarMenu";
 import {useNavigate, useParams} from "react-router-dom";
-import QuestionForm from "../components/QuestionForm";
 
 export const GlobalContext = createContext();
 const GlobalProvider = ({children}) => {
@@ -130,7 +129,7 @@ const GlobalProvider = ({children}) => {
      }
      
      const fetchDataQuestion = (stringParam) => {
-         axios.get(`api/question?${stringParam}`, {
+         axios.get(`api/question${stringParam}`, {
              headers: { Authorization: `Bearer ${Cookies.get("token")}`}
          }).then(({data}) => {
              setQuestionList([...data.data])
@@ -142,6 +141,7 @@ const GlobalProvider = ({children}) => {
      }
      
      const fetchDataDetailQuestion = (questionId) => {
+        // console.log(questionID)
         axios.get(`api/question/${questionId}`, {
             headers: { Authorization: `Bearer ${Cookies.get("token")}`}
         }).then(({data}) => {
@@ -320,7 +320,7 @@ const GlobalProvider = ({children}) => {
     }
     
     const fetchDataDiagnosis = (stringParam) => {
-        axios.get(`api/diagnosis?${stringParam}`, {
+        axios.get(`api/diagnosis${stringParam}`, {
             headers: { Authorization: `Bearer ${Cookies.get("token")}`}
         }).then(({data}) => {
             setDiagnosisList([...data.data]);

@@ -55,7 +55,7 @@ public class AnswerService : IAnswerService
     {
         var answers = name != null
             ? await _answerRepository.FindAll(
-                a => a.Name.ToLower().Contains(name) || a.AnswerCode.ToLower().Contains(name),
+                a => a.Name.ToLower().Contains(name.ToLower()) || a.AnswerCode.ToLower().Contains(name.ToLower()),
                 new[] { "Question", "CreatedBy", "UpdatedBy" })
             : await _answerRepository.FindAll(new[] { "CreatedBy", "UpdatedBy", "Question" });
             

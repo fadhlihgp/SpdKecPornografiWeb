@@ -11,7 +11,7 @@ import eye from "../../resources/eye.png";
 import trash from "../../resources/delete.png";
 import edit from "../../resources/edit.png";
 import SearchAddBtn from "../SearchAddbtn/SearchAddBtn";
-import QuestionForm from "../QuestionForm";
+import QuestionForm from "./QuestionForm/index";
 import ConfirmDelete from "../ConfirmDelete";
 import TitleBreadcrumb from "../TitleBreadcrumb";
 import SpinnerLoading from "../SpinnerLoading";
@@ -33,9 +33,14 @@ const QuestionWrapper = () => {
     const { fetchDataQuestion, handleQuestionDetail, fetchGenerateQuestionCode, handleDeleteQuestion, fetchDataDetailQuestion, handleQuestionEdit } = handleFunctionContext;
     
     const [showDelete, setShowDelete] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
     
     useEffect(() => {
-        fetchDataQuestion()
+        if (searchValue) {
+            fetchDataQuestion(`?name=${searchValue}`)
+        } else {
+            fetchDataQuestion("")
+        }
     }, [fetchStatusQuestion]);
     
     const handleAdd = () => {
@@ -84,7 +89,19 @@ const QuestionWrapper = () => {
                         <PrintButton />
                     </Col>
                     <Col className={"col-6"}>
-                        <SearchAddBtn handleAdd={handleAdd} />
+                        <SearchAddBtn 
+                            handleAdd={handleAdd}
+                            handleSearch={() => {
+                                setSearchValue(searchValue);
+                                setFetchStatusQuestion(true);
+                            }}
+                            searchFormValue={searchValue}
+                            handleOnChange={(e) => setSearchValue(e.target.value)}
+                            handleReset={() => {
+                                setSearchValue("");
+                                fetchDataQuestion("");
+                            }}
+                        />
                     </Col>
                 </Row>
                 <Row>

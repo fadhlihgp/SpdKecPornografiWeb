@@ -84,7 +84,7 @@ namespace SpdKecPornografiWeb.Migrations
                         new
                         {
                             Id = "d941614b-4e34-42cc-bf68-f2f599c3cf85",
-                            CreatedAt = new DateTime(2023, 12, 30, 9, 15, 16, 443, DateTimeKind.Local).AddTicks(8104),
+                            CreatedAt = new DateTime(2024, 1, 3, 8, 21, 40, 470, DateTimeKind.Local).AddTicks(2115),
                             Email = "superadmin@email.com",
                             Fullname = "Super Admin",
                             IsActive = true,
@@ -97,7 +97,7 @@ namespace SpdKecPornografiWeb.Migrations
                         new
                         {
                             Id = "1134636b-08cd-4306-85d9-3f9176befa77",
-                            CreatedAt = new DateTime(2023, 12, 30, 9, 15, 16, 443, DateTimeKind.Local).AddTicks(8107),
+                            CreatedAt = new DateTime(2024, 1, 3, 8, 21, 40, 470, DateTimeKind.Local).AddTicks(2119),
                             Email = "admin@email.com",
                             Fullname = "Admin",
                             IsActive = true,
@@ -168,6 +168,12 @@ namespace SpdKecPornografiWeb.Migrations
                     b.Property<string>("DiagnosisId")
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AnswerId");
@@ -175,6 +181,8 @@ namespace SpdKecPornografiWeb.Migrations
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("DiagnosisId");
+
+                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Answer_Diagnosis");
                 });
@@ -338,7 +346,7 @@ namespace SpdKecPornografiWeb.Migrations
                         .HasForeignKey("CreatedById");
 
                     b.HasOne("SpdKecPornografiWeb.Models.Question", "Question")
-                        .WithMany()
+                        .WithMany("Answers")
                         .HasForeignKey("QuestionId");
 
                     b.HasOne("SpdKecPornografiWeb.Models.Account", "UpdatedBy")
@@ -366,11 +374,17 @@ namespace SpdKecPornografiWeb.Migrations
                         .WithMany()
                         .HasForeignKey("DiagnosisId");
 
+                    b.HasOne("SpdKecPornografiWeb.Models.Account", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
                     b.Navigation("Answer");
 
                     b.Navigation("CreatedBy");
 
                     b.Navigation("Diagnosis");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("SpdKecPornografiWeb.Models.Diagnosis", b =>
@@ -420,6 +434,11 @@ namespace SpdKecPornografiWeb.Migrations
                     b.Navigation("Account");
 
                     b.Navigation("Diagnosis");
+                });
+
+            modelBuilder.Entity("SpdKecPornografiWeb.Models.Question", b =>
+                {
+                    b.Navigation("Answers");
                 });
 #pragma warning restore 612, 618
         }
