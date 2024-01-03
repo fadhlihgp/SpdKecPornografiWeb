@@ -1,6 +1,6 @@
 ﻿import {Button, Input} from "reactstrap";
 
-const SearchAddBtn = ({handleAdd, handleSearch, handleOnChange, handleReset, searchFormValue}) => {
+const SearchAddBtn = ({handleAdd, handleSearch, handleOnChange, handleReset, searchFormValue, placeholder = ""}) => {
     return(
         <div className={"d-flex flex-column gap-2 align-items-end"}>
             <Button 
@@ -14,7 +14,7 @@ const SearchAddBtn = ({handleAdd, handleSearch, handleOnChange, handleReset, sea
                 <Input
                     id="search"
                     name="search"
-                    placeholder="search"
+                    placeholder={placeholder}
                     type="text"
                     value={searchFormValue}
                     onChange={handleOnChange}

@@ -66,6 +66,28 @@ public class AnswerService : IAnswerService
             Id = a.Id,
             QuestionCode = a.Question?.QuestionCode,
             QuestionName = a.Question?.Name,
+            QuestionId = a.QuestionId,
+            AnswerCode = a.AnswerCode,
+            AnswerName = a.Name,
+            CreatedAt = a.CreatedAt,
+            UpdatedAt = a.UpdatedAt,
+            UpdatedBy = a.UpdatedBy?.Fullname,
+            CreatedBy = a.CreatedBy?.Fullname
+        }).ToList();
+        return responses;
+    }
+
+    public async Task<IEnumerable<AnswerResponseDto>> FindAnswersByQuestionId(string questionId)
+    {
+        var answers = await _answerRepository.FindAll(
+                a => a.QuestionId.Equals(questionId),
+                new[] { "Question", "CreatedBy", "UpdatedBy" });
+            
+        var responses = answers.Select(a => new AnswerResponseDto
+        {
+            Id = a.Id,
+            QuestionCode = a.Question?.QuestionCode,
+            QuestionName = a.Question?.Name,
             AnswerCode = a.AnswerCode,
             AnswerName = a.Name,
             CreatedAt = a.CreatedAt,

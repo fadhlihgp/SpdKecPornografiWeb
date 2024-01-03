@@ -9,7 +9,7 @@ import {
     MDBModalTitle
 } from "mdb-react-ui-kit";
 import {Button, Col, Form, FormGroup, Input, Label} from "reactstrap";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {GlobalContext} from "../../../context/GlobalContext";
 import {FormSelect} from "react-bootstrap";
 

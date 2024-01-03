@@ -49,6 +49,17 @@ public class AnswerController : ControllerBase
             data = answer
         });
     }
+
+    [HttpGet("questionId/{questionId}")]
+    public async Task<IActionResult> FindAnswerByQuestionId([FromRoute] string questionId)
+    {
+        var answers = await _answerService.FindAnswersByQuestionId(questionId);
+        return Ok(new
+        {
+            message = "Berhasil mendapatkan data jawaban",
+            data = answers
+        });
+    }
     
     [HttpPut("{answerId}")]
     public async Task<IActionResult> UpdateAnswer([FromRoute] string answerId,

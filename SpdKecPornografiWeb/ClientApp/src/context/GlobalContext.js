@@ -42,6 +42,7 @@ const GlobalProvider = ({children}) => {
     const [answerDiagnosisInput, setAnswerDiagnosisInput] = useState({answerId: "", diagnosisId: ""});
     const [answerDiagnosisId, setAnswerDiagnosisId] = useState("-1");
     const [answerDiagnosisList, setAnswerDiagnosisList] = useState(null);
+    const [answerDiagnosisDetail, setAnswerDiagnosisDetail] = useState(null);
     const [fetchStatusAnswerDiagnosis, setFetchStatusAnswerDiagnosis] = useState(true);
     
     const menuBaseRole = (roleId) => {
@@ -264,6 +265,7 @@ const GlobalProvider = ({children}) => {
         }).then(({data}) => {
             setAnswerId(answerId);
             setAnswerDetail({...answerDetail,
+                id: data.data.id,
                 answerCode: data.data.answerCode,
                 questionCode: data.data.questionCode,
                 questionName: data.data.questionName,
@@ -457,9 +459,11 @@ const GlobalProvider = ({children}) => {
     
     const fetchDataDetailAnswerDiagnosis = (answerDiagnosisId) => {
         axios.get(`api/answerDiagnosis/${answerDiagnosisId}`, {
-            headers: { Authorization: `Bearer ${Cookies.get}`}
+            headers: { Authorization: `Bearer ${Cookies.get("token")}`}
         }).then(({data}) => {
-            
+            setAnswerDiagnosisId(answerDiagnosisId);
+            setAnswerDiagnosisInput({...answerDiagnosisInput, answerId: data.data.answerId, diagnosisId: data.data.diagnosisId, questionId: data.data.questionId});
+            setAnswerDiagnosisDetail({...answerDiagnosisDetail, answerName: data.data.answerName, diagnosisName: data.data.diagnosisName, questionName: data.data.questionName});
         }).catch((error) => {
             console.log(error);
             alert(!error.response.data.message ? error : error.response.data.message);
@@ -483,7 +487,8 @@ const GlobalProvider = ({children}) => {
         diagnosisInput, setDiagnosisInput, diagnosisList, setDiagnosisList, diagnosisId, setDiagnosisId,
         diagnosisDetail, setDiagnosisDetail, fetchStatusDiagnosis, setFetchStatusDiagnosis, showDiagnosisForm, setShowDiagnosisForm,
         answerDiagnosisInput, setAnswerDiagnosisInput, answerDiagnosisList, setAnswerDiagnosisList,
-        fetchStatusAnswerDiagnosis, setFetchStatusAnswerDiagnosis, answerDiagnosisId, setAnswerDiagnosisId
+        fetchStatusAnswerDiagnosis, setFetchStatusAnswerDiagnosis, answerDiagnosisId, setAnswerDiagnosisId,
+        answerDiagnosisDetail, setAnswerDiagnosisDetail
     }
     
     const handleFunctionContext = {

@@ -27,6 +27,7 @@ public class AnswerDiagnosisService : IAnswerDiagnosisService
                 AnswerId = answerDiagnosisRequestDto.AnswerId,
                 DiagnosisId = answerDiagnosisRequestDto.DiagnosisId,
                 CreatedById = accountId,
+                UpdatedById = accountId
             };
             return await _answerDiagnosisRepository.Save(saveTrx);
         });

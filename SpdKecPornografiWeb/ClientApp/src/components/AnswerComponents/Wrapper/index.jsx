@@ -112,6 +112,7 @@ const AnswerWrapper = () => {
                             searchFormValue={searchValue}
                             handleOnChange={(e) => setSearchValue(e.target.value) } 
                             handleAdd={handleAdd}
+                            placeholder={"Cari kode, nama"}
                             handleReset={handleReset} />
                     </Col>
                 </Row>
@@ -123,7 +124,7 @@ const AnswerWrapper = () => {
                                 <th>No</th>
                                 <th>Kode Pertanyaan</th>
                                 <th>Kode Jawaban</th>
-                                <th>Pertanyaan</th>
+                                <th>Jawaban</th>
                                 <th>Action</th>
                             </tr>
                             </thead>

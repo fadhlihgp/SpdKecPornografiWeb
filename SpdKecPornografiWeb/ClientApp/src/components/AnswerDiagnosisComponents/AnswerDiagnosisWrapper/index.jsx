@@ -22,8 +22,11 @@ const paths = [
 ]
 const AnswerDiagnosisWrapper = () => {
     const { stateContext, handleFunctionContext } = useContext(GlobalContext);
-    const { answerDiagnosisList, fetchStatusAnswerDiagnosis, answerDiagnosisId, setAnswerDiagnosisId, answerDiagnosisInput,setFetchStatusAnswerDiagnosis, setAnswerDiagnosisInput, setFetchStatusQuestion, fetchStatusQuestion, setAnswerDiagnosisDetail , answerDiagnosisDetail} = stateContext;
-    const { fetchDataAnswerDiagnosis, handleAnswerDiagnosisDetail, fetchGenerateAnswerDiagnosisCode, handleDeleteAnswerDiagnosis, handleAnswerDiagnosisEdit, fetchDataQuestion } = handleFunctionContext;
+    const { answerDiagnosisList, fetchStatusAnswerDiagnosis, answerDiagnosisId, setAnswerDiagnosisId, answerDiagnosisInput,
+        setFetchStatusAnswerDiagnosis, setAnswerDiagnosisInput, setFetchStatusQuestion, fetchStatusQuestion, 
+        setAnswerDiagnosisDetail , answerDiagnosisDetail, setFetchStatusDiagnosis, setFetchStatusAnswer} = stateContext;
+    const { fetchDataAnswerDiagnosis, handleAnswerDiagnosisDetail, fetchGenerateAnswerDiagnosisCode, 
+        handleDeleteAnswerDiagnosis, fetchDataQuestion, fetchDataDetailAnswerDiagnosis } = handleFunctionContext;
 
     const [showDelete, setShowDelete] = useState(false);
     const [ showAnswerDiagnosisForm, setShowAnswerDiagnosisForm ] = useState(false);
@@ -40,6 +43,8 @@ const AnswerDiagnosisWrapper = () => {
 
     const handleAdd = () => {
         setFetchStatusQuestion(true);
+        setFetchStatusAnswer(true);
+        setFetchStatusDiagnosis(true);
         setAnswerDiagnosisId("-1");
         // fetchGenerateAnswerDiagnosisCode();
         setShowAnswerDiagnosisForm(true);
@@ -50,8 +55,8 @@ const AnswerDiagnosisWrapper = () => {
     // }
 
     const handleClose = () => {
-        // setAnswerDiagnosisId("-1");
-        // setAnswerDiagnosisInput({...answerDiagnosisInput, answerId: "", diagnosisId: ""})
+        setAnswerDiagnosisId("-1");
+        setAnswerDiagnosisInput({...answerDiagnosisInput, answerId: "", diagnosisId: "", questionId: ""})
         setShowAnswerDiagnosisForm(false);
     }
 
@@ -61,7 +66,8 @@ const AnswerDiagnosisWrapper = () => {
     }
 
     const handleShowEdit = (id) => {
-        handleAnswerDiagnosisEdit(id);
+        fetchDataDetailAnswerDiagnosis(id);
+        // console.log(answerDiagnosisDetail);
         setShowAnswerDiagnosisForm(true);
     }
 
@@ -76,11 +82,11 @@ const AnswerDiagnosisWrapper = () => {
 
     const handleSearch = () => {
         setSearchValue(`${searchValue}`)
-        // fetchDataAnswerDiagnosis(`?answerName=${searchValue}`);
+        fetchDataAnswerDiagnosis(`?code=${searchValue}`);
         setFetchStatusAnswerDiagnosis(true)
         // console.log(answerList)
     }
-
+    
     const handleReset = () => {
         setSearchValue("")
         fetchDataAnswerDiagnosis("");
@@ -105,6 +111,7 @@ const AnswerDiagnosisWrapper = () => {
                         <SearchAddBtn
                             handleSearch={handleSearch}
                             searchFormValue={searchValue}
+                            placeholder="Cari kode"
                             handleOnChange={(e) => setSearchValue(e.target.value) }
                             handleAdd={handleAdd}
                             handleReset={handleReset} />

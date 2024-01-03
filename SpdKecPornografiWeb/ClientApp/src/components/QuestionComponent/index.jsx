@@ -28,9 +28,9 @@ const paths = [
 ]
 const QuestionWrapper = () => {
     const { stateContext, handleFunctionContext } = useContext(GlobalContext);
-    const { questionList, fetchStatusQuestion, setFetchStatusQuestion, questionId, setQuestionId, questionInput, setQuestionInput, questionDetail, setQuestionDetail, setShowQuestionForm,
+    const { questionList, fetchStatusQuestion, setFetchStatusQuestion, questionId, setQuestionId, questionInput, setQuestionInput, setShowQuestionForm,
         showQuestionForm } = stateContext;
-    const { fetchDataQuestion, handleQuestionDetail, fetchGenerateQuestionCode, handleDeleteQuestion, fetchDataDetailQuestion, handleQuestionEdit } = handleFunctionContext;
+    const { fetchDataQuestion, handleQuestionDetail, fetchGenerateQuestionCode, handleDeleteQuestion, handleQuestionEdit } = handleFunctionContext;
     
     const [showDelete, setShowDelete] = useState(false);
     const [searchValue, setSearchValue] = useState("");
@@ -97,6 +97,7 @@ const QuestionWrapper = () => {
                             }}
                             searchFormValue={searchValue}
                             handleOnChange={(e) => setSearchValue(e.target.value)}
+                            placeholder={"Cari kode, nama"}
                             handleReset={() => {
                                 setSearchValue("");
                                 fetchDataQuestion("");
