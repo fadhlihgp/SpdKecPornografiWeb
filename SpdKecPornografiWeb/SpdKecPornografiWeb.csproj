@@ -44,6 +44,7 @@
 
     <ItemGroup>
       <Folder Include="ClientApp\src\context\Auth\" />
+      <Folder Include="ClientApp\src\pages\AnswerDiagnosisDetail\" />
       <Folder Include="ClientApp\src\resources\" />
       <Folder Include="Helpers\" />
     </ItemGroup>

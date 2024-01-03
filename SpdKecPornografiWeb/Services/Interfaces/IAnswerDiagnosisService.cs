@@ -13,6 +13,7 @@ public interface IAnswerDiagnosisService
     public Task<IEnumerable<AnswerDiagnosisResponseDto>> FindAllAnswerDiagnosisAsync(string? code = "");
     public Task<AnswerDiagnosis> FindAnswerDiagnosisByIdItself(string answerId, string diagnosisId);
     public Task<AnswerDiagnosisResponseDto> FindAnswerDiagnosisById(string answerDiagnosisId);
+    public Task DeleteAnswerDiagnosisById(string answerDiagnosisId);
     public Task DeleteAnswerDiagnosisByAnswerId(string answerId);
     public Task DeleteAnswerDiagnosisByDiagnosisId(string diagnosisId);
 }

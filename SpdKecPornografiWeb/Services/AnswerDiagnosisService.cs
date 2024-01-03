@@ -98,22 +98,30 @@ public class AnswerDiagnosisService : IAnswerDiagnosisService
         };
     }
 
+    public async Task DeleteAnswerDiagnosisById(string answerDiagnosisId)
+    {
+        var findById = await _answerDiagnosisRepository.FindById(answerDiagnosisId);
+        if (findById == null) throw new NotFoundException("Data relasi tidak ditemukan");
+        _answerDiagnosisRepository.Delete(findById);
+        await _persistence.SaveChangesAsync();
+    }
+
     public async Task DeleteAnswerDiagnosisByAnswerId(string answerId)
     {
-        var findByAnswerId = await _answerDiagnosisRepository.Find(ad => ad.AnswerId.Equals(answerId));
-        if (findByAnswerId != null)
+        var findByAnswerId = await _answerDiagnosisRepository.FindAll(ad => ad.AnswerId.Equals(answerId));
+        if (findByAnswerId.Count() > 0)
         {
-            _answerDiagnosisRepository.Delete(findByAnswerId);
+            _answerDiagnosisRepository.DeleteAll(findByAnswerId);
             await _persistence.SaveChangesAsync();
         }
     }
 
     public async Task DeleteAnswerDiagnosisByDiagnosisId(string diagnosisId)
     {
-        var findByDiagnosisId = await _answerDiagnosisRepository.Find(ad => ad.DiagnosisId.Equals(diagnosisId));
-        if (findByDiagnosisId != null)
+        var findByDiagnosisId = await _answerDiagnosisRepository.FindAll(ad => ad.DiagnosisId.Equals(diagnosisId));
+        if (findByDiagnosisId.Count() > 0)
         {
-            _answerDiagnosisRepository.Delete(findByDiagnosisId);
+            _answerDiagnosisRepository.DeleteAll(findByDiagnosisId);
             await _persistence.SaveChangesAsync();
         }
     }

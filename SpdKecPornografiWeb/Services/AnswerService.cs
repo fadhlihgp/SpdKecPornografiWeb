@@ -9,12 +9,14 @@ namespace SpdKecPornografiWeb.Services;
 public class AnswerService : IAnswerService
 {
     private readonly IRepository<Answer> _answerRepository;
+    private readonly IAnswerDiagnosisService _answerDiagnosisService;
     private readonly IPersistence _persistence; 
 
-    public AnswerService(IRepository<Answer> answerRepository, IPersistence persistence)
+    public AnswerService(IRepository<Answer> answerRepository, IPersistence persistence, IAnswerDiagnosisService answerDiagnosisService)
     {
         _answerRepository = answerRepository;
         _persistence = persistence;
+        _answerDiagnosisService = answerDiagnosisService;
     }
 
     public async Task AddAnswerAsync(string accountId, AnswerRequestDto answerRequestDto)
@@ -87,13 +89,21 @@ public class AnswerService : IAnswerService
     public async Task DeleteAnswer(string answerId)
     {
         var answer = await FindAnswerAsync(answerId);
-        _answerRepository.Delete(answer);
-        await _persistence.SaveChangesAsync();
+        await _persistence.ExecuteTransaction(async () =>
+        {
+            _answerRepository.Delete(answer);
+            await _answerDiagnosisService.DeleteAnswerDiagnosisByAnswerId(answerId);
+            return answer;
+        });
     }
 
     public async Task DeleteAnswerByQuestionId(string questionId)
     {
         var answers = await _answerRepository.FindAll(a => a.QuestionId.Equals(questionId));
+        foreach (var answer in answers)
+        {
+            await _answerDiagnosisService.DeleteAnswerDiagnosisByAnswerId(answer.Id);
+        }
         _answerRepository.DeleteAll(answers);
         // await _persistence.SaveChangesAsync();
     }

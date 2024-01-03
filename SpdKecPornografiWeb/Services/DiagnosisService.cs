@@ -9,12 +9,14 @@ namespace SpdKecPornografiWeb.Services;
 public class DiagnosisService : IDiagnosisService
 {
     private readonly IRepository<Diagnosis> _diagnosisRepository;
+    private readonly IAnswerDiagnosisService _answerDiagnosticService;
     private readonly IPersistence _persistence;
 
-    public DiagnosisService(IRepository<Diagnosis> diagnosisRepository, IPersistence persistence)
+    public DiagnosisService(IRepository<Diagnosis> diagnosisRepository, IPersistence persistence, IAnswerDiagnosisService answerDiagnosticService)
     {
         _diagnosisRepository = diagnosisRepository;
         _persistence = persistence;
+        _answerDiagnosticService = answerDiagnosticService;
     }
 
     public async Task AddDiagnosisAsync(string accountId, DiagnosisRequestDto diagnosisRequestDto)
@@ -90,8 +92,12 @@ public class DiagnosisService : IDiagnosisService
         findDiagnosis.IsDeleted = true;
         findDiagnosis.UpdatedAt = DateTime.Now;
         findDiagnosis.UpdatedById = accountId;
-        _diagnosisRepository.Update(findDiagnosis);
-        await _persistence.SaveChangesAsync();
+        await _persistence.ExecuteTransaction(async () =>
+        {
+            _diagnosisRepository.Update(findDiagnosis);
+            await _answerDiagnosticService.DeleteAnswerDiagnosisByDiagnosisId(diagnosisId);
+            return findDiagnosis;
+        });
     }
 
     public string GenerateDiagnosisCode()

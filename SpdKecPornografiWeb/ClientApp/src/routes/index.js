@@ -16,6 +16,7 @@ import Answer from "../pages/Answer";
 import AnswerDetail from "../pages/AnswerDetail";
 import Diagnosis from "../pages/Diagnosis";
 import DiagnosisDetail from "../pages/DiagnosisDetail";
+import AnswerDiagnosis from "../pages/AnswerDiagnosis";
 
 const RouterApp = () => {
     return (
@@ -91,6 +92,13 @@ const RouterApp = () => {
                                 <DiagnosisDetail />
                             </AuthRoute>}
                         />
+                        <Route
+                            path={"/relation"}
+                            element={<AuthRoute>
+                                <AnswerDiagnosis />
+                            </AuthRoute>}
+                        />
+                        
                     </Routes>
                 </GlobalProvider>
             </React.Fragment>
