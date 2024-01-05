@@ -10,8 +10,8 @@ public class AnswerDiagnosisResponseDto
 {
     public string Id { get; set; }
     public string? DiagnosisId { get; set; }
-    public string DiagnosisCode { get; set; }
-    public string DiagnosisName { get; set; }
+    public string? DiagnosisCode { get; set; }
+    public string? DiagnosisName { get; set; }
     public string? DiagnosisDescription { get; set; }
     public string? DiagnosisSuggestion { get; set; }
     public string QuestionId { get; set;}

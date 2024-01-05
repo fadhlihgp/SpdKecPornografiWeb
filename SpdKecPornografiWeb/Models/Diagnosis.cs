@@ -18,5 +18,4 @@ public class Diagnosis
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
     public string? UpdatedById { get; set; }
     [ForeignKey("UpdatedById")] public virtual Account? UpdatedBy { get; set; }
-    public virtual AnswerDiagnosis? AnswerDiagnoses { get; set; }
 }

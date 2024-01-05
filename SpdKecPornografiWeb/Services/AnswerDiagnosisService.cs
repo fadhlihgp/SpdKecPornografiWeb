@@ -59,8 +59,8 @@ public class AnswerDiagnosisService : IAnswerDiagnosisService
         {
             Id = ad.Id,
             DiagnosisId = ad.DiagnosisId,
-            DiagnosisCode = ad.Diagnosis.Code,
-            DiagnosisName = ad.Diagnosis.Name,
+            DiagnosisCode = ad.Diagnosis?.Code,
+            DiagnosisName = ad.Diagnosis?.Name,
             QuestionId = ad.Answer.QuestionId,
             QuestionCode = ad.Answer.Question.QuestionCode,
             QuestionName = ad.Answer.Question.Name,

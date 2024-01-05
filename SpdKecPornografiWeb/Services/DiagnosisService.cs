@@ -110,21 +110,21 @@ public class DiagnosisService : IDiagnosisService
 
     public async Task<DiagnosisResponseDto> FindDiagnosisByAnswerIds(List<string> answerIds)
     {
-        var diagnosis = await _diagnosisRepository.Find(j =>
-            answerIds.Contains(j.AnswerDiagnoses.AnswerId), new[] { "CreatedBy", "UpdatedBy" });
-        if (diagnosis == null) throw new NotFoundException("Diagnosa tidak ditemukan");
-        return new DiagnosisResponseDto
-        {
-            Id = diagnosis.Id,
-            DiagnosisName = diagnosis.Name,
-            DiagnosisCode = diagnosis.Code,
-            DiagnosisDescription = diagnosis.Description,
-            DiagnosisSuggestion = diagnosis.Suggestion,
-            CreatedAt = diagnosis.CreatedAt,
-            CreatedBy = diagnosis.CreatedBy.Fullname,
-            UpdatedAt = diagnosis.UpdatedAt,
-            UpdatedBy = diagnosis.UpdatedBy.Fullname
-        };
+        throw new NotImplementedException();
+        // var diagnosis = await _diagnosisRepository.Find( new[] { "CreatedBy", "UpdatedBy" });
+        // if (diagnosis == null) throw new NotFoundException("Diagnosa tidak ditemukan");
+        // return new DiagnosisResponseDto
+        // {
+        //     Id = diagnosis.Id,
+        //     DiagnosisName = diagnosis.Name,
+        //     DiagnosisCode = diagnosis.Code,
+        //     DiagnosisDescription = diagnosis.Description,
+        //     DiagnosisSuggestion = diagnosis.Suggestion,
+        //     CreatedAt = diagnosis.CreatedAt,
+        //     CreatedBy = diagnosis.CreatedBy.Fullname,
+        //     UpdatedAt = diagnosis.UpdatedAt,
+        //     UpdatedBy = diagnosis.UpdatedBy.Fullname
+        // };
     }
 
     private async Task<Diagnosis> FindDiagnosisByIdValidate(string diagnosisId)

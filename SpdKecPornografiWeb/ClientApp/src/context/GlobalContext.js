@@ -13,6 +13,7 @@ const GlobalProvider = ({children}) => {
     const [fetchStatus, setFetchStatus] = useState(true);
     const [sidebarMenu, setSidebarMenu] = useState(null);
     const [showQuestionForm, setShowQuestionForm] = useState(false);
+    const [roleId, setRoleId] = useState(null);
     
     // Question
     const [questionId, setQuestionId] = useState("-1");
@@ -69,6 +70,7 @@ const GlobalProvider = ({children}) => {
             }).then(({data})=> {
                 const resultData = data.data;
                 // console.log(resultData);
+                setRoleId(resultData.roleId);
                 setCurrentUser(resultData);
                 menuBaseRole(resultData.roleId);
                 // console.log(sidebarMenu);
@@ -494,6 +496,7 @@ const GlobalProvider = ({children}) => {
     
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     const stateContext = {
+        roleId, setRoleId,
         currentUser, setCurrentUser, fetchStatus, setFetchStatus, sidebarMenu, setSidebarMenu, 
         questionId, setQuestionId, questionInput, setQuestionInput, questionCode, setQuestionCode,
         questionList, setQuestionList, questionDetail, setQuestionDetail, fetchStatusQuestion, setFetchStatusQuestion,
