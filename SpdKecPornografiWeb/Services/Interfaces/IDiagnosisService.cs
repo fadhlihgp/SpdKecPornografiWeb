@@ -10,4 +10,5 @@ public interface IDiagnosisService
     public Task UpdateDiagnosisAsync(string accountId, string diagnosisId, DiagnosisRequestDto diagnosisResponseDto);
     public Task DeleteDiagnosis(string accountId, string diagnosisId);
     public string GenerateDiagnosisCode();
+    public Task<DiagnosisResponseDto> FindDiagnosisByAnswerIds(List<string> answerIds);
 }

@@ -76,7 +76,15 @@ public class QuestionService : IQuestionService
                 CreatedAt = question.CreatedAt,
                 CreatedBy = question.CreatedBy?.Fullname,
                 UpdatedAt = question.UpdatedAt,
-                UpdatedBy = question.UpdatedBy?.Fullname
+                UpdatedBy = question.UpdatedBy?.Fullname,
+                Answers = question.Answers?.Select(answer => new AnswerResponseDto
+                {
+                    Id = answer.Id,
+                    AnswerCode = answer.AnswerCode,
+                    AnswerName = answer.Name,
+                    CreatedAt = answer.CreatedAt,
+                    UpdatedAt = answer.UpdatedAt,
+                })
             }).ToList();
             return responses;
         }

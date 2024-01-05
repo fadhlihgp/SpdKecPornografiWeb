@@ -18,6 +18,7 @@ import Diagnosis from "../pages/Diagnosis";
 import DiagnosisDetail from "../pages/DiagnosisDetail";
 import AnswerDiagnosis from "../pages/AnswerDiagnosis";
 import AnswerDiagnosisDetail from "../pages/AnswerDiagnosisDetail";
+import Testing from "../pages/Testing";
 
 const RouterApp = () => {
     return (
@@ -103,6 +104,12 @@ const RouterApp = () => {
                             path={"/relation/:answerDiagnosisID"}
                             element={<AuthRoute>
                                 <AnswerDiagnosisDetail />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/testing"}
+                            element={<AuthRoute>
+                                <Testing />
                             </AuthRoute>}
                         />
                     </Routes>

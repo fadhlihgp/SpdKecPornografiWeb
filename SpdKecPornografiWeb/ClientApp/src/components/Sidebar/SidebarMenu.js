@@ -66,7 +66,7 @@ export const superAdminMenu = [
             {
                 name: "Pengujian",
                 icon: testingIcon,
-                link: "/question"
+                link: "/testing"
             },
             {
                 name: "Riwayat Pengujian",
@@ -134,7 +134,7 @@ export const adminMenu = [
             {
                 name: "Pengujian",
                 icon: testingIcon,
-                link: "/question"
+                link: "/testing"
             },
             {
                 name: "Riwayat Pengujian",
@@ -172,7 +172,7 @@ export const userMenu = [
             {
                 name: "Pengujian",
                 icon: testingIcon,
-                link: "/question"
+                link: "/testing"
             },
             {
                 name: "Riwayat Pengujian",

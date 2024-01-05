@@ -77,4 +77,14 @@ public class DiagnosisController : ControllerBase
             data = _diagnosisService.GenerateDiagnosisCode()
         }));
     }
+
+    [HttpGet("transactionee")]
+    public async Task<IActionResult> TransactionRelation([FromBody] TrDto answerIds)
+    {
+        return Ok(new
+        {
+            message = "Berhasil mendapatkan data diagnosa",
+            data = await _diagnosisService.FindDiagnosisByAnswerIds(answerIds.AnswerIds)
+        });
+    }
 }

@@ -17,5 +17,5 @@ public class QuestionResponseDto
     public string? CreatedBy { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public string? UpdatedBy { get; set; }
-    public ICollection<AnswerResponseDto>? Answers { get; set; }
+    public IEnumerable<AnswerResponseDto>? Answers { get; set; }
 }
