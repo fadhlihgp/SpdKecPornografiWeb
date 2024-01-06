@@ -19,6 +19,9 @@ import DiagnosisDetail from "../pages/DiagnosisDetail";
 import AnswerDiagnosis from "../pages/AnswerDiagnosis";
 import AnswerDiagnosisDetail from "../pages/AnswerDiagnosisDetail";
 import Testing from "../pages/Testing";
+import TestingDetail from "../pages/TestingDetail";
+import TestingHistory from "../pages/TestingHistory";
+import TestingDetailHistory from "../pages/TestingDetailHistory";
 
 const RouterApp = () => {
     return (
@@ -110,6 +113,24 @@ const RouterApp = () => {
                             path={"/testing"}
                             element={<AuthRoute>
                                 <Testing />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/testing/:id"}
+                            element={<AuthRoute>
+                                <TestingDetail />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/testing/history"}
+                            element={<AuthRoute>
+                                <TestingHistory />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/testing/history/:id"}
+                            element={<AuthRoute>
+                                <TestingDetailHistory />
                             </AuthRoute>}
                         />
                     </Routes>

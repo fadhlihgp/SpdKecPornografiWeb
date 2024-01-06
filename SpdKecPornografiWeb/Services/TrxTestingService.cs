@@ -1,4 +1,5 @@
-﻿using SpdKecPornografiWeb.Repositories.Interfaces;
+﻿using SpdKecPornografiWeb.Exceptions;
+using SpdKecPornografiWeb.Repositories.Interfaces;
 using SpdKecPornografiWeb.Services.Interfaces;
 using SpdKecPornografiWeb.ViewModels;
 
@@ -13,8 +14,17 @@ public class TrxTestingService : ITrxTestingService
         _trxTestingRepository = trxTestingRepository;
     }
 
-    public Task<DiagnosisResponseDto> GetDiagnosisByAnswerIds(List<string> answerIds)
+    public DiagnosisResponseDto GetDiagnosisByAnswerIds(List<string> answerIds)
     {
-        throw new NotImplementedException();
+        var findByAnswerIds = _trxTestingRepository.FindDiagnosisByAnswerIds(answerIds);
+        if (findByAnswerIds == null) throw new NotFoundException("Maaf, data diagnosa tidak ditemukan");
+        return new DiagnosisResponseDto
+        {
+            Id = findByAnswerIds.Id,
+            DiagnosisName = findByAnswerIds.Name,
+            DiagnosisCode = findByAnswerIds.Code,
+            DiagnosisDescription = findByAnswerIds.Description,
+            DiagnosisSuggestion = findByAnswerIds.Suggestion
+        };
     }
 }

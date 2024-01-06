@@ -105,7 +105,7 @@ public class Repository<T> : IRepository<T> where T : class
 
         if (sortBy != null)
         {
-            result = result.OrderBy(sortBy);
+            result = result.OrderByDescending(sortBy);
         }
         
         return await result.Where(criteria).ToListAsync();

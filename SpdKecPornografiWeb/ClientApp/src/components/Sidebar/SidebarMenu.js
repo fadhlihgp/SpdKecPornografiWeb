@@ -71,7 +71,7 @@ export const superAdminMenu = [
             {
                 name: "Riwayat Pengujian",
                 icon: testingHistoryIcon,
-                link: "/answer"
+                link: "/testing/history"
             }
         ]
     },
@@ -139,7 +139,7 @@ export const adminMenu = [
             {
                 name: "Riwayat Pengujian",
                 icon: testingHistoryIcon,
-                link: "/answer"
+                link: "/testing/history"
             }
         ]
     },
@@ -177,7 +177,7 @@ export const userMenu = [
             {
                 name: "Riwayat Pengujian",
                 icon: testingHistoryIcon,
-                link: "/answer"
+                link: "/testing/history"
             }
         ]
     },

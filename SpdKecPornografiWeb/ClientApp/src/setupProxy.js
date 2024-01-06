@@ -11,6 +11,7 @@ const context = [
   "/api/answer",
   "/api/diagnosis",
   "api/answerDiagnosis",
+  "/api/testing",
   "/uploadPhoto"
 ];
 

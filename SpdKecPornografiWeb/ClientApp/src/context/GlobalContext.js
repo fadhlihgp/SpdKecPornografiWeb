@@ -7,7 +7,6 @@ import {useNavigate, useParams} from "react-router-dom";
 
 export const GlobalContext = createContext();
 const GlobalProvider = ({children}) => {
-    const { questionID } = useParams();
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState(null);
     const [fetchStatus, setFetchStatus] = useState(true);
@@ -46,6 +45,10 @@ const GlobalProvider = ({children}) => {
     const [answerDiagnosisDetail, setAnswerDiagnosisDetail] = useState(null);
     const [fetchStatusAnswerDiagnosis, setFetchStatusAnswerDiagnosis] = useState(true);
     const [answerListFilter, setAnswerListFilter] = useState(null);
+    
+    //Testing History
+    const [fetchStatusHistory, setFetchStatusHistory] = useState(true);
+    const [testingHistories, setTestingHistories] = useState(null);
     const menuBaseRole = (roleId) => {
         switch (roleId) {
             case "1": 
@@ -86,8 +89,22 @@ const GlobalProvider = ({children}) => {
         }
      }
      
-     // ##################### QUESTIONS ######################
-     const fetchGenerateQuestionCode = () => {
+    // ##################### TESTING HISTORY ###################
+    const fetchDataTestingHistory = (stringParam) => {
+        axios.get(`api/testing${stringParam}`, {
+            headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        }).then(({data}) => {
+            setTestingHistories(data.data);
+            setFetchStatusHistory(false);
+        }).catch((error) => {
+            alert(!error.response.data.message ? error : error.response.data.message);
+        })
+    }
+    
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    // ##################### QUESTIONS ######################
+    const fetchGenerateQuestionCode = () => {
         axios.get("api/question/generateCode", {
             headers: { Authorization: `Bearer ${Cookies.get("token")}`}
         }).then(({data}) => {
@@ -96,9 +113,9 @@ const GlobalProvider = ({children}) => {
             console.log(error);
             alert(error.response.data.message)
         })
-     }
-     
-     const handleSubmitQuestion = () => {
+    }
+
+    const handleSubmitQuestion = () => {
         if (questionId === "-1") {
             axios.post(`api/question`, questionInput, {
                 headers: { Authorization: `Bearer ${Cookies.get("token")}`}
@@ -137,21 +154,21 @@ const GlobalProvider = ({children}) => {
                 alert(!error.response.data.message ? error : error.response.data.message);
             })
         }
-     }
-     
-     const fetchDataQuestion = (stringParam = "") => {
-         axios.get(`api/question${stringParam}`, {
-             headers: { Authorization: `Bearer ${Cookies.get("token")}`}
-         }).then(({data}) => {
-             setQuestionList([...data.data])
-             setFetchStatusQuestion(false)
-         }).catch((error) => {
-             // console.log(error);
-             // alert(error.response.data.message)
-         })
-     }
-     
-     const fetchDataDetailQuestion = (questionId) => {
+    }
+
+    const fetchDataQuestion = (stringParam = "") => {
+        axios.get(`api/question${stringParam}`, {
+            headers: { Authorization: `Bearer ${Cookies.get("token")}`}
+        }).then(({data}) => {
+            setQuestionList([...data.data])
+            setFetchStatusQuestion(false)
+        }).catch((error) => {
+            // console.log(error);
+            // alert(error.response.data.message)
+        })
+    }
+
+    const fetchDataDetailQuestion = (questionId) => {
         // console.log(questionID)
         axios.get(`api/question/${questionId}`, {
             headers: { Authorization: `Bearer ${Cookies.get("token")}`}
@@ -178,9 +195,9 @@ const GlobalProvider = ({children}) => {
             // })
             alert(!error.response.data.message ? error : error.response.data.message);
         })
-     }
-     
-     const handleDeleteQuestion = (questionId) => {
+    }
+
+    const handleDeleteQuestion = (questionId) => {
         axios.delete(`api/question/${questionId}`, {
             headers: { Authorization: `Bearer ${Cookies.get("token")}` }
         }).then(({data}) => {
@@ -200,18 +217,18 @@ const GlobalProvider = ({children}) => {
             // })
             alert(!error.response.data.message ? error : error.response.data.message);
         })
-     }
-    
-     const handleQuestionEdit = (questionId) => {
+    }
+
+    const handleQuestionEdit = (questionId) => {
         fetchDataDetailQuestion(questionId);
-         setShowQuestionForm(true);
-     }
-     
-     const handleQuestionDetail = (questionId) => {
+        setShowQuestionForm(true);
+    }
+
+    const handleQuestionDetail = (questionId) => {
         fetchDataDetailQuestion(questionId)
         navigate(`/question/${questionId}`)
-     }
-     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    }
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
      
      // ################################# ANSWERS #################################
     const fetchGenerateAnswerCode = () => {
@@ -402,7 +419,7 @@ const GlobalProvider = ({children}) => {
         }).then(({data}) => {
             alert(data.message);
             setFetchStatusDiagnosis(true);
-            setDiagnosisId(true)
+            setDiagnosisId(diagnosisId)
         }).catch((error) => {
             console.log(error);
             alert(error.response.data.message)
@@ -493,7 +510,6 @@ const GlobalProvider = ({children}) => {
         navigate(`relation/${answerDiagnosisId}`);
     }
     
-    
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     const stateContext = {
         roleId, setRoleId,
@@ -507,7 +523,8 @@ const GlobalProvider = ({children}) => {
         diagnosisDetail, setDiagnosisDetail, fetchStatusDiagnosis, setFetchStatusDiagnosis, showDiagnosisForm, setShowDiagnosisForm,
         answerDiagnosisInput, setAnswerDiagnosisInput, answerDiagnosisList, setAnswerDiagnosisList,
         fetchStatusAnswerDiagnosis, setFetchStatusAnswerDiagnosis, answerDiagnosisId, setAnswerDiagnosisId,
-        answerDiagnosisDetail, setAnswerDiagnosisDetail, answerListFilter, setAnswerListFilter
+        answerDiagnosisDetail, setAnswerDiagnosisDetail, answerListFilter, setAnswerListFilter,
+        testingHistories, setTestingHistories, fetchStatusHistory, setFetchStatusHistory
     }
     
     const handleFunctionContext = {
@@ -518,7 +535,8 @@ const GlobalProvider = ({children}) => {
         fetchGenerateDiagnosisCode, fetchDataDiagnosis, fetchDataDetailDiagnosis, handleSubmitDiagnosis,
         handleDeleteDiagnosis, handleDiagnosisDetail,
         fetchDataAnswerDiagnosis, handleSubmitAnswerDiagnosis, handleAnswerDiagnosisDetail, fetchDataDetailAnswerDiagnosis,
-        handleDeleteAnswerDiagnosis
+        handleDeleteAnswerDiagnosis,
+        fetchDataTestingHistory
     }
     
     return (

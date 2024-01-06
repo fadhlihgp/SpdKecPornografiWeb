@@ -103,6 +103,7 @@ const DiagnosisWrapper = () => {
                             searchFormValue={searchValue}
                             handleReset={handleReset}
                             handleSearch={handleSearch}
+                            placeholder={"Cari kode, nama"}
                         />
                     </Col>
                 </Row>

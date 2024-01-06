@@ -31,6 +31,8 @@ builder.Services.AddTransient<IAnswerService, AnswerService>();
 builder.Services.AddTransient<IDiagnosisService, DiagnosisService>();
 builder.Services.AddTransient<IAnswerDiagnosisService, AnswerDiagnosisService>();
 builder.Services.AddTransient<ITrxTestingRepository, TrxTestingRepository>();
+builder.Services.AddTransient<ITrxTestingService, TrxTestingService>();
+builder.Services.AddTransient<IResultHistoryService, ResultHistoryService>();
 #endregion
 
 #region Middleware

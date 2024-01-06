@@ -13,6 +13,7 @@ import TitleBreadcrumb from "../../TitleBreadcrumb/index";
 import iconResources from "../../../helpers/listIcon";
 import AnswerForm from "../AnswerForm";
 import SpinnerLoading from "../../SpinnerLoading";
+import PaginationComponent from "../../PaginationComponent";
 
 const paths = [
     {
@@ -80,7 +81,6 @@ const AnswerWrapper = () => {
     
     const handleSearch = () => {
         setSearchValue(`${searchValue}`)
-        // fetchDataAnswer(`?answerName=${searchValue}`);
         setFetchStatusAnswer(true)
         // console.log(answerList)
     }
@@ -134,13 +134,13 @@ const AnswerWrapper = () => {
                             )}
                             {answerList &&
                                 answerList.map((item, index) => (
-                                        <tr key={item.id}>
-                                            <th scope="row">{index+1}</th>
-                                            <td>{item.questionCode}</td>
-                                            <td>{item.answerCode}</td>
-                                            <td>{(item.answerName.length <= 20) ? item.answerName : item.answerName.substring(0, 20) + "..."}</td>
-                                            <td>
-                                                <div className={"d-flex gap-2"}>
+                                    <tr key={item.id}>
+                                        <th scope="row">{index+1}</th>
+                                        <td>{item.questionCode}</td>
+                                        <td>{item.answerCode}</td>
+                                        <td>{(item.answerName.length <= 20) ? item.answerName : item.answerName.substring(0, 20) + "..."}</td>
+                                        <td>
+                                            <div className={"d-flex gap-2"}>
                                                     <Button
                                                         value={item.id}
                                                         color={"success"}
@@ -170,11 +170,12 @@ const AnswerWrapper = () => {
                                                     </Button>
                                                 </div>
                                             </td>
-                                        </tr>
+                                    </tr>
                                     )
                                 )}
                             </tbody>
                         </Table>
+                        {/*<PaginationComponent />*/}
                     </Col>
                 </Row>
             </Container>

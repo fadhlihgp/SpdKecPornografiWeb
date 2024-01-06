@@ -22,9 +22,8 @@ const paths = [
 const AnswerDiagnosisWrapper = () => {
     const { stateContext, handleFunctionContext } = useContext(GlobalContext);
     const { answerDiagnosisList, fetchStatusAnswerDiagnosis, answerDiagnosisId, setAnswerDiagnosisId, answerDiagnosisInput,
-        setFetchStatusAnswerDiagnosis, setAnswerDiagnosisInput, setFetchStatusQuestion, fetchStatusQuestion, 
-        setAnswerDiagnosisDetail , answerDiagnosisDetail, setFetchStatusDiagnosis, setFetchStatusAnswer, answerListFilter, 
-        setAnswerListFilter, answerList, questionInput} = stateContext;
+        setFetchStatusAnswerDiagnosis, setAnswerDiagnosisInput, setFetchStatusQuestion, fetchStatusQuestion,
+        setFetchStatusDiagnosis, setFetchStatusAnswer} = stateContext;
     const { fetchDataAnswerDiagnosis, handleAnswerDiagnosisDetail, fetchGenerateAnswerDiagnosisCode, 
         handleDeleteAnswerDiagnosis, fetchDataQuestion, fetchDataDetailAnswerDiagnosis } = handleFunctionContext;
 
@@ -49,10 +48,6 @@ const AnswerDiagnosisWrapper = () => {
         // fetchGenerateAnswerDiagnosisCode();
         setShowAnswerDiagnosisForm(true);
     }
-
-    // const handleShowEdit = (id) => {
-    //     handleQuestionEdit(id);
-    // }
 
     const handleClose = () => {
         setAnswerDiagnosisId("-1");
@@ -83,7 +78,6 @@ const AnswerDiagnosisWrapper = () => {
         setSearchValue(`${searchValue}`)
         fetchDataAnswerDiagnosis(`?code=${searchValue}`);
         setFetchStatusAnswerDiagnosis(true)
-        // console.log(answerList)
     }
     
     const handleReset = () => {

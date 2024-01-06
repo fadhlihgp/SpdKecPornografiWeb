@@ -51,7 +51,7 @@ public class AnswerDiagnosisService : IAnswerDiagnosisService
         var findAll = code == null ? await _answerDiagnosisRepository.FindAll(ad => !ad.Diagnosis.IsDeleted, 
             ad => ad.Diagnosis.Name,
             new[] { "Diagnosis", "Answer", "Answer.Question", "CreatedBy", "UpdatedBy" }) : 
-            await _answerDiagnosisRepository.FindAll(ad => !ad.Diagnosis.IsDeleted && (ad.Diagnosis.Code.Contains(code) || ad.Answer.AnswerCode.Contains(code) || ad.Answer.Question.QuestionCode.Contains(code)), 
+            await _answerDiagnosisRepository.FindAll(ad => !ad.Diagnosis.IsDeleted && (ad.Diagnosis.Code.ToLower().Contains(code.ToLower()) || ad.Answer.AnswerCode.ToLower().Contains(code.ToLower()) || ad.Answer.Question.QuestionCode.ToLower().Contains(code.ToLower())), 
                 ad => ad.Diagnosis.Name,
                 new[] { "Diagnosis", "Answer", "Answer.Question", "CreatedBy", "UpdatedBy" });
         
