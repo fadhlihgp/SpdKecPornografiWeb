@@ -1,9 +1,9 @@
 import React, {createContext, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {toast, ToastContainer} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import {adminMenu, superAdminMenu, userMenu} from "../components/Sidebar/SidebarMenu";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export const GlobalContext = createContext();
 const GlobalProvider = ({children}) => {
@@ -164,7 +164,7 @@ const GlobalProvider = ({children}) => {
             setFetchStatusQuestion(false)
         }).catch((error) => {
             // console.log(error);
-            // alert(error.response.data.message)
+            alert(error.response.data.message)
         })
     }
 

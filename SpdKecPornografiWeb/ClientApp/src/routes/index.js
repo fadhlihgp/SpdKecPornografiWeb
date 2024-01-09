@@ -71,7 +71,7 @@ const RouterApp = () => {
                             </AuthRoute>}
                         />
                         <Route 
-                            path={"/question/:questionID"}
+                            path={"/question/:id"}
                             element={<AuthRoute>
                                 <QuestionDetail />
                             </AuthRoute>}/>
@@ -81,7 +81,7 @@ const RouterApp = () => {
                                 <Answer />
                             </AuthRoute>}/>
                         <Route
-                            path={"/answer/:answerID"}
+                            path={"/answer/:id"}
                             element={<AuthRoute>
                                 <AnswerDetail />
                             </AuthRoute>}/>
@@ -92,7 +92,7 @@ const RouterApp = () => {
                             </AuthRoute>}
                         />
                         <Route
-                            path={"/diagnosis/:diagnosisID"}
+                            path={"/diagnosis/:id"}
                             element={<AuthRoute>
                                 <DiagnosisDetail />
                             </AuthRoute>}
@@ -104,7 +104,7 @@ const RouterApp = () => {
                             </AuthRoute>}
                         />
                         <Route
-                            path={"/relation/:answerDiagnosisID"}
+                            path={"/relation/:id"}
                             element={<AuthRoute>
                                 <AnswerDiagnosisDetail />
                             </AuthRoute>}

@@ -1,9 +1,11 @@
-import {useContext, useEffect} from "react";
-import {GlobalContext} from "../../../context/GlobalContext";
+import {useEffect, useState} from "react";
 import SpinnerLoading from "../../SpinnerLoading";
 import {Container} from "reactstrap";
 import TitleBreadcrumb from "../../TitleBreadcrumb";
 import moment from "moment/moment";
+import {useParams} from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const paths = [
     {
@@ -21,40 +23,53 @@ const paths = [
 ]
 
 const DiagnosisDetailWrapper = () => {
-    const { stateContext, handleFunctionContext } = useContext(GlobalContext);
-    const { diagnosisDetail } = stateContext;
+    const {id} = useParams();
+    const [data, setData] = useState(null);
 
-    // id: data.data.id,
-    //     diagnosisCode: data.data?.diagnosisCode,
-    //     diagnosisName: data.data?.diagnosisName,
-    //     diagnosisDescription: data.data?.diagnosisDescription,
-    //     diagnosisSuggestion: data.data?.diagnosisSuggestion,
-    //     createdAt: data.data?.createdAt,
-    //     createdBy: data.data?.createdBy,
-    //     updatedAt: data.data?.updatedAt,
-    //     updatedBy: data.data?.updatedBy
-
+    useEffect(() => {
+        if (id !== undefined) {
+            axios.get(`api/diagnosis/${id}`, {
+                headers: { Authorization: `Bearer ${Cookies.get("token")}`}
+            }).then(({data}) => {
+                console.log(data);
+                setData({...data,
+                    id: data.data.id,
+                    diagnosisCode: data.data.diagnosisCode,
+                    diagnosisName: data.data.diagnosisName,
+                    diagnosisSuggestion: data.data.diagnosisSuggestion,
+                    diagnosisDescription: data.data.diagnosisDescription,
+                    createdAt: data.data.createdAt,
+                    createdBy: data.data.createdBy,
+                    updatedAt: data.data.updatedAt,
+                    updatedBy: data.data.updatedBy
+                })
+            }).catch((error) => {
+                alert(error.message);
+            })
+        }
+    }, [data]);
+    
     return(
         <>
-            {!diagnosisDetail && (
+            {!data && (
                 <SpinnerLoading text={"Mengambil data ..."} />
             )}
-            {diagnosisDetail && (
+            {data && (
                 <Container>
                     <TitleBreadcrumb title={"Detail Diagnosa"} paths={paths} />
                     <Container className={"p-0"}>
                         <div className={"d-flex"}>
                             <div className={"w-50"}>
-                                <p><b>Kode Diagnosa</b>:<br/> {diagnosisDetail.diagnosisCode}</p>
-                                <p><b>Nama</b>:<br/> {diagnosisDetail.diagnosisName}</p>
-                                <p style={{whiteSpace: "pre-line"}}><b>Deskripsi</b>:<br/>{diagnosisDetail.diagnosisDescription}</p>
-                                <p style={{whiteSpace: "pre-line"}}><b>Saran</b>:<br/>{diagnosisDetail.diagnosisSuggestion}</p>
+                                <p><b>Kode Diagnosa</b>:<br/> {data.diagnosisCode}</p>
+                                <p><b>Nama</b>:<br/> {data.diagnosisName}</p>
+                                <p style={{whiteSpace: "pre-line"}}><b>Deskripsi</b>:<br/>{data.diagnosisDescription}</p>
+                                <p style={{whiteSpace: "pre-line"}}><b>Saran</b>:<br/>{data.diagnosisSuggestion}</p>
                             </div>
                             <div className={"w-50"}>
-                                <p><b>Dibuat pada</b>:<br/> {moment(diagnosisDetail.createdAt).format("DD MMM YYYY hh:mm")}</p>
-                                <p><b>Dibuat oleh</b>:<br/> {diagnosisDetail.createdBy}</p>
-                                <p><b>Diperbarui pada</b>:<br/> {moment(diagnosisDetail.updatedAt).format("DD MMM YYYY hh:mm")}</p>
-                                <p><b>Diperbarui oleh</b>:<br/> {diagnosisDetail.updatedBy}</p>
+                                <p><b>Dibuat pada</b>:<br/> {moment(data.createdAt).format("DD MMM YYYY hh:mm")}</p>
+                                <p><b>Dibuat oleh</b>:<br/> {data.createdBy}</p>
+                                <p><b>Diperbarui pada</b>:<br/> {moment(data.updatedAt).format("DD MMM YYYY hh:mm")}</p>
+                                <p><b>Diperbarui oleh</b>:<br/> {data.updatedBy}</p>
                             </div>
                         </div>
                     </Container>

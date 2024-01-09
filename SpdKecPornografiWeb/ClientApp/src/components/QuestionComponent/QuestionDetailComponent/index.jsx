@@ -1,9 +1,11 @@
-import {Col, Container, Row} from "reactstrap";
+import { Container } from "reactstrap";
 import TitleBreadcrumb from "../../TitleBreadcrumb";
-import {useContext, useEffect} from "react";
-import {GlobalContext} from "../../../context/GlobalContext";
+import { useEffect, useState} from "react";
 import SpinnerLoading from "../../SpinnerLoading";
 import moment from "moment";
+import {useParams} from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const paths = [
     {
@@ -15,47 +17,65 @@ const paths = [
         text: "Pertanyaan"
     },
     {
-        link: "/question/:questionId",
+        link: "/question/:id",
         text: "Detail Pertanyaan"
     }
 ]
 
 const QuestionDetailComponent = () => {
-    const { stateContext, handleFunctionContext } = useContext(GlobalContext);
-    const { fetchDataDetailQuestion } = handleFunctionContext;
-    const { questionDetail, setQuestionDetail } = stateContext;
+    const { id } = useParams();
+    const [data, setData] = useState(null);
 
     useEffect(() => {
-        
-    }, []);
+        if (id !== undefined) {
+            axios.get(`api/question/${id}`, {
+                headers: { Authorization: `Bearer ${Cookies.get("token")}`}
+            }).then(({data}) => {
+                console.log(data);
+                setData({...data,
+                    id: data.data.id,
+                    answerCode: data.data.answerCode,
+                    questionCode: data.data.questionCode,
+                    questionName: data.data.questionName,
+                    answerName: data.data.answerName,
+                    createdAt: data.data.createdAt,
+                    createdBy: data.data.createdBy,
+                    updatedAt: data.data.updatedAt,
+                    updatedBy: data.data.updatedBy
+                })
+            }).catch((error) => {
+                alert(error.message);
+            })
+        }
+    }, [data]);
     
     return(
         <>
-            {!questionDetail && (
+            {!data && (
                 <SpinnerLoading text={"Mengambil data ..."} />
             )}
-            {questionDetail && (
+            {data && (
                 <Container>
                     <TitleBreadcrumb title={"Detail Pertanyaan"} paths={paths} />
                     <Container className={"p-0"}>
                         <div className={"d-flex"}>
                             <div className={"w-50"}>
-                                <p><b>Kode Pertanyaan</b>:<br/> {questionDetail.questionCode}</p>
-                                <p><b>Pertanyaan</b>:<br/> {questionDetail.questionName}</p>
+                                <p><b>Kode Pertanyaan</b>:<br/> {data.questionCode}</p>
+                                <p><b>Pertanyaan</b>:<br/> {data.questionName}</p>
                                 <p>
                                     <b>Pilihan Jawaban</b>: <br/>
                                     <ul>
-                                        {questionDetail.answers?.map((a) => (
+                                        {data.answers?.map((a) => (
                                             <li>{a.answerName}</li>
                                         ))}
                                     </ul>
                                 </p>
                             </div>
                             <div className={"w-50"}>
-                                <p><b>Dibuat pada</b>:<br/> {moment(questionDetail.createdAt).format("DD MMM YYYY hh:mm")}</p>
-                                <p><b>Dibuat oleh</b>:<br/> {questionDetail.createdBy}</p>
-                                <p><b>Diperbarui pada</b>:<br/> {moment(questionDetail.updatedAt).format("DD MMM YYYY hh:mm")}</p>
-                                <p><b>Diperbarui oleh</b>:<br/> {questionDetail.updatedBy}</p>
+                                <p><b>Dibuat pada</b>:<br/> {moment(data.createdAt).format("DD MMM YYYY hh:mm")}</p>
+                                <p><b>Dibuat oleh</b>:<br/> {data.createdBy}</p>
+                                <p><b>Diperbarui pada</b>:<br/> {moment(data.updatedAt).format("DD MMM YYYY hh:mm")}</p>
+                                <p><b>Diperbarui oleh</b>:<br/> {data.updatedBy}</p>
                             </div>
                         </div>
                     </Container>
