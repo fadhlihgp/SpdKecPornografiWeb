@@ -10,6 +10,15 @@ public class AccountDto
     public string? ImageUrl { get; set; }
     public string? Role { get; set; }
     public string? RoleId { get; set; }
+    public bool? IsActive { get; set; }
+    public bool? IsBlocked { get; set; }
+    public bool? IsVerified { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime?  LastLogin { get; set; }
+}
+
+public class ChangePasswordDto
+{
+    public string OldPassword { get; set; }
+    public string NewPassword { get; set; }
 }

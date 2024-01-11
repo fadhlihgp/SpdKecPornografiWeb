@@ -41,7 +41,8 @@ const QuestionDetailComponent = () => {
                     createdAt: data.data.createdAt,
                     createdBy: data.data.createdBy,
                     updatedAt: data.data.updatedAt,
-                    updatedBy: data.data.updatedBy
+                    updatedBy: data.data.updatedBy,
+                    answers: data.data.answers
                 })
             }).catch((error) => {
                 alert(error.message);
@@ -72,9 +73,9 @@ const QuestionDetailComponent = () => {
                                 </p>
                             </div>
                             <div className={"w-50"}>
-                                <p><b>Dibuat pada</b>:<br/> {moment(data.createdAt).format("DD MMM YYYY hh:mm")}</p>
+                                <p><b>Dibuat pada</b>:<br/> {moment(data.createdAt).format("DD MMM YYYY HH:mm")}</p>
                                 <p><b>Dibuat oleh</b>:<br/> {data.createdBy}</p>
-                                <p><b>Diperbarui pada</b>:<br/> {moment(data.updatedAt).format("DD MMM YYYY hh:mm")}</p>
+                                <p><b>Diperbarui pada</b>:<br/> {moment(data.updatedAt).format("DD MMM YYYY HH:mm")}</p>
                                 <p><b>Diperbarui oleh</b>:<br/> {data.updatedBy}</p>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ public class AppDbContext : DbContext
     public virtual DbSet<Question> Questions => Set<Question>();
     public virtual DbSet<ResultHistory> ResultHistories => Set<ResultHistory>();
     public virtual DbSet<Role> Roles => Set<Role>();
+    public virtual DbSet<Otp> Otps => Set<Otp>();
 
     protected AppDbContext()
     {

@@ -22,6 +22,7 @@ import Testing from "../pages/Testing";
 import TestingDetail from "../pages/TestingDetail";
 import TestingHistory from "../pages/TestingHistory";
 import TestingDetailHistory from "../pages/TestingDetailHistory";
+import UserList from "../pages/UserList";
 
 const RouterApp = () => {
     return (
@@ -131,6 +132,12 @@ const RouterApp = () => {
                             path={"/testing/history/:id"}
                             element={<AuthRoute>
                                 <TestingDetailHistory />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/user"}
+                            element={<AuthRoute>
+                                <UserList />
                             </AuthRoute>}
                         />
                     </Routes>

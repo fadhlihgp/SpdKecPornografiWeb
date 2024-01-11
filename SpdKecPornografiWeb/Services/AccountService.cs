@@ -1,5 +1,6 @@
 ﻿using SpdKecPornografiWeb.Context;
 using SpdKecPornografiWeb.Exceptions;
+using SpdKecPornografiWeb.Helpers;
 using SpdKecPornografiWeb.Models;
 using SpdKecPornografiWeb.Repositories.Interfaces;
 using SpdKecPornografiWeb.Security;
@@ -11,14 +12,18 @@ namespace SpdKecPornografiWeb.Services;
 public class AccountService : IAccountService
 {
     private readonly IRepository<Account> _accountRepository;
+    private readonly IOtpService _otpService;
+    private readonly IEmailService _emailService;
     private readonly IPersistence _persistence;
     private readonly IJwtUtil _jwtUtil;
 
-    public AccountService(IRepository<Account> accountRepository, IPersistence persistence, IJwtUtil jwtUtil)
+    public AccountService(IRepository<Account> accountRepository, IPersistence persistence, IJwtUtil jwtUtil, IOtpService otpService, IEmailService emailService)
     {
         _accountRepository = accountRepository;
         _persistence = persistence;
         _jwtUtil = jwtUtil;
+        _otpService = otpService;
+        _emailService = emailService;
     }
 
     public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
@@ -97,6 +102,87 @@ public class AccountService : IAccountService
         }
 
         return result;
+    }
+
+    public async Task<IEnumerable<AccountDto>> FindAccounts(string? name = "")
+    {
+        var accounts = await _accountRepository.FindAll(a => a.Fullname.ToLower().Contains(name.ToLower()), new []{ "Role" });
+        return accounts.Select(account => new AccountDto
+        {
+            Id = account.Id,
+            Fullname = account.Fullname,
+            Username = account.Username,
+            Email = account.Email,
+            PhoneNumber = account.PhoneNumber,
+            ImageUrl = account.ImageUrl,
+            Role = account.Role?.Name,
+            RoleId = account.RoleId,
+            CreatedAt = account.CreatedAt,
+            LastLogin = account.LastLogin,
+            IsActive = account.IsActive,
+            IsBlocked = account.IsBlocked,
+            IsVerified = account.IsVerified
+        });
+    }
+
+    public async Task ResetPassword(ResetPasswordOtpDto resetPasswordOtpDto)
+    {
+        var findOtp = await _otpService.GetOtpByEmail(resetPasswordOtpDto.Email, resetPasswordOtpDto.OtpCode);
+        var findAccount = await FindAccountByEmail(resetPasswordOtpDto.Email);
+        string passwordRandom = RandomCode.GeneratePasswordRandom();
+        await _persistence.ExecuteTransaction(async () =>
+        {
+            findAccount.Password = BCrypt.Net.BCrypt.HashPassword(passwordRandom);
+            _accountRepository.Update(findAccount);
+            await _emailService.SendEmailAsync(new SendEmailDto
+            {
+                To = resetPasswordOtpDto.Email,
+                Subject = "[SPD Kecanduan Pornografi] New Reset Password ",
+                Body = $"<p>Password anda: <strong>{passwordRandom}</strong></p> <p>Gunakan password tersebut untuk login, dan anda bisa mengganti password setelahnya.</p>"
+            });
+            await _otpService.DeleteOtpAsync(findOtp.Id);
+            return true;
+        });
+    }
+
+    public async Task<Account> FindAccountByEmail(string email)
+    {
+        var findAccount = await _accountRepository.Find(acc =>
+            acc.Email.ToLower().Equals(email.ToLower()));
+        if (findAccount == null) throw new NotFoundException("Email tidak terdaftar!");
+        return findAccount;
+    }
+
+    public async Task ChangePassword(string accountId , ChangePasswordDto changePasswordDto)
+    {
+        var findAccountById = await _accountRepository.FindById(accountId);
+        bool isVerify = BCrypt.Net.BCrypt.Verify(changePasswordDto.OldPassword, findAccountById.Password);
+        if (!isVerify) throw new ForbiddenException("Password lama tidak sesuai");
+        findAccountById.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword);
+        _accountRepository.Update(findAccountById);
+        await _persistence.SaveChangesAsync();
+    }
+
+    public async Task<AccountDto> FindAccountById(string accountId)
+    {
+        var findAccountId = await _accountRepository.Find(acc => acc.Id.Equals(accountId), new []{ "Role" });
+        if (findAccountId == null) throw new NotFoundException("Akun tidak ditemukan");
+        return new AccountDto
+        {
+            Id = findAccountId.Id,
+            Fullname = findAccountId.Fullname,
+            Username = findAccountId.Username,
+            Email = findAccountId.Email,
+            PhoneNumber = findAccountId.PhoneNumber,
+            ImageUrl = findAccountId.ImageUrl,
+            Role = findAccountId.Role?.Name,
+            RoleId = findAccountId.RoleId,
+            IsActive = findAccountId.IsActive,
+            IsBlocked = findAccountId.IsBlocked,
+            IsVerified = findAccountId.IsVerified,
+            CreatedAt = findAccountId.CreatedAt,
+            LastLogin = findAccountId.LastLogin
+        };
     }
 
     private async Task RegisterAccountValidation(RegisterRequestDto registerRequestDto1)

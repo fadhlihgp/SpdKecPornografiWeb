@@ -46,6 +46,19 @@ const GlobalProvider = ({children}) => {
     const [fetchStatusAnswerDiagnosis, setFetchStatusAnswerDiagnosis] = useState(true);
     const [answerListFilter, setAnswerListFilter] = useState(null);
     
+    //Account
+    const [accountList, setAccountList] = useState(null);
+    const [accountId, setAccountId] = useState("-1");
+    const [fetchStatusAccount, setFetchStatusAccount] = useState(true);
+    const [accountInput, setAccountInput] = useState({fullname: "",
+        username: "",
+        email: "",
+        password: "",
+        // confirmPassword: "",
+        phoneNumber: "",
+        roleId: "",
+        imageUrl: "",});
+    
     //Testing History
     const [fetchStatusHistory, setFetchStatusHistory] = useState(true);
     const [testingHistories, setTestingHistories] = useState(null);
@@ -89,6 +102,19 @@ const GlobalProvider = ({children}) => {
         }
      }
      
+     // #################### ACCOUNT MANAGEMENT #################
+    const fetchDataAccount = (stringParam) => {
+        axios.get(`api/account/list${stringParam}`, {
+            headers: { Authorization: `Bearer ${Cookies.get("token")}` }
+        }).then(({data}) => {
+            setAccountList([...data.data]);
+            setFetchStatusAccount(false);
+        }).catch((error) => {
+            alert(!error.response.data.message ? error : error.response.data.message);
+        })
+    }
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
     // ##################### TESTING HISTORY ###################
     const fetchDataTestingHistory = (stringParam) => {
         axios.get(`api/testing${stringParam}`, {
@@ -524,7 +550,9 @@ const GlobalProvider = ({children}) => {
         answerDiagnosisInput, setAnswerDiagnosisInput, answerDiagnosisList, setAnswerDiagnosisList,
         fetchStatusAnswerDiagnosis, setFetchStatusAnswerDiagnosis, answerDiagnosisId, setAnswerDiagnosisId,
         answerDiagnosisDetail, setAnswerDiagnosisDetail, answerListFilter, setAnswerListFilter,
-        testingHistories, setTestingHistories, fetchStatusHistory, setFetchStatusHistory
+        testingHistories, setTestingHistories, fetchStatusHistory, setFetchStatusHistory,
+        accountList, setAccountList, accountId, setAccountId, fetchStatusAccount, setFetchStatusAccount, accountInput, setAccountInput,
+        
     }
     
     const handleFunctionContext = {
@@ -536,7 +564,8 @@ const GlobalProvider = ({children}) => {
         handleDeleteDiagnosis, handleDiagnosisDetail,
         fetchDataAnswerDiagnosis, handleSubmitAnswerDiagnosis, handleAnswerDiagnosisDetail, fetchDataDetailAnswerDiagnosis,
         handleDeleteAnswerDiagnosis,
-        fetchDataTestingHistory
+        fetchDataTestingHistory,
+        fetchDataAccount,
     }
     
     return (

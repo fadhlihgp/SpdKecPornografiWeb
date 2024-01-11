@@ -75,9 +75,9 @@ const AnswerDiagnosisDetailComponent = () => {
                                 <p style={{whiteSpace: "pre-line"}}><b>Saran</b>:<br/> {data.diagnosisSuggestion}</p>
                             </div>
                             <div className={"w-50"}>
-                                <p><b>Dibuat pada</b>:<br/> {moment(data.createdAt).format("DD MMM YYYY hh:mm")}</p>
+                                <p><b>Dibuat pada</b>:<br/> {moment(data.createdAt).format("DD MMM YYYY HH:mm")}</p>
                                 <p><b>Dibuat oleh</b>:<br/> {data.createdBy}</p>
-                                <p><b>Diperbarui pada</b>:<br/> {moment(data.updatedAt).format("DD MMM YYYY hh:mm")}</p>
+                                <p><b>Diperbarui pada</b>:<br/> {moment(data.updatedAt).format("DD MMM YYYY HH:mm")}</p>
                                 <p><b>Diperbarui oleh</b>:<br/> {data.updatedBy}</p>
                             </div>
                         </div>

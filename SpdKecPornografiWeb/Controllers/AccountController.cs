@@ -51,5 +51,52 @@ public class AccountController : ControllerBase
             data = currentUser
         });
     }
+
+    [Authorize]
+    [HttpGet("list")]
+    public async Task<IActionResult> FindAccounts()
+    {
+        var accounts = await _accountService.FindAccounts("");
+        return Ok(new
+        {
+            message = "Berhasil mendapatkan data akun",
+            data = accounts
+        });
+    }
+
+    [HttpPost("resetPassword")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordOtpDto resetPasswordOtpDto)
+    {
+        await _accountService.ResetPassword(resetPasswordOtpDto);
+        return Ok(new
+        {
+            message = "Password berhasil di reset, password baru telah dikirim ke email anda"
+        });
+    }
+
+    [Authorize]
+    [HttpPost("changePassword")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto change)
+    {
+        var accountId = User.FindFirst("AccountId")?.Value;
+        await _accountService.ChangePassword(accountId, change);
+        return Ok(new
+        {
+            message = "Berhasil memperbarui password"
+        });
+    }
+
+    [Authorize]
+    [HttpGet("{accountId}")]
+    public async Task<IActionResult> FindAccountById([FromRoute] string accountId)
+    {
+        var account = await _accountService.FindAccountById(accountId);
+        return Ok(new
+        {
+            message = "Berhasil mendapatkan data akun",
+            data = account
+        });
+    }
+    
     
 }

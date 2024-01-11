@@ -34,6 +34,11 @@ public class ExceptionHandlingMiddleware : IMiddleware
             await HandleExceptionAsync(context, e);
             _logger.LogError(e.Message);
         }
+        catch (ForbiddenException e)
+        {
+            await HandleExceptionAsync(context, e);
+            _logger.LogError(e.Message);
+        }
         catch (Exception e)
         {
             await HandleExceptionAsync(context, e);
@@ -63,6 +68,11 @@ public class ExceptionHandlingMiddleware : IMiddleware
             case BadRequestException:
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 errorResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                errorResponse.Message = exception.Message;
+                break;
+            case ForbiddenException:
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                errorResponse.StatusCode = (int)HttpStatusCode.Forbidden;
                 errorResponse.Message = exception.Message;
                 break;
             case not null:
