@@ -1,7 +1,7 @@
 ﻿import {
     Button,
     Col,
-    Container,
+    Container, Nav,
     Row, Table
 } from "reactstrap";
 import PrintButton from "../../PrintButton/index";
@@ -14,6 +14,7 @@ import iconResources from "../../../helpers/listIcon";
 import SpinnerLoading from "../../SpinnerLoading";
 import PaginationComponent from "../../PaginationComponent";
 import moment from "moment";
+import {useNavigate} from "react-router-dom";
 
 const paths = [
     {
@@ -21,19 +22,21 @@ const paths = [
         text: "Dashboard"
     },
     {
-        link: "/account",
-        text: "Account"
+        link: "/user",
+        text: "User"
     }
 ]
 const AccountListWrapper = () => {
+    const navigate = useNavigate();
+    
     const { stateContext, handleFunctionContext } = useContext(GlobalContext);
-    const { accountList, fetchStatusAccount, answerId, setAnswerId, answerInput,setFetchStatusAnswer, setAnswerInput, setFetchStatusQuestion, fetchStatusQuestion, setAnswerDetail , answerDetail} = stateContext;
+    const { accountList, fetchStatusAccount, answerId, setAnswerId, answerInput,setFetchStatusAnswer, setAnswerInput, setFetchStatusAccount} = stateContext;
     const { fetchDataAccount, handleAnswerDetail, fetchGenerateAnswerCode, handleDeleteAnswer, handleAnswerEdit, fetchDataQuestion } = handleFunctionContext;
 
     const [showDelete, setShowDelete] = useState(false);
     const [ showAnswerForm, setShowAnswerForm ] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-
+    
     useEffect(() => {
         if (searchValue) {
             fetchDataAccount(`?name=`+searchValue);
@@ -44,10 +47,7 @@ const AccountListWrapper = () => {
     }, [fetchStatusAccount]);
 
     const handleAdd = () => {
-        setFetchStatusQuestion(true);
-        setAnswerId("-1");
-        fetchGenerateAnswerCode();
-        setShowAnswerForm(true);
+        navigate("/user/add")
     }
 
     // const handleShowEdit = (id) => {
@@ -66,8 +66,7 @@ const AccountListWrapper = () => {
     }
 
     const handleShowEdit = (id) => {
-        handleAnswerEdit(id);
-        setShowAnswerForm(true);
+        navigate(`/user/edit/${id}`)
     }
 
     const showDeleteConfirmation = () => {
@@ -80,8 +79,9 @@ const AccountListWrapper = () => {
     }
 
     const handleSearch = () => {
+        console.log(searchValue);
         setSearchValue(`${searchValue}`)
-        setFetchStatusAnswer(true)
+        setFetchStatusAccount(true)
         // console.log(accountList)
     }
 
@@ -136,18 +136,11 @@ const AccountListWrapper = () => {
                                             <td>{item.username}</td>
                                             <td>{item.email}</td>
                                             <td>{item.role}</td>
-                                            <td>{moment(item.lastLogin).format("DD MMM YYYY HH:mm")}</td>
+                                            <td>
+                                                {item.lastLogin === null || undefined ? "-" : moment(item.lastLogin).format("DD MMM YYYY HH:mm")}
+                                            </td>
                                             <td>
                                                 <div className={"d-flex gap-2"}>
-                                                    <Button
-                                                        value={item.id}
-                                                        color={"success"}
-                                                        onClick={() => {
-                                                            handleAnswerDetail(item.id);
-                                                        }}
-                                                    >
-                                                        <img src={iconResources.eyePng} width={"17px"} alt={"see"}/>
-                                                    </Button>
                                                     <Button
                                                         value={item.id}
                                                         color={"primary"}

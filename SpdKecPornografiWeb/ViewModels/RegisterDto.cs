@@ -9,6 +9,9 @@ public class RegisterRequestDto
     public string PhoneNumber { get; set; }
     public string RoleId { get; set; }
     public string? ImageUrl { get; set; }
+    public string? IsActive { get; set; }
+    public string? IsBlocked { get; set; }
+    public string? IsVerified { get; set; }
 }
 
 public class RegisterResponseDto

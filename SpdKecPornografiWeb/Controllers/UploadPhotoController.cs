@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SpdKecPornografiWeb.Helpers;
 using SpdKecPornografiWeb.Services.Interfaces;
 
 namespace SpdKecPornografiWeb.Controllers;
@@ -37,5 +38,14 @@ public class UploadPhotoController : ControllerBase
         {
             message = "Berhasil menghapus foto"
         });
+    }
+
+    [HttpGet]
+    public Task<IActionResult> GetPublicUrl([FromForm] string imageUrl)
+    {
+        return Task.FromResult<IActionResult>(Ok(new
+        {
+            publicId = RandomCode.ConvertUrlToPublicId(imageUrl)
+        }));
     }
 }

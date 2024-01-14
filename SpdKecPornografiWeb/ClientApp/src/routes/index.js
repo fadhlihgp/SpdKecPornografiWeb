@@ -23,6 +23,10 @@ import TestingDetail from "../pages/TestingDetail";
 import TestingHistory from "../pages/TestingHistory";
 import TestingDetailHistory from "../pages/TestingDetailHistory";
 import UserList from "../pages/UserList";
+import UserDetail from "../pages/UserDetail";
+import ForgotPassword from "../pages/ForgotPassword";
+import ChangePassword from "../pages/ChangePassword";
+import Profile from "../pages/Profile";
 
 const RouterApp = () => {
     return (
@@ -50,6 +54,12 @@ const RouterApp = () => {
                     <Route 
                         path={"/fetch-data"}
                         element={<FetchData />}
+                    />
+                    <Route
+                        path={"/forgotPassword"}
+                        element={<PublicRoute>
+                            <ForgotPassword />
+                        </PublicRoute>}
                     />
                 </Routes>
                 <GlobalProvider>
@@ -138,6 +148,30 @@ const RouterApp = () => {
                             path={"/user"}
                             element={<AuthRoute>
                                 <UserList />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/user/add"}
+                            element={<AuthRoute>
+                                <UserDetail />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/user/edit/:id"}
+                            element={<AuthRoute>
+                                <UserDetail />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/changePassword"}
+                            element={<AuthRoute>
+                                <ChangePassword />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/profile"}
+                            element={<AuthRoute>
+                                <Profile />
                             </AuthRoute>}
                         />
                     </Routes>

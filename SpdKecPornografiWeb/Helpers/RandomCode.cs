@@ -1,4 +1,7 @@
-﻿namespace SpdKecPornografiWeb.Helpers;
+﻿using System.Text.RegularExpressions;
+using SpdKecPornografiWeb.Exceptions;
+
+namespace SpdKecPornografiWeb.Helpers;
 
 public class RandomCode
 {
@@ -30,5 +33,21 @@ public class RandomCode
         }
         
         return new string(randomArray);
+    }
+
+    public static string ConvertUrlToPublicId(string url)
+    {
+        // Definisikan pola ekspresi reguler
+        string pattern = @"upload/v\d+/(.+)\.(jpg|jpeg|png)";
+
+        // Buat objek Regex
+        Regex regex = new Regex(pattern);
+
+        // Cocokkan URL dengan pola ekspresi reguler
+        Match match = regex.Match(url);
+
+        // Ambil public ID dari grup yang sesuai
+        string publicId = match.Groups[1].Value;
+        return publicId;
     }
 }

@@ -12,5 +12,8 @@ public interface IAccountService
     public Task ResetPassword(ResetPasswordOtpDto resetPasswordOtpDto);
     public Task<Account> FindAccountByEmail(string email);
     public Task ChangePassword(string accountId, ChangePasswordDto changePasswordDto);
+    public Task ChangePasswordAdmin(string accountId, ChangePasswordAdminDto changePasswordAdminDto);
     public Task<AccountDto> FindAccountById(string accountId);
+    public Task EditAccountById(string accountId, UpdateAccountRequestDto accountDto);
+    public Task ChangePhotoAccount(string accountId, IFormFile fileImage);
 }

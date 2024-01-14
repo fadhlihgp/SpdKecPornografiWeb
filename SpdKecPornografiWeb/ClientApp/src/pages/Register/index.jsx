@@ -95,10 +95,9 @@ const Register = () => {
     
     return (
         <>
-            <ToastContainer />
             <div className={"w-100 d-flex justify-content-center"}>
                 {loading && (
-                    <SpinnerLoading text={"Menyimpan data ..."} />
+                    <SpinnerLoading text={"Proses registrasi ..."} />
                 )}
                 
                 <div className={"p-3 mt-4 mx-4 w-50"}>

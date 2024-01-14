@@ -54,9 +54,9 @@ public class AccountController : ControllerBase
 
     [Authorize]
     [HttpGet("list")]
-    public async Task<IActionResult> FindAccounts()
+    public async Task<IActionResult> FindAccounts([FromQuery] string? accountName)
     {
-        var accounts = await _accountService.FindAccounts("");
+        var accounts = await _accountService.FindAccounts(accountName);
         return Ok(new
         {
             message = "Berhasil mendapatkan data akun",
@@ -87,6 +87,18 @@ public class AccountController : ControllerBase
     }
 
     [Authorize]
+    [HttpPost("changePasswordAdmin/{accountId}")]
+    public async Task<IActionResult> ChangePasswordAdmin([FromRoute] string accountId, [FromBody] ChangePasswordAdminDto change)
+    {
+        // var accountId = User.FindFirst("AccountId")?.Value;
+        await _accountService.ChangePasswordAdmin(accountId, change);
+        return Ok(new
+        {
+            message = "Berhasil memperbarui password"
+        });
+    }
+    
+    [Authorize]
     [HttpGet("{accountId}")]
     public async Task<IActionResult> FindAccountById([FromRoute] string accountId)
     {
@@ -97,6 +109,27 @@ public class AccountController : ControllerBase
             data = account
         });
     }
-    
-    
+
+    [Authorize]
+    [HttpPut("{accountId}")]
+    public async Task<IActionResult> UpdateAccount([FromRoute] string accountId, [FromBody] UpdateAccountRequestDto registerRequestDto)
+    {
+        await _accountService.EditAccountById(accountId, registerRequestDto);
+        return Ok(new
+        {
+            message = "Berhasil memperbarui data akun"
+        });
+    }
+
+    [Authorize]
+    [HttpPut("changePhoto")]
+    public async Task<IActionResult> ChangePhoto([FromForm] IFormFile imageFile)
+    {
+        var accountId = User.FindFirst("AccountId")?.Value;
+        await _accountService.ChangePhotoAccount(accountId, imageFile);
+        return Ok(new
+        {
+            message = "Berhasil memperbarui photo"
+        });
+    }
 }

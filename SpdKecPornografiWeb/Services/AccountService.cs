@@ -16,14 +16,16 @@ public class AccountService : IAccountService
     private readonly IEmailService _emailService;
     private readonly IPersistence _persistence;
     private readonly IJwtUtil _jwtUtil;
+    private readonly IPhotoService _photoService;
 
-    public AccountService(IRepository<Account> accountRepository, IPersistence persistence, IJwtUtil jwtUtil, IOtpService otpService, IEmailService emailService)
+    public AccountService(IRepository<Account> accountRepository, IPersistence persistence, IJwtUtil jwtUtil, IOtpService otpService, IEmailService emailService, IPhotoService photoService)
     {
         _accountRepository = accountRepository;
         _persistence = persistence;
         _jwtUtil = jwtUtil;
         _otpService = otpService;
         _emailService = emailService;
+        _photoService = photoService;
     }
 
     public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
@@ -59,7 +61,7 @@ public class AccountService : IAccountService
     public async Task<RegisterResponseDto> Register(RegisterRequestDto registerRequestDto)
     {
         await RegisterAccountValidation(registerRequestDto);
-        
+
         var registerResponse = await _persistence.ExecuteTransaction(async () =>
         {
             var saveAccount = new Account
@@ -72,6 +74,8 @@ public class AccountService : IAccountService
                 ImageUrl = registerRequestDto.ImageUrl,
                 RoleId = registerRequestDto.RoleId,
                 CreatedAt = DateTime.Now,
+                IsActive = registerRequestDto.IsActive == null || registerRequestDto.IsActive == "true",
+                IsBlocked = registerRequestDto.IsBlocked != null && registerRequestDto.IsBlocked == "true"
             };
             return await _accountRepository.Save(saveAccount);
         });
@@ -106,7 +110,9 @@ public class AccountService : IAccountService
 
     public async Task<IEnumerable<AccountDto>> FindAccounts(string? name = "")
     {
-        var accounts = await _accountRepository.FindAll(a => a.Fullname.ToLower().Contains(name.ToLower()), new []{ "Role" });
+        var accounts = name != null
+            ? await _accountRepository.FindAll(a => a.Fullname.ToLower().Contains(name.ToLower()), new[] { "Role" })
+            : await _accountRepository.FindAll( new[] { "Role" });
         return accounts.Select(account => new AccountDto
         {
             Id = account.Id,
@@ -138,7 +144,7 @@ public class AccountService : IAccountService
             {
                 To = resetPasswordOtpDto.Email,
                 Subject = "[SPD Kecanduan Pornografi] New Reset Password ",
-                Body = $"<p>Password anda: <strong>{passwordRandom}</strong></p> <p>Gunakan password tersebut untuk login, dan anda bisa mengganti password setelahnya.</p>"
+                Body = $"<p>Password anda: <strong>{passwordRandom}</strong></p> Gunakan password tersebut untuk login, dan anda bisa mengganti password setelahnya."
             });
             await _otpService.DeleteOtpAsync(findOtp.Id);
             return true;
@@ -159,6 +165,15 @@ public class AccountService : IAccountService
         bool isVerify = BCrypt.Net.BCrypt.Verify(changePasswordDto.OldPassword, findAccountById.Password);
         if (!isVerify) throw new ForbiddenException("Password lama tidak sesuai");
         findAccountById.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword);
+        _accountRepository.Update(findAccountById);
+        await _persistence.SaveChangesAsync();
+    }
+
+    public async Task ChangePasswordAdmin(string accountId, ChangePasswordAdminDto changePasswordAdminDto)
+    {
+        var findAccountById = await _accountRepository.FindById(accountId);
+        if (findAccountById == null) throw new NotFoundException("Akun tidak ditemukan");
+        findAccountById.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordAdminDto.NewPassword);
         _accountRepository.Update(findAccountById);
         await _persistence.SaveChangesAsync();
     }
@@ -185,6 +200,37 @@ public class AccountService : IAccountService
         };
     }
 
+    public async Task EditAccountById(string accountId, UpdateAccountRequestDto updateAccountRequestDto)
+    {
+        await EditAccountValidation(accountId,updateAccountRequestDto);
+        var findAccount = await _accountRepository.Find(acc => acc.Id.Equals(accountId));
+        if (findAccount == null) throw new NotFoundException("Akun tidak ditemukan");
+        findAccount.Fullname = updateAccountRequestDto.Fullname;
+        findAccount.Username = updateAccountRequestDto.Username;
+        findAccount.Email = updateAccountRequestDto.Email;
+        findAccount.PhoneNumber = updateAccountRequestDto.PhoneNumber;
+
+        await _persistence.ExecuteTransaction(() => Task.FromResult(_accountRepository.Update(findAccount)));
+    }
+
+    public async Task ChangePhotoAccount(string accountId, IFormFile fileImage)
+    {
+        var findAccountId = await _accountRepository.FindById(accountId);
+        if (findAccountId == null) throw new NotFoundException("Akun tidak ditemukan");
+        await _persistence.ExecuteTransaction(async () =>
+        {
+            if (findAccountId.ImageUrl != null)
+            {
+                string publicKey = RandomCode.ConvertUrlToPublicId(findAccountId.ImageUrl);
+                await _photoService.DeletePhotoAsync(publicKey);
+            }
+
+            var uploadPhoto = await _photoService.AddPhotoAsync(fileImage);
+            findAccountId.ImageUrl = uploadPhoto.Url.ToString();
+            return _accountRepository.Update(findAccountId);
+        });
+    }
+
     private async Task RegisterAccountValidation(RegisterRequestDto registerRequestDto1)
     {
         var findEmail = await _accountRepository.Find(a => a.Email.Equals(registerRequestDto1.Email));
@@ -197,5 +243,16 @@ public class AccountService : IAccountService
         if (findPhone != null) throw new UnauthorizedException("Nomor ponsel sudah terdaftar!");
     }
     
+    private async Task EditAccountValidation(string accountId, UpdateAccountRequestDto registerRequestDto1)
+    {
+        var findEmail = await _accountRepository.Find(a => a.Email.Equals(registerRequestDto1.Email) && !a.Id.Equals(accountId));
+        if (findEmail != null) throw new UnauthorizedException("Email sudah digunakan akun lain!");
+
+        var findUsername = await _accountRepository.Find(a => a.Username.Equals(registerRequestDto1.Username) && !a.Id.Equals(accountId));
+        if (findUsername != null) throw new UnauthorizedException("Username sudah digunakan akun lain!");
+
+        var findPhone = await _accountRepository.Find(a => a.PhoneNumber.Equals(registerRequestDto1.PhoneNumber) && !a.Id.Equals(accountId));
+        if (findPhone != null) throw new UnauthorizedException("Nomor ponsel sudah digunakan akun lain!");
+    }
     
 }

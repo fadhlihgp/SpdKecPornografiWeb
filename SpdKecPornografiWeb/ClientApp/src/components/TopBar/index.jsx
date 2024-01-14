@@ -1,8 +1,10 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import profile from "../../resources/user.png";
 import menu from "../../resources/hamburger.png";
 import logoutIcon from "../../resources/logoutBlack.png";
+import accountIcon from "../../resources/account.png";
+import passwordIcon from "../../resources/password.png"
 import {
     Collapse,
     Container, DropdownItem, DropdownMenu, DropdownToggle,
@@ -15,6 +17,7 @@ import ConfirmSignOut from "../ConfirmSignOut";
 const TopBar = ({ fullname = "User Logged in", imageUrl = profile }) => {
     const [basicModal, setBasicModal] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
+    const navigate = useNavigate();
     const toggleNavbar = () => {
         setCollapsed(!collapsed);
     };
@@ -54,8 +57,14 @@ const TopBar = ({ fullname = "User Logged in", imageUrl = profile }) => {
                                     {fullname}
                                 </DropdownToggle>
                                 <DropdownMenu>
+                                    <DropdownItem onClick={() => navigate("/profile")}>
+                                        <img src={accountIcon} alt={"profile"} width={"17px"}/> Profile
+                                    </DropdownItem>
+                                    <DropdownItem onClick={() => navigate("/changePassword")}>
+                                        <img src={passwordIcon} alt={"password"} width={"17px"}/> Ubah Password
+                                    </DropdownItem>
                                     <DropdownItem onClick={handleModal}>
-                                       <img src={logoutIcon} alt={"logout"}/> <b>Logout</b>
+                                       <img src={logoutIcon} alt={"logout"} width={"17px"}/> Logout
                                     </DropdownItem>
                                     {/*<DropdownItem divider />*/}
                                     {/*<DropdownItem>*/}
