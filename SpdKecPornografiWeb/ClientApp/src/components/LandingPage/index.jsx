@@ -1,10 +1,11 @@
 import {NavMenu} from "../navbar/NavMenu";
 import Footer from "../Footer";
+import Hero from "../Hero";
 
 const LandingPage = () => {
     return <div>
         <NavMenu />
-        <h1>This is landing page</h1>
+        <Hero />
         <Footer />
     </div>
 }

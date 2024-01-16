@@ -44,8 +44,8 @@
 
 
     <ItemGroup>
+      <Folder Include="ClientApp\src\components\CaraPenggunaan\" />
       <Folder Include="ClientApp\src\context\Auth\" />
-      <Folder Include="ClientApp\src\resources\" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
