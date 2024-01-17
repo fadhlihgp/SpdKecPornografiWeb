@@ -231,6 +231,11 @@ public class AccountService : IAccountService
         });
     }
 
+    public int CountAccounts()
+    {
+        return _accountRepository.Count();
+    }
+
     private async Task RegisterAccountValidation(RegisterRequestDto registerRequestDto1)
     {
         var findEmail = await _accountRepository.Find(a => a.Email.Equals(registerRequestDto1.Email));

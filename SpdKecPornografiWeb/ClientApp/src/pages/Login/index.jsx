@@ -86,7 +86,7 @@ function Login() {
                                             id="exampleEmail"
                                             name="email"
                                             placeholder="email or username"
-                                            type="email"
+                                            type="text"
                                             onChange={handleOnChange}
                                             onClick={handleOnClickForm}
                                             required

@@ -14,7 +14,7 @@ import {
     NavItem, UncontrolledDropdown
 } from "reactstrap";
 import ConfirmSignOut from "../ConfirmSignOut";
-const TopBar = ({ fullname = "User Logged in", imageUrl = profile }) => {
+const TopBar = ({ fullname = "User Logged in", imageUrl = profile, onClickToggle }) => {
     const [basicModal, setBasicModal] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ const TopBar = ({ fullname = "User Logged in", imageUrl = profile }) => {
     return (
         <>
             <ConfirmSignOut basicModal={basicModal} handleClose={handleModal} setBasicModal={setBasicModal} />
-            <Navbar sticky="top" expand='lg' className={"px-3 bg-light"} style={{boxShadow: "-1px 15px 8px -15px rgba(0,0,0,0.49)"}}>
+            <Navbar sticky="top" expand='lg' className={"px-3 bg-light navbar-toggleable-sm"} style={{boxShadow: "-1px 15px 8px -15px rgba(0,0,0,0.49)"}}>
                 <Container fluid>
                     <Collapse isOpen={true} navbar>
                         <Nav className="me-auto gap-2" navbar>
@@ -39,7 +39,7 @@ const TopBar = ({ fullname = "User Logged in", imageUrl = profile }) => {
                                 </Link>
                             </NavItem>
                             <NavItem>
-                                <button style={{border: "none", background: "transparent"}}>
+                                <button onClick={onClickToggle} style={{border: "none", background: "transparent"}}>
                                     <img src={menu} alt={"menu"} width={"30px"}/>
                                 </button>
                             </NavItem>

@@ -9,20 +9,9 @@ const Dashboard = () => {
     const {stateContext} = useContext(GlobalContext);
     const {roleId} = stateContext;
     
-    const setDashboard = () => {
-        switch (roleId) {
-            case "1":
-                return <DashboardSuperAdmin />;
-            case "2":
-                return <DashboardAdmin />;
-            case "3":
-                return <DashboardUser />
-        }
-    }
-    
     return (
         <LayoutDashboard>
-            {setDashboard()}
+            <DashboardSuperAdmin />
         </LayoutDashboard>
     )
 }

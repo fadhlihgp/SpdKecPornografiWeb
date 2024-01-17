@@ -1,0 +1,8 @@
+﻿/* CardDashboard.css */
+.hover-card {
+    transition: transform 0.3s ease; /* Animasi transisi */
+}
+
+.hover-card:hover {
+    transform: scale(1.1); /* Atur faktor membesar sesuai kebutuhan Anda saat mouse hover */
+}

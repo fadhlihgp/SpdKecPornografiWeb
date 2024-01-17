@@ -35,6 +35,7 @@ builder.Services.AddTransient<ITrxTestingService, TrxTestingService>();
 builder.Services.AddTransient<IResultHistoryService, ResultHistoryService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IOtpService, OtpService>();
+builder.Services.AddTransient<IDashboardService, DashboardService>();
 #endregion
 
 #region Middleware

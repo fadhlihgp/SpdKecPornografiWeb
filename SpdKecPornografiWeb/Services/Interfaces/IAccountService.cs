@@ -16,4 +16,5 @@ public interface IAccountService
     public Task<AccountDto> FindAccountById(string accountId);
     public Task EditAccountById(string accountId, UpdateAccountRequestDto accountDto);
     public Task ChangePhotoAccount(string accountId, IFormFile fileImage);
+    public int CountAccounts();
 }
