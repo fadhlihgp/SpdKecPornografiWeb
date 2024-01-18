@@ -1,7 +1,7 @@
 ﻿import {
     Button,
     Col,
-    Container,
+    Container, Pagination, PaginationItem, PaginationLink,
     Row, Table
 } from "reactstrap";
 import PrintButton from "../PrintButton";
@@ -34,6 +34,33 @@ const QuestionWrapper = () => {
     
     const [showDelete, setShowDelete] = useState(false);
     const [searchValue, setSearchValue] = useState("");
+    
+    const [currentPage, setCurrentPage] = useState(1);
+    const recordPerPage = 10;
+    const lastIndex = currentPage * recordPerPage;
+    const firstIndex = lastIndex - recordPerPage;
+    const records = questionList?.slice(firstIndex, lastIndex);
+    const nPage = questionList ? Math.ceil(questionList.length / recordPerPage) : 0;
+    const numbers = [...Array(nPage + 1).keys()].slice(1);
+    
+    const prePage = (e) => {
+        e.preventDefault();
+        if (currentPage !== firstIndex) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+    
+    const changeCPage = (e, n) => {
+        e.preventDefault();
+        setCurrentPage(n)
+    } 
+    
+    const nextPage = (e) => {
+        e.preventDefault();
+        if(currentPage !== undefined) {
+            setCurrentPage(currentPage + 1);
+        }
+    }
     
     useEffect(() => {
         if (searchValue) {
@@ -120,10 +147,9 @@ const QuestionWrapper = () => {
                             {!questionList && (
                                 <SpinnerLoading text={"Loading..."} />
                             )}
-                            {questionList !== null && 
-                                questionList.map((item, index) => (
+                            {records?.map((item, index) => (
                                     <tr key={item.id}>
-                                        <th scope="row">{index+1}</th>
+                                        <th scope="row">{firstIndex + index + 1}</th>
                                         <td>{item.questionCode}</td>
                                         <td>{item.questionName}</td>
                                         <td>
@@ -136,13 +162,13 @@ const QuestionWrapper = () => {
                                                     }}>
                                                     <img src={eye} width={"17px"} alt={"see"}/>
                                                 </Button>
-                                                <Button 
+                                                <Button
                                                     value={item.id}
                                                     color={"primary"}
                                                     onClick={() => {
                                                         handleShowEdit(item.id)
                                                     }}>
-                                                    <img src={edit} width={"17px"} alt={"edit"} />
+                                                    <img src={edit} width={"17px"} alt={"edit"}/>
                                                 </Button>
                                                 <Button
                                                     value={item.id}
@@ -151,7 +177,7 @@ const QuestionWrapper = () => {
                                                         setQuestionId(item?.id);
                                                         showDeleteConfirmation()
                                                     }}>
-                                                    <img src={trash} width={"17px"} alt={"delete"} />
+                                                    <img src={trash} width={"17px"} alt={"delete"}/>
                                                 </Button>
                                             </div>
                                         </td>
@@ -160,6 +186,49 @@ const QuestionWrapper = () => {
                             )}
                             </tbody>
                         </Table>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className={'d-flex justify-content-end'}>
+                        Total Data: <b>{questionList.length}</b>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <select>
+                            <option>5</option>
+                            <option>10</option>
+                        </select>
+                    </Col>
+                    <Col className={'d-flex justify-content-end'}>
+                        <Pagination>
+                            <PaginationItem>
+                                <PaginationLink
+                                    href="#"
+                                    previous
+                                    onClick={prePage}
+                                    hidden={currentPage === firstIndex + 1}
+                                />
+                            </PaginationItem>
+                            {numbers.map((n, i) => (
+                                <PaginationItem
+                                    className={`${currentPage === n ? 'active' : ''}`}>
+                                    <PaginationLink 
+                                        href={'#'} 
+                                        onClick={(e) => changeCPage(e, n)}>
+                                        {n}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            ))}
+                            <PaginationItem>
+                                <PaginationLink
+                                    href="#"
+                                    next
+                                    onClick={nextPage}
+                                    hidden={currentPage === nPage}
+                                />
+                            </PaginationItem>
+                        </Pagination>
                     </Col>
                 </Row>
             </Container>

@@ -432,7 +432,7 @@ const GlobalProvider = ({children}) => {
                 diagnosisDescription: data.data?.diagnosisDescription,
                 diagnosisSuggestion: data.data?.diagnosisSuggestion
             });
-            console.log(diagnosisDetail)
+            // console.log(diagnosisDetail)
             setFetchStatusDiagnosis(true);
         }).catch((error) => {
             alert(error.response.data.message)
