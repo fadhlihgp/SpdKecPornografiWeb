@@ -8,7 +8,9 @@ const CardDashboard = ({linkUrl, count, title, iconImage}) => {
                     <Row>
                         <Col sm={'8'} className={'text-center'}>
                             <CardTitle>
-                                <h4><b>{count}</b></h4>
+                                <h4><b>
+                                    {count}
+                                </b></h4>
                             </CardTitle>
                             <CardSubtitle>
                                 {title}

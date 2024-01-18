@@ -1,4 +1,6 @@
 using System.Text;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -36,6 +38,8 @@ builder.Services.AddTransient<IResultHistoryService, ResultHistoryService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IOtpService, OtpService>();
 builder.Services.AddTransient<IDashboardService, DashboardService>();
+builder.Services.AddTransient<IRazorViewTemplateService, RazorViewsRazorViewTemplateService>();
+builder.Services.AddTransient<IPdfService, PdfService>();
 #endregion
 
 #region Middleware

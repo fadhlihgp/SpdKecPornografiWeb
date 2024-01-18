@@ -14,7 +14,8 @@ const context = [
   "/api/email",
   "/api/otp",  
   "/uploadPhoto",
-  "/api/dashboard"
+  "/api/dashboard",
+  "/api/report"
 ];
 
 const onError = (err, req, resp, target) => {

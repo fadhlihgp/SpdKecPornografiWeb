@@ -25,6 +25,7 @@ import UserDetail from "../pages/UserDetail";
 import ForgotPassword from "../pages/ForgotPassword";
 import ChangePassword from "../pages/ChangePassword";
 import Profile from "../pages/Profile";
+import About from "../pages/About";
 
 const RouterApp = () => {
     return (
@@ -159,6 +160,12 @@ const RouterApp = () => {
                             path={"/profile"}
                             element={<AuthRoute>
                                 <Profile />
+                            </AuthRoute>}
+                        />
+                        <Route
+                            path={"/about"}
+                            element={<AuthRoute>
+                                <About />
                             </AuthRoute>}
                         />
                     </Routes>

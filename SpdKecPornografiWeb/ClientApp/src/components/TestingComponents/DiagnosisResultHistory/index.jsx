@@ -9,6 +9,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import calendarIcon from "../../../resources/calendar.png";
 import accountIcon from "../../../resources/account.png"
+import {handleDownloadFile} from "../../../helpers/handleDownloadFile";
 
 const paths = [
     {
@@ -55,9 +56,30 @@ const DiagnosisResultHistory = () => {
         }
     }, [data]);
 
-
+    const [loading, setLoading] = useState(false);
+    const [loadingText, setLoadingText] = useState("");
+    const handlePrintPdf = () => {
+        setLoading(true);
+        setLoadingText('Mengunduh file ...')
+        const api = "/api/report/resultDiagnosis/pdf/" + id;
+        handleDownloadFile(api)
+            .then(r => {
+                // console.log("success");
+            })
+            .catch(() => {
+                alert('Kesalahan mendownload file');
+            })
+            .finally(() => {
+                setLoading(false);
+                setLoadingText("");
+            })
+    }
+    
     return(
         <>
+            {loading && (
+                <SpinnerLoading text={loadingText} />
+            )}
             {!data && (
                 <SpinnerLoading text={"Mengambil data ..."} />
             )}
@@ -85,7 +107,7 @@ const DiagnosisResultHistory = () => {
                             <hr/>
                             <p style={{whiteSpace: "pre-line"}}><b>Saran</b>:<br/> {data.diagnosisSuggestion}</p>
                             <div className={"d-flex mt-2 gap-1"}>
-                                <Button color={"success"} size={"sm"}>Cetak</Button>
+                                <Button color={"success"} size={"sm"} onClick={handlePrintPdf}>Cetak</Button>
                                 <Button onClick={() => navigate("/testing/history")} size={"sm"}>Kembali ke riwayat pengujian</Button>
                             </div>
                         </div>

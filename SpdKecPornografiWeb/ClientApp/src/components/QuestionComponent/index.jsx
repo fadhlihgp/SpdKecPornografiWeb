@@ -1,7 +1,7 @@
 ﻿import {
     Button,
     Col,
-    Container, Pagination, PaginationItem, PaginationLink,
+    Container, FormGroup, Input, Label, Pagination, PaginationItem, PaginationLink,
     Row, Table
 } from "reactstrap";
 import PrintButton from "../PrintButton";
@@ -15,6 +15,7 @@ import QuestionForm from "./QuestionForm/index";
 import ConfirmDelete from "../ConfirmDelete";
 import TitleBreadcrumb from "../TitleBreadcrumb";
 import SpinnerLoading from "../SpinnerLoading";
+import {handleDownloadFile} from "../../helpers/handleDownloadFile";
 
 const paths = [
     {
@@ -36,7 +37,7 @@ const QuestionWrapper = () => {
     const [searchValue, setSearchValue] = useState("");
     
     const [currentPage, setCurrentPage] = useState(1);
-    const recordPerPage = 10;
+    const [recordPerPage, setRecordPerPage] = useState(10);
     const lastIndex = currentPage * recordPerPage;
     const firstIndex = lastIndex - recordPerPage;
     const records = questionList?.slice(firstIndex, lastIndex);
@@ -60,6 +61,11 @@ const QuestionWrapper = () => {
         if(currentPage !== undefined) {
             setCurrentPage(currentPage + 1);
         }
+    }
+    
+    const handleSelectOnChange = (e) => {
+        const {value} = e.target;
+        setRecordPerPage(value);
     }
     
     useEffect(() => {
@@ -98,10 +104,30 @@ const QuestionWrapper = () => {
     const closeDeleteConfirmation = () => {
         setShowDelete(false);
     }
-    
-    
+
+    const [loading, setLoading] = useState(false);
+    const [loadingText, setLoadingText] = useState("");
+    const handlePrintPdf = () => {
+        setLoading(true);
+        setLoadingText('Mengunduh file ...')
+        const api = "/api/report/question/pdf"
+        handleDownloadFile(api)
+            .then(r => {
+                // console.log("success");
+            })
+            .catch(() => {
+                alert('Kesalahan mendownload file');
+            })
+            .finally(() => {
+                setLoading(false);
+                setLoadingText("");
+            })
+    }
     return (
         <>
+            {loading && (
+                <SpinnerLoading text={loadingText} />
+            )}
             <QuestionForm show={showQuestionForm} setShow={setShowQuestionForm} handleClose={handleClose} />
             <ConfirmDelete 
                 show={showDelete} 
@@ -113,7 +139,7 @@ const QuestionWrapper = () => {
                 <TitleBreadcrumb title={"Kelola Pertanyaan"} paths={paths} />
                 <Row className={"mb-2"}>
                     <Col className={"col-6 d-flex flex-row align-items-end"}>
-                        <PrintButton />
+                        <PrintButton printPdf={handlePrintPdf} />
                     </Col>
                     <Col className={"col-6"}>
                         <SearchAddBtn 
@@ -190,15 +216,31 @@ const QuestionWrapper = () => {
                 </Row>
                 <Row>
                     <Col className={'d-flex justify-content-end'}>
-                        Total Data: <b>{questionList.length}</b>
+                        Total Data: <b>{questionList?.length}</b>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
-                        <select>
-                            <option>5</option>
-                            <option>10</option>
-                        </select>
+                    <Col sm={'2'}>
+                        <Input
+                            id="exampleSelect"
+                            name="select"
+                            type="select"
+                            onChange={handleSelectOnChange}
+                            value={recordPerPage}
+                        >
+                            <option value={5}>
+                                5
+                            </option>
+                            <option value={10}>
+                                10
+                            </option>
+                            <option value={15}>
+                                15
+                            </option>
+                            <option value={20}>
+                                20
+                            </option>
+                        </Input>
                     </Col>
                     <Col className={'d-flex justify-content-end'}>
                         <Pagination>

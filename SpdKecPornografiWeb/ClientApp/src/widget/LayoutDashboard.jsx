@@ -58,19 +58,21 @@ const LayoutDashboard = ({children}) => {
             {!sidebarMenu && (
                 <SkeletonComponent/>
             )}
-            <div className={"d-flex flex-column"}>
-                <TopBar onClickToggle={handleClickSidebar} imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} />
-                <div className={"d-flex"} style={{backgroundColor: "#F5F5F5", minHeight: "600px"}}>
-                    {sidebarMenu && (
-                        <>
-                            <Sidebar sidebarVisible={sidebar} setSidebarVisible={setSidebar} imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} role={currentUser?.role} menus={sidebarMenu ? sidebarMenu : menus } />
-                            <div className={"p-3 "} style={{width: "100%"}}>
-                                {children}
-                            </div>
-                        </>
-                    )}
+            {sidebarMenu && (
+                <div className={"d-flex flex-column"}>
+                    <TopBar onClickToggle={handleClickSidebar} imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} />
+                    <div className={"d-flex"} style={{backgroundColor: "#F5F5F5", minHeight: "600px"}}>
+                        {sidebarMenu && (
+                            <>
+                                <Sidebar sidebarVisible={sidebar} setSidebarVisible={setSidebar} imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} role={currentUser?.role} menus={sidebarMenu ? sidebarMenu : menus } />
+                                <div className={"p-3 "} style={{width: "100%"}}>
+                                    {children}
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     )
 }

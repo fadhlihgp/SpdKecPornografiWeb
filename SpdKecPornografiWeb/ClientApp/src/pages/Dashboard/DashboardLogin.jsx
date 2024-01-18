@@ -19,7 +19,7 @@ const dashboardAdmin = [
         iconImage: userIcon
     }
 ]
-const DashboardSuperAdmin = () => {
+const DashboardLogin = () => {
     const {stateContext, handleFunctionContext} = useContext(GlobalContext);
     const {roleId, fetchStatusQuestion, fetchStatusAnswer, fetchStatusDiagnosis, fetchStatusAnswerDiagnosis, fetchStatusAccount, fetchStatusHistory} = stateContext;
     const {fetchDataAccount} = handleFunctionContext;
@@ -69,4 +69,4 @@ const DashboardSuperAdmin = () => {
         </Container>
     )
 }
-export default DashboardSuperAdmin;
+export default DashboardLogin;

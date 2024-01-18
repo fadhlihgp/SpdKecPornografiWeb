@@ -1,0 +1,59 @@
+﻿@model SpdKecPornografiWeb.ViewModels.ResultHistoryResponseDto
+
+<!DOCTYPE html>
+<html lang="" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>Laporan Hasil Diagnosa</title>
+    <style type="text/css">
+    
+</style>
+</head>
+<body>
+<div style="margin: auto; color: white; background-color: #006b15; text-align: center; padding: 10px 0">
+    <h1>Sistem Pakar Diagnosa Tingkat <br/> Kecanduan Pornografi</h1>
+</div>
+<h2 style="text-align: center">Laporan Hasil Diagnosa</h2>
+<p>Dicetak: @DateTime.Now.ToString("f")</p>
+<div style="margin: 5px;">
+    <p style="color: #006b15; margin-bottom: 5px"><b>Informasi Akun</b></p>
+    <table>
+        <tr>
+            <td><b>Nama:</b> </td>
+            <td>@Model.Account.Fullname</td>
+        </tr>
+        <tr>
+            <td><b>Waktu Pengujian:</b> </td>
+            <td>@Model.CreatedAt.ToString("U")</td>
+        </tr>
+    </table>
+</div>
+
+<div style="display: flex; gap: 25px; margin-top: 20px; font-size: 18px">
+    <div>
+        <span><b>Kode Pengujian: </b> @Model.TestingCode</span>
+    </div>
+    <div>
+        <span><b>Kode Pengujian: </b> @Model.Diagnosis.DiagnosisCode</span>
+    </div>
+</div>
+
+<div style="font-size: 18px">
+    <p style="margin-bottom: 5px"><b>Diagnosa</b></p>
+    <span>@Model.Diagnosis.DiagnosisName</span>
+    <hr/>
+</div>
+
+<div style="font-size: 18px">
+    <p style="margin-bottom: 5px"><b>Keterangan</b></p>
+    <span>@Model.Diagnosis.DiagnosisDescription</span>
+    <hr/>
+</div>
+
+<div style="font-size: 18px">
+    <p style="margin-bottom: 5px"><b>Saran</b></p>
+    <span>@Model.Diagnosis.DiagnosisSuggestion</span>
+    <hr/>
+</div>
+</body>
+</html>

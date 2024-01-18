@@ -1,0 +1,49 @@
+﻿@model System.Collections.Generic.List<SpdKecPornografiWeb.ViewModels.AnswerDiagnosisResponseDto>
+
+<!DOCTYPE html>
+<html lang="" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>Laporan Rules</title>
+    <style type="text/css">
+    
+</style>
+</head>
+<body>
+<div style="margin: auto; color: white; background-color: #006b15; text-align: center; padding: 10px 0">
+    <h1>Sistem Pakar Diagnosa Tingkat <br/> Kecanduan Pornografi</h1>
+</div>
+<h2 style="text-align: center">Laporan Rules</h2>
+<p>Dicetak: @DateTime.Now.ToString("f")</p>
+<table style="border-collapse: collapse; width: 100%; border: 1px solid darkgray;">
+    <thead style="background-color: #f2f2f2;">
+    <tr>
+        <th style="border: 1px solid darkgray; padding: 10px;">No</th>
+        <th style="border: 1px solid darkgray; padding: 10px;">Kode Diagnosa</th>
+        <th style="border: 1px solid darkgray; padding: 10px;">Diagnosa</th>
+        <th style="border: 1px solid darkgray; padding: 10px;">Kode Pertanyaan</th>
+        <th style="border: 1px solid darkgray; padding: 10px;">Pertanyaan</th>
+        <th style="border: 1px solid darkgray; padding: 10px;">Kode Jawaban</th>
+                <th style="border: 1px solid darkgray; padding: 10px;">Jawaban</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        var questionResponseDto = Model[i];
+        <tr>
+            <td style="border: 1px solid darkgray; padding: 10px;">@(i + 1)</td>
+            <td style="border: 1px solid darkgray; padding: 10px;">@questionResponseDto.DiagnosisCode</td>
+            <td style="border: 1px solid darkgray; padding: 10px;">@questionResponseDto.DiagnosisName</td>
+            <td style="border: 1px solid darkgray; padding: 10px;">@questionResponseDto.QuestionCode</td>
+            <td style="border: 1px solid darkgray; padding: 10px;">@questionResponseDto.QuestionName</td>
+            <td style="border: 1px solid darkgray; padding: 10px;">@questionResponseDto.AnswerCode</td>
+            <td style="border: 1px solid darkgray; padding: 10px;">@questionResponseDto.AnswerName</td>
+        </tr>
+    }
+    </tbody>
+</table>
+<p>Total Data: <b>@Model.Count</b></p>
+
+</body>
+</html>

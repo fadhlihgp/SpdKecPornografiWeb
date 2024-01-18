@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 import print from "../../resources/print.png"
 
-function PrintButton({printPdf, printExcel}) {
+function PrintButton({printPdf}) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const toggle = () => setDropdownOpen((prevState) => !prevState);
@@ -23,7 +23,7 @@ function PrintButton({printPdf, printExcel}) {
                 </DropdownToggle>
                 <DropdownMenu>
                     <DropdownItem onClick={printPdf}>Pdf</DropdownItem>
-                    <DropdownItem onClick={printExcel}>Excel</DropdownItem>
+                    {/*<DropdownItem onClick={printExcel}>Excel</DropdownItem>*/}
                 </DropdownMenu>
             </Dropdown>
         </div>

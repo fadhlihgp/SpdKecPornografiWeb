@@ -1,7 +1,7 @@
 import {
     Button,
     Col,
-    Container,
+    Container, Input, Pagination, PaginationItem, PaginationLink,
     Row, Table
 } from "reactstrap";
 import PrintButton from "../../PrintButton/index";
@@ -14,6 +14,9 @@ import iconResources from "../../../helpers/listIcon";
 import AnswerForm from "../AnswerForm";
 import SpinnerLoading from "../../SpinnerLoading";
 import PaginationComponent from "../../PaginationComponent";
+import axios from "axios";
+import Cookies from "js-cookie";
+import {handleDownloadFile} from "../../../helpers/handleDownloadFile";
 
 const paths = [
     {
@@ -33,6 +36,43 @@ const AnswerWrapper = () => {
     const [showDelete, setShowDelete] = useState(false);
     const [ showAnswerForm, setShowAnswerForm ] = useState(false);
     const [searchValue, setSearchValue] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [loadingText, setLoadingText] = useState("");
+    
+    // Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordPerPage, setRecordPerPage] = useState(10);
+    const lastIndex = currentPage * recordPerPage;
+    const firstIndex = lastIndex - recordPerPage;
+    const records = answerList?.slice(firstIndex, lastIndex);
+    const nPage = answerList ? Math.ceil(answerList.length / recordPerPage) : 0;
+    const numbers = [...Array(nPage + 1).keys()].slice(1);
+
+    const prePage = (e) => {
+        e.preventDefault();
+        if (currentPage !== firstIndex) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+
+    const changeCPage = (e, n) => {
+        e.preventDefault();
+        setCurrentPage(n)
+    }
+
+    const nextPage = (e) => {
+        e.preventDefault();
+        if(currentPage !== undefined) {
+            setCurrentPage(currentPage + 1);
+        }
+    }
+
+    const handleSelectOnChange = (e) => {
+        const {value} = e.target;
+        setRecordPerPage(value);
+    }
+    // ===================
+    
     
     useEffect(() => {
         if (searchValue) {
@@ -91,8 +131,28 @@ const AnswerWrapper = () => {
         // console.log(searchValue);
     }
     
+    const handlePrintPdf = () => {
+        setLoading(true);
+        setLoadingText('Mengunduh file ...')
+        const api = "/api/report/answer/pdf"
+        handleDownloadFile(api)
+            .then(r => {
+                // console.log("success");
+            })
+            .catch(() => {
+                alert('Kesalahan mendownload file');
+            })
+            .finally(() => {
+                setLoading(false);
+                setLoadingText("");
+            })
+    }
+    
     return (
         <>
+            {loading && (
+                <SpinnerLoading text={loadingText} />
+            )}
             <AnswerForm show={showAnswerForm} setShow={setShowAnswerForm} handleClose={handleClose} />
             <ConfirmDelete
                 show={showDelete}
@@ -104,7 +164,7 @@ const AnswerWrapper = () => {
                 <TitleBreadcrumb title={"Kelola Jawaban"} paths={paths} />
                 <Row className={"mb-2"}>
                     <Col className={"col-6 d-flex flex-row align-items-end"}>
-                        <PrintButton />
+                        <PrintButton printPdf={handlePrintPdf} />
                     </Col>
                     <Col className={"col-6"}>
                         <SearchAddBtn  
@@ -133,9 +193,9 @@ const AnswerWrapper = () => {
                                 <SpinnerLoading text={"Loading..."} />
                             )}
                             {answerList &&
-                                answerList.map((item, index) => (
+                                records.map((item, index) => (
                                     <tr key={item.id}>
-                                        <th scope="row">{index+1}</th>
+                                        <th scope="row">{firstIndex + index+1}</th>
                                         <td>{item.questionCode}</td>
                                         <td>{item.answerCode}</td>
                                         <td>{(item.answerName.length <= 20) ? item.answerName : item.answerName.substring(0, 20) + "..."}</td>
@@ -176,6 +236,65 @@ const AnswerWrapper = () => {
                             </tbody>
                         </Table>
                         {/*<PaginationComponent />*/}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className={'d-flex justify-content-end'}>
+                        Total Data: <b>{answerList?.length}</b>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={'2'}>
+                        <Input
+                            id="exampleSelect"
+                            name="select"
+                            type="select"
+                            onChange={handleSelectOnChange}
+                            value={recordPerPage}
+                        >
+                            <option value={5}>
+                                5
+                            </option>
+                            <option value={10}>
+                                10
+                            </option>
+                            <option value={15}>
+                                15
+                            </option>
+                            <option value={20}>
+                                20
+                            </option>
+                        </Input>
+                    </Col>
+                    <Col className={'d-flex justify-content-end'}>
+                        <Pagination>
+                            <PaginationItem>
+                                <PaginationLink
+                                    href="#"
+                                    previous
+                                    onClick={prePage}
+                                    hidden={currentPage === firstIndex + 1}
+                                />
+                            </PaginationItem>
+                            {numbers.map((n, i) => (
+                                <PaginationItem
+                                    className={`${currentPage === n ? 'active' : ''}`}>
+                                    <PaginationLink
+                                        href={'#'}
+                                        onClick={(e) => changeCPage(e, n)}>
+                                        {n}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            ))}
+                            <PaginationItem>
+                                <PaginationLink
+                                    href="#"
+                                    next
+                                    onClick={nextPage}
+                                    hidden={currentPage === nPage}
+                                />
+                            </PaginationItem>
+                        </Pagination>
                     </Col>
                 </Row>
             </Container>

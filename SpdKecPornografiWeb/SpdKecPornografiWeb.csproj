@@ -17,6 +17,7 @@
         <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
         <PackageReference Include="CloudinaryDotNet" Version="1.24.0" />
         <PackageReference Include="DinkToPdf" Version="1.0.8" />
+        <PackageReference Include="DinkToPdfIncludesDependencies" Version="1.0.8" />
         <PackageReference Include="EPPlus" Version="7.0.5" />
         <PackageReference Include="MailKit" Version="4.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.25" />
@@ -32,6 +33,7 @@
         </PackageReference>
         <PackageReference Include="Npgsql" Version="6.0.10" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
+        <PackageReference Include="Polybioz.HtmlRenderer.PdfSharp.Core" Version="1.0.0" />
         <PackageReference Include="PuppeteerSharp" Version="13.0.2" />
     </ItemGroup>
 
@@ -40,6 +42,8 @@
         <Content Remove="$(SpaRoot)**" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+        <None Include="wwwroot\images\account.png" />
+        <None Include="wwwroot\images\calendar.png" />
     </ItemGroup>
 
 
