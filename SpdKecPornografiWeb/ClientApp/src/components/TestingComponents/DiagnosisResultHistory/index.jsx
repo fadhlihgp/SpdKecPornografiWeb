@@ -66,7 +66,7 @@ const DiagnosisResultHistory = () => {
             .then(r => {
                 // console.log("success");
             })
-            .catch(() => {
+            .catch((error) => {
                 alert('Kesalahan mendownload file');
             })
             .finally(() => {

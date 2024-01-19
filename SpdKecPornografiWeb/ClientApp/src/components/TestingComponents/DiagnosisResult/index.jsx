@@ -1,14 +1,14 @@
-﻿import {useContext, useEffect, useState} from "react";
-import {GlobalContext} from "../../../context/GlobalContext";
+﻿import {useEffect, useState} from "react";
 import SpinnerLoading from "../../SpinnerLoading";
 import {Button, Container} from "reactstrap";
 import TitleBreadcrumb from "../../TitleBreadcrumb";
 import moment from "moment/moment";
-import {Navigate, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import calendarIcon from "../../../resources/calendar.png";
 import accountIcon from "../../../resources/account.png"
+import {handleDownloadFile} from "../../../helpers/handleDownloadFile";
 
 const paths = [
     {
@@ -54,7 +54,25 @@ const DiagnosisResult = () => {
             })
         }
     }, [data]);
-    
+
+    const [loading, setLoading] = useState(false);
+    const [loadingText, setLoadingText] = useState("");
+    const handlePrintPdf = () => {
+        setLoading(true);
+        setLoadingText('Mengunduh file ...')
+        const api = "/api/report/resultDiagnosis/pdf/" + id;
+        handleDownloadFile(api)
+            .then(r => {
+                // console.log("success");
+            })
+            .catch((error) => {
+                alert('Kesalahan mendownload file');
+            })
+            .finally(() => {
+                setLoading(false);
+                setLoadingText("");
+            })
+    }
     
     return(
         <>
@@ -63,6 +81,9 @@ const DiagnosisResult = () => {
             )}
             {data && (
                 <Container>
+                    {loading && (
+                        <SpinnerLoading text={loadingText} />
+                    )}
                     <TitleBreadcrumb title={"Hasil Pengujian"} paths={paths} />
                     <Container className={"p-3 bg-light w-100"} style={{borderRadius: "10px"}}>
                         <div className={"w-100"}>
@@ -85,7 +106,7 @@ const DiagnosisResult = () => {
                             <hr/>
                             <p style={{whiteSpace: "pre-line"}}><b>Saran</b>:<br/> {data.diagnosisSuggestion}</p>
                             <div className={"d-flex mt-2 gap-1"}>
-                                <Button color={"success"} size={"sm"}>Cetak</Button>
+                                <Button color={"success"} size={"sm"} onClick={handlePrintPdf}>Cetak</Button>
                                 <Button onClick={() => navigate("/testing")} size={"sm"}>Kembali ke pengujian</Button>
                             </div>
                         </div>
