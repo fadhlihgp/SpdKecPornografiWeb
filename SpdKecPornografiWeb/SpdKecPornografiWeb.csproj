@@ -49,6 +49,7 @@
 
 
     <ItemGroup>
+      <Folder Include="ClientApp\src\components\AboutAppComponents\" />
       <Folder Include="ClientApp\src\context\Auth\" />
     </ItemGroup>
 
