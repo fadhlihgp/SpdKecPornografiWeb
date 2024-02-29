@@ -209,6 +209,9 @@ public class AccountService : IAccountService
         findAccount.Username = updateAccountRequestDto.Username;
         findAccount.Email = updateAccountRequestDto.Email;
         findAccount.PhoneNumber = updateAccountRequestDto.PhoneNumber;
+        findAccount.IsBlocked = updateAccountRequestDto.IsBlocked ?? findAccount.IsBlocked;
+        findAccount.IsActive = updateAccountRequestDto.IsActive ?? findAccount.IsActive;
+        findAccount.RoleId = updateAccountRequestDto.RoleId ?? findAccount.RoleId;
 
         await _persistence.ExecuteTransaction(() => Task.FromResult(_accountRepository.Update(findAccount)));
     }
