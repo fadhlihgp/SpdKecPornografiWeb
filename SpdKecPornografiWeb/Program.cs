@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
-    optionsBuilder.UseNpgsql(builder.Configuration["ConnectionStrings:DbConnection"]);
+    optionsBuilder.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 });
 
 #region Dependencies

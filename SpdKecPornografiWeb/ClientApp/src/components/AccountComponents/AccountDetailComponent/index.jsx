@@ -96,12 +96,12 @@ const AccountDetailComponent = () => {
     // }
     
     const submitAccount = () => {
-        const isActive = inputAccount.isActive === "true";
-        const isBlocked = inputAccount.isBlocked === "true";
+        const isActiveBool = inputAccount.isActive === "true";
+        const isBlockedBool = inputAccount.isBlocked === "true";
         
         // setInputAccount({...inputAccount, isActive: isActive, isBlocked: isBlocked})
         if (id !== undefined) {
-            axios.put(`api/account/${id}`, inputAccount, {
+            axios.put(`api/account/${id}`, {...inputAccount, isActive: isActiveBool, isBlocked: isBlockedBool}, {
                 headers: { Authorization: `Bearer ${Cookies.get("token")}`}
             })
                 .then(({data}) => {

@@ -213,7 +213,12 @@ public class AccountService : IAccountService
         findAccount.IsActive = updateAccountRequestDto.IsActive ?? findAccount.IsActive;
         findAccount.RoleId = updateAccountRequestDto.RoleId ?? findAccount.RoleId;
 
-        await _persistence.ExecuteTransaction(() => Task.FromResult(_accountRepository.Update(findAccount)));
+        await _persistence.ExecuteTransaction(async () =>
+        {
+            _accountRepository.Update(findAccount);
+            return true;
+        });
+        // await _persistence.ExecuteTransaction(() => Task.FromResult(_accountRepository.Update(findAccount)));
     }
 
     public async Task ChangePhotoAccount(string accountId, IFormFile fileImage)
