@@ -26,7 +26,8 @@ public class TrxTestingRepository : ITrxTestingRepository
         JOIN ""Answer_Diagnosis"" ad ON d.""Id"" = ad.""DiagnosisId""
         JOIN ""Answer"" a ON ad.""AnswerId"" = a.""Id""
         WHERE a.""Id"" IN ({ids})
-        GROUP BY d.""Id"", d.""Name""
+        GROUP BY d.""Id"", d.""Name"", d.""Code"", d.""Description"", d.""Suggestion"",
+               d.""CreatedAt"", d.""CreatedById"", d.""UpdatedAt"", d.""UpdatedById"", d.""IsDeleted""
         HAVING COUNT(DISTINCT a.""Id"") = {answerIds.Count}";
 
         return _context.Diagnoses.FromSqlRaw(query).FirstOrDefault();

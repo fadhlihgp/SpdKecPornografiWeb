@@ -87,7 +87,7 @@ namespace SpdKecPornografiWeb.Migrations
                         new
                         {
                             Id = "d941614b-4e34-42cc-bf68-f2f599c3cf85",
-                            CreatedAt = new DateTime(2024, 4, 5, 10, 32, 49, 54, DateTimeKind.Local).AddTicks(357),
+                            CreatedAt = new DateTime(2024, 4, 28, 15, 54, 52, 105, DateTimeKind.Local).AddTicks(6655),
                             Email = "superadmin@email.com",
                             Fullname = "Super Admin",
                             IsActive = true,
@@ -101,7 +101,7 @@ namespace SpdKecPornografiWeb.Migrations
                         new
                         {
                             Id = "1134636b-08cd-4306-85d9-3f9176befa77",
-                            CreatedAt = new DateTime(2024, 4, 5, 10, 32, 49, 54, DateTimeKind.Local).AddTicks(364),
+                            CreatedAt = new DateTime(2024, 4, 28, 15, 54, 52, 105, DateTimeKind.Local).AddTicks(6662),
                             Email = "admin@email.com",
                             Fullname = "Admin",
                             IsActive = true,
@@ -208,7 +208,7 @@ namespace SpdKecPornografiWeb.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("Text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -218,7 +218,7 @@ namespace SpdKecPornografiWeb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Suggestion")
-                        .HasColumnType("Text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");

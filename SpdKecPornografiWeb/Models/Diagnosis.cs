@@ -8,8 +8,8 @@ public class Diagnosis
 {
     [Key] public string Id { get; set; } = Guid.NewGuid().ToString();
     public string Name { get; set; }
-    [Column(TypeName = "Text")] public string? Description { get; set; }
-    [Column(TypeName = "Text")] public string? Suggestion { get; set; }
+    [Column(TypeName = "nvarchar(max)")] public string? Description { get; set; }
+    [Column(TypeName = "nvarchar(max)")] public string? Suggestion { get; set; }
     public string Code { get; set; }
     public bool IsDeleted { get; set; } = false;
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
