@@ -20,6 +20,7 @@ public class PdfService : IPdfService
         {
             Headless = true,
             ExecutablePath = _configuration["ExecPdf:Chrome"],
+            Args = new []{"--no-sandbox"}
         }).ConfigureAwait(false);
         
         await using var page = await browser.NewPageAsync();

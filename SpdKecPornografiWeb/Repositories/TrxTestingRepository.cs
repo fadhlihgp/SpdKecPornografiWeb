@@ -19,16 +19,27 @@ public class TrxTestingRepository : ITrxTestingRepository
     {
         string ids = string.Join(",", answerIds.Select((id, index) => $"'{id}'"));
 
+        // string query = $@"
+        // SELECT d.""Id"", d.""Code"", d.""Name"", d.""Description"", d.""Suggestion"",
+        //        d.""CreatedAt"", d.""CreatedById"", d.""UpdatedAt"", d.""UpdatedById"", d.""IsDeleted""
+        // FROM ""Diagnosis"" d
+        // JOIN ""Answer_Diagnosis"" ad ON d.""Id"" = ad.""DiagnosisId""
+        // JOIN ""Answer"" a ON ad.""AnswerId"" = a.""Id""
+        // WHERE a.""Id"" IN ({ids})
+        // GROUP BY d.""Id"", d.""Name"", d.""Code"", d.""Description"", d.""Suggestion"",
+        //        d.""CreatedAt"", d.""CreatedById"", d.""UpdatedAt"", d.""UpdatedById"", d.""IsDeleted""
+        // HAVING COUNT(DISTINCT a.""Id"") = {answerIds.Count}";
+
         string query = $@"
-        SELECT d.""Id"", d.""Code"", d.""Name"", d.""Description"", d.""Suggestion"",
-               d.""CreatedAt"", d.""CreatedById"", d.""UpdatedAt"", d.""UpdatedById"", d.""IsDeleted""
-        FROM ""Diagnosis"" d
-        JOIN ""Answer_Diagnosis"" ad ON d.""Id"" = ad.""DiagnosisId""
-        JOIN ""Answer"" a ON ad.""AnswerId"" = a.""Id""
-        WHERE a.""Id"" IN ({ids})
-        GROUP BY d.""Id"", d.""Name"", d.""Code"", d.""Description"", d.""Suggestion"",
-               d.""CreatedAt"", d.""CreatedById"", d.""UpdatedAt"", d.""UpdatedById"", d.""IsDeleted""
-        HAVING COUNT(DISTINCT a.""Id"") = {answerIds.Count}";
+            SELECT d.""Id"", d.""Code"", d.""Name"", d.""Description"", d.""Suggestion"",
+                   d.""CreatedAt"", d.""CreatedById"", d.""UpdatedAt"", d.""UpdatedById"", d.""IsDeleted""
+            FROM ""Diagnosis"" d
+            JOIN ""Answer_Diagnosis"" ad ON d.""Id"" = ad.""DiagnosisId""
+            JOIN ""Answer"" a ON ad.""AnswerId"" = a.""Id""
+            WHERE a.""Id"" IN ({string.Join(", ", ids)})
+            GROUP BY d.""Id"", d.""Name"", d.""Code"", d.""Description"", d.""Suggestion"",
+                     d.""CreatedAt"", d.""CreatedById"", d.""UpdatedAt"", d.""UpdatedById"", d.""IsDeleted""
+            HAVING COUNT(DISTINCT a.""Id"") = {answerIds.Count}";
 
         return _context.Diagnoses.FromSqlRaw(query).FirstOrDefault();
     }

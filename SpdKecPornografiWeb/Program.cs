@@ -17,9 +17,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+// builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
+// {
+//     optionsBuilder.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+// });
+
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
-    optionsBuilder.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+    optionsBuilder.UseNpgsql(builder.Configuration["ConnectionStrings:DbConnection"]);
 });
 
 #region Dependencies
