@@ -6,8 +6,8 @@ pipeline {
         VERSION = "latest"
         HOST_PORT = "6002"
         CONTAINER_PORT = "8080"
-        HOST_LOG_DIR = "/var/www/Apps/SpdKecPornografi/Files"
-        CONTAINER_LOG_DIR = "/var/www/Apps/SpdKecPornografi/Files"
+        HOST_LOG_DIR = "/var/www/Apps/SPDKecPornografi/Files"
+        CONTAINER_LOG_DIR = "/var/www/Apps/SPDKecPornografi/Files"
         CONTAINER_NAME = "spdkecpornografi-web-${env.BRANCH_NAME}"
         DB_CONNECTION = credentials('CONNECTION_SPD_KEC_PORNOGRAFI_WEB_DATABASE')
     }
@@ -23,14 +23,6 @@ pipeline {
             steps {
                 script {
                     echo "Deploying branch ${env.BRANCH_NAME} to port ${HOST_PORT}"
-                }
-            }
-        }
-
-        stage('Prepare Host Directories') {
-            steps {
-                script {
-                    sh "mkdir -p ${HOST_LOG_DIR}"
                 }
             }
         }
