@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using SpdKecPornografiWeb.Context;
 using SpdKecPornografiWeb.GraphQL.Mutations;
 using SpdKecPornografiWeb.GraphQL.Queries;
@@ -34,6 +35,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseNpgsql(connectionString);
 });
+
+#region LogSetting
+var logPath = builder.Configuration["FilePath:LogFile"];
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
+    // .MinimumLevel.Warning()
+    .MinimumLevel.Error()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+#endregion
 
 builder.Services.AddSwaggerGen(c =>
 {
