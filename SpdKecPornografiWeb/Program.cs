@@ -23,9 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
-// Take connection strings
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-// Override with environment variable
 var portfolioConnectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 if (!string.IsNullOrEmpty(portfolioConnectionString))
 {
