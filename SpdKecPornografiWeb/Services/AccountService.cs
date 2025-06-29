@@ -43,19 +43,16 @@ public class AccountService : IAccountService
 
         var jwtToken = _jwtUtil.GenerateToken(findAccount);
 
-        var loginResponse = await _persistence.ExecuteTransaction(async () =>
-        {
-            findAccount.LastLogin = DateTime.Now;
-            _accountRepository.Update(findAccount);
+        findAccount.LastLogin = DateTime.Now;
+        _accountRepository.Update(findAccount);
 
-            return new LoginResponseDto
-            {
-                Username = findAccount.Username,
-                Role = findAccount.Role.Name,
-                Token = jwtToken
-            };
-        });
-        return loginResponse;
+        return new LoginResponseDto
+        {
+            Username = findAccount.Username,
+            Role = findAccount.Role.Name,
+            Token = jwtToken
+        };
+        // return loginResponse;
     }
 
     public async Task<RegisterResponseDto> Register(RegisterRequestDto registerRequestDto)

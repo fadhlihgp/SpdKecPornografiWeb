@@ -6,6 +6,7 @@ using SpdKecPornografiWeb.ViewModels;
 
 namespace SpdKecPornografiWeb.GraphQL.Mutations;
 
+[ExtendObjectType("Mutation")]
 [Authorize]
 public class DiagnosisMutation
 {

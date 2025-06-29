@@ -3,6 +3,7 @@ using SpdKecPornografiWeb.ViewModels;
 
 namespace SpdKecPornografiWeb.GraphQL.Mutations;
 
+[ExtendObjectType("Mutation")]
 public class LoginMutation
 {
     private readonly IAccountService _accountService;
