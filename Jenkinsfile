@@ -26,6 +26,15 @@ pipeline {
                 }
             }
         }
+        
+        stage('Prepare Host Directories') {
+            steps {
+                script {
+                    sh "mkdir -p ${HOST_LOG_DIR}"
+                    sh "chmod -R 777 ${HOST_LOG_DIR}" 
+                }
+            }
+        }
 
         stage('Remove Old Container') {
             steps {

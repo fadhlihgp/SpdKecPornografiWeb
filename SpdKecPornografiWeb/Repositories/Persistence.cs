@@ -33,8 +33,8 @@ public class Persistence : IPersistence
             try
             {
                 var resultTrx = await transaction();
-                await trans.CommitAsync();
                 await _context.SaveChangesAsync();
+                await trans.CommitAsync();
                 return resultTrx;
             }
             catch (Exception e)
