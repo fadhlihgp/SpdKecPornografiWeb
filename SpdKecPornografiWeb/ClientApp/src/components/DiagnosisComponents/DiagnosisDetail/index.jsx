@@ -47,7 +47,7 @@ const DiagnosisDetailWrapper = () => {
                 alert(error.message);
             })
         }
-    }, [data]);
+    }, [id]);
     
     return(
         <>

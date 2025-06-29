@@ -54,7 +54,7 @@ const DiagnosisResultHistory = () => {
                 alert(error.message);
             })
         }
-    }, [data]);
+    }, [id]);
 
     const [loading, setLoading] = useState(false);
     const [loadingText, setLoadingText] = useState("");

@@ -50,7 +50,7 @@ const AnswerDiagnosisDetailComponent = () => {
                 alert(error.message);
             })
         }
-    }, [data]);
+    }, [id]);
 
     return(
         <>

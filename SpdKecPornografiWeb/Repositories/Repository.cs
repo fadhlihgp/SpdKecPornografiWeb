@@ -108,7 +108,7 @@ public class Repository<T> : IRepository<T> where T : class
             result = result.OrderByDescending(sortBy);
         }
         
-        return await result.Where(criteria).ToListAsync();
+        return await result.Where(criteria).AsNoTracking().ToListAsync();
     }
 
     public T Update(T entity)

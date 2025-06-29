@@ -30,6 +30,22 @@ public class TrxTestingRepository : ITrxTestingRepository
                d.""CreatedAt"", d.""CreatedById"", d.""UpdatedAt"", d.""UpdatedById"", d.""IsDeleted""
         HAVING COUNT(DISTINCT a.""Id"") = {answerIds.Count}";
 
-        return _context.Diagnoses.FromSqlRaw(query).FirstOrDefault();
+        var diag = _context.Diagnoses
+            .FirstOrDefault(d => d.AnswerDiagnoses.Count(a => answerIds.Contains(a.Id)) == answerIds.Count);
+        
+        // var diagnosis = _context.Diagnoses
+        //     .Where(d =>
+        //         d.AnswerDiagnoses
+        //             .Select(ad => ad.AnswerId)
+        //             .Distinct()
+        //             .Intersect(answerIds)
+        //             .Count() == answerIds.Count)
+        //     .FirstOrDefault();
+
+        return diag;
+        // return _context.AnswerDiagnoses.Where(x => x.AnswerId != null && answerIds.Contains(x.AnswerId))
+        //     .Select(x => x.Diagnosis).FirstOrDefault();
+
+        // return _context.Diagnoses.FromSqlRaw(query).FirstOrDefault();
     }
 }

@@ -48,7 +48,7 @@ const QuestionDetailComponent = () => {
                 alert(error.message);
             })
         }
-    }, [data]);
+    }, [id]);
     
     return(
         <>

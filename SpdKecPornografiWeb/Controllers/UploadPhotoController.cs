@@ -16,7 +16,7 @@ public class UploadPhotoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> UploadPhoto([FromForm] IFormFile imageUrl)
+    public async Task<IActionResult> UploadPhoto(IFormFile imageUrl)
     {
         var uploadPhoto = await _photoService.AddPhotoAsync(imageUrl);
         return Created("uploadPhoto", new

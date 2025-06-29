@@ -14,7 +14,7 @@ public class AppDbContext : DbContext
     public virtual DbSet<Role> Roles => Set<Role>();
     public virtual DbSet<Otp> Otps => Set<Otp>();
 
-    protected AppDbContext()
+    public AppDbContext()
     {
     }
 

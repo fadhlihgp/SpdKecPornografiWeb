@@ -67,7 +67,7 @@ const AccountDetailComponent = () => {
                 setIsLoading(false);
             })
         }
-    }, [])
+    }, [id])
     const handleCancel = () => {
         navigate("/user")
     }

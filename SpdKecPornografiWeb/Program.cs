@@ -4,7 +4,10 @@ using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using SpdKecPornografiWeb.Context;
+using SpdKecPornografiWeb.GraphQL.Mutations;
+using SpdKecPornografiWeb.GraphQL.Queries;
 using SpdKecPornografiWeb.Middlewares;
 using SpdKecPornografiWeb.Repositories;
 using SpdKecPornografiWeb.Repositories.Interfaces;
@@ -16,10 +19,43 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
+
+// Take connection strings
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Override with environment variable
+var portfolioConnectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
+if (!string.IsNullOrEmpty(portfolioConnectionString))
 {
-    optionsBuilder.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+    connectionString = portfolioConnectionString;
+}
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseNpgsql(connectionString);
+});
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("JWT Bearer", new OpenApiSecurityScheme
+    {
+        Description = "This is a JWT bearer authentication scheme",
+        In = ParameterLocation.Header,
+        Scheme = "Bearer",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http
+    });
+    
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme{
+                Reference = new OpenApiReference{
+                    Id = "JWT Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            }, new List<string>()
+        }
+    });
 });
 
 #region Dependencies
@@ -40,6 +76,12 @@ builder.Services.AddTransient<IOtpService, OtpService>();
 builder.Services.AddTransient<IDashboardService, DashboardService>();
 builder.Services.AddTransient<IRazorViewTemplateService, RazorViewsRazorViewTemplateService>();
 builder.Services.AddTransient<IPdfService, PdfService>();
+
+builder.Services.AddTransient<DiagnosisMutation>();
+builder.Services.AddTransient<LoginMutation>();
+builder.Services.AddTransient<DiagnosisQuery>();
+builder.Services.AddTransient<AnswerQuery>();
+builder.Services.AddTransient<RelationQuery>();
 #endregion
 
 #region Middleware
@@ -66,27 +108,40 @@ builder.Services.AddAuthentication(options =>
 });
 #endregion
 
+builder.Services
+    .AddGraphQLServer()
+    .AddAuthorization()
+    .AddQueryType(q => q.Name("Query"))
+    .AddType<DiagnosisQuery>()
+    .AddType<AnswerQuery>()
+    .AddType<RelationQuery>()
+    .AddMutationType(m => m.Name("Mutation"))
+    .AddType<LoginMutation>()
+    .AddType<DiagnosisMutation>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseSwagger();
+app.UseSwaggerUI();
+
 if (!app.Environment.IsDevelopment())
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
+// Endpoint mapping
+app.MapGraphQL("/graphql");      
+app.MapControllers();   
 app.MapFallbackToFile("index.html");
 
 app.Run();

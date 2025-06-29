@@ -33,7 +33,7 @@ const ProfileAccountComponent = () => {
             formData.append("imageFile", selectedFile)
         }
         
-        axios.put(`api/account/changePhoto`, formData, {
+        axios.post(`api/account/changePhoto`, formData, {
             headers: {Authorization: `Bearer ${Cookies.get("token")}`},
             "Content-Type": "multipart/form-data"
         }).then(({data}) => {

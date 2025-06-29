@@ -122,8 +122,8 @@ public class AccountController : ControllerBase
     }
 
     [Authorize]
-    [HttpPut("changePhoto")]
-    public async Task<IActionResult> ChangePhoto([FromForm] IFormFile imageFile)
+    [HttpPost("changePhoto")]
+    public async Task<IActionResult> ChangePhoto(IFormFile imageFile)
     {
         var accountId = User.FindFirst("AccountId")?.Value;
         await _accountService.ChangePhotoAccount(accountId, imageFile);

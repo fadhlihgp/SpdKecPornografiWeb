@@ -65,7 +65,7 @@ const LayoutDashboard = ({children}) => {
                         {sidebarMenu && (
                             <>
                                 <Sidebar sidebarVisible={sidebar} setSidebarVisible={setSidebar} imageUrl={currentUser?.imageUrl} fullname={currentUser?.fullname} role={currentUser?.role} menus={sidebarMenu ? sidebarMenu : menus } />
-                                <div className={"p-3 "} style={{width: "100%"}}>
+                                <div className={"p-3 "} style={{width: "100%", height: "100%"}}>
                                     {children}
                                 </div>
                             </>

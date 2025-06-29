@@ -47,7 +47,7 @@ const AnswerDetailComponent = () => {
                 alert(error.message);
             })
         }
-    }, [data]);
+    }, [id]);
 
     return(
         <>
