@@ -72,13 +72,23 @@ pipeline {
                         -v ${HOST_LOG_DIR}:${CONTAINER_LOG_DIR} \\
                         -v /var/www/Apps/appDbSettings.json:/var/www/Apps/appDbSettings.json \\
                         -v /usr/bin/google-chrome:/usr/bin/google-chrome \\
+                        -e DB_CONNECTION="${DB_CONNECTION}" \\
                         ${DOCKER_IMAGE}:${VERSION} \\
                         dotnet PortofolioWeb.dll --urls=http://0.0.0.0:8080
                     """
                 }
             }
         }
-    }
+        
+        stage('Remove Docker Cache') {
+                steps {
+                    script {
+                        sh "docker system prune -f"
+                    }
+                }
+            }        
+        }
+        
     post {
         failure {
             echo "Deploy failed."
